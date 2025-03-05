@@ -170,13 +170,13 @@ var Pass by remember { mutableStateOf(("")) }
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
-                Image(
+                /* Image(
                     modifier = Modifier
                         .clickable { }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.log_in_button),
                     contentDescription = "Log In Button"
-                )
+                ) */
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Image(
