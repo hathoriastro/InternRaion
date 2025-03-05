@@ -129,7 +129,7 @@ var Pass by remember { mutableStateOf(("")) }
                         Pass = it
                     },
                     shape = RoundedCornerShape(10.dp),
-                    placeholder = {Text("Username")},
+                    placeholder = {Text("Password")},
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
