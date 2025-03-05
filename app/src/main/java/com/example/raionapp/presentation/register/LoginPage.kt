@@ -104,13 +104,12 @@ var Pass by remember { mutableStateOf(("")) }
                     onValueChange = {
                         Username = it
                     },
+                    placeholder = {Text("Username")},
                     shape = RoundedCornerShape(10.dp),
-                    label = {
-                        Text(text = "Username")
-                    },
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
-                        focusedContainerColor = Color.White
+                        focusedContainerColor = Color.White,
+                        focusedPlaceholderColor = Color.LightGray
                     )
                 )
                 Spacer(modifier = Modifier.height(20.dp))
@@ -130,13 +129,11 @@ var Pass by remember { mutableStateOf(("")) }
                         Pass = it
                     },
                     shape = RoundedCornerShape(10.dp),
-                    label = {
-                        Text(text = "Password")
-                    },
+                    placeholder = {Text("Username")},
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
-                        unfocusedPlaceholderColor = Color.Transparent
+                        focusedPlaceholderColor = Color.LightGray
                     )
                 )
                 /*Image(
@@ -196,11 +193,11 @@ var Pass by remember { mutableStateOf(("")) }
 
         }
 
-        /* Image(
+        /*Image(
             modifier = Modifier.align(Alignment.BottomCenter),
             painter = painterResource(id = R.drawable.half_frame_background),
             contentDescription = "Half Frame Background"
-        ) */
+        )*/
 
         Button(
             onClick = {},
