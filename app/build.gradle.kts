@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    // Firebase plugin
     id("com.google.gms.google-services") version "4.4.2"
 }
 
@@ -58,7 +60,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //firebase
+    //Firebase dependencies Bom
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
 
+    // Firebase Authentication
+    implementation("com.google.firebase:firebase-auth")
 }
