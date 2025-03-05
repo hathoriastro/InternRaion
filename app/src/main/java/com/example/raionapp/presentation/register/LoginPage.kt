@@ -164,19 +164,19 @@ var Pass by remember { mutableStateOf(("")) }
                             .align(Alignment.CenterVertically)
                             .clickable {  },
                         color = Color(0xFF1A5294)
-
                     )
-
                 }
 
+                // Ini perubahannya, coba git
+
                 Spacer(modifier = Modifier.height(20.dp))
-                /* Image(
+                Image(
                     modifier = Modifier
                         .clickable { }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.log_in_button),
                     contentDescription = "Log In Button"
-                ) */
+                )
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Image(
