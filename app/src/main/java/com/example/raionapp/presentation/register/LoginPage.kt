@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,16 +31,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import kotlin.math.round
+
+// Import Class Backend
+import com.example.raionapp.backend.loginAndRegister.AuthenticationManager
+
+import androidx.compose.ui.platform.LocalContext // Import local context yang engga tau fungsinya apa
+import com.example.raionapp.presentation.ui.theme.Wireframe
+
+@Composable
+// Function dari backend
+fun RegisterScreenBackend() {
+    val context = LocalContext.current
+    val authenticationManager = remember {
+        AuthenticationManager(context)
+    }
+    val coroutineScope = rememberCoroutineScope()
+}
 
 @Composable
 fun RegisterScreen(modifier: Modifier = Modifier) {
-var Username by remember { mutableStateOf("") }
-var Pass by remember { mutableStateOf(("")) }
+    var Username by remember { mutableStateOf("") }
+    var Pass by remember { mutableStateOf(("")) }
 
     Box(
         modifier = Modifier
@@ -167,13 +184,32 @@ var Pass by remember { mutableStateOf(("")) }
                 // Ini perubahannya, coba git
 
                 Spacer(modifier = Modifier.height(20.dp))
-                Image(
+
+                // Aku ubah dikit tombolnya, dari yang ini
+//                Image(
+//                    modifier = Modifier
+//                        .clickable { }
+//                        .align(Alignment.CenterHorizontally),
+//                    painter = painterResource(id = R.drawable.log_in_button),
+//                    contentDescription = "Log In Button"
+//                )
+                // Menjadi ini, aku ubah dari image ke button
+                Button(
+                    onClick = {
+
+                    },
                     modifier = Modifier
-                        .clickable { }
-                        .align(Alignment.CenterHorizontally),
-                    painter = painterResource(id = R.drawable.log_in_button),
-                    contentDescription = "Log In Button"
-                )
+                        .fillMaxWidth()
+                        .height(46.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Wireframe
+                    )
+                ) {
+                    Text(
+                        text = "Log In",
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Image(
@@ -252,5 +288,5 @@ var Pass by remember { mutableStateOf(("")) }
 @Composable
 fun RegisterScreenPreview(modifier: Modifier = Modifier) {
     RegisterScreen()
-    
+
 }
