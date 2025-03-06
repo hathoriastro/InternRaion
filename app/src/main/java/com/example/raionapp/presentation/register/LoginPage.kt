@@ -1,5 +1,8 @@
 package com.example.raionapp.presentation.register
 
+import android.app.Application
+import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,16 +35,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.backend.loginAndRegister.AuthState
 import com.example.raionapp.backend.loginAndRegister.AuthViewModel
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -63,6 +72,8 @@ fun LoginScreen(
             else -> Unit
         }
     }
+
+
 
 //    FrontEnd
     Box(
@@ -259,7 +270,7 @@ fun LoginScreen(
                     contentDescription = " ",
                     modifier = Modifier
                         .clickable {
-
+                            authViewModel?.signInWithGoogle()
                         }
                 )
             }
@@ -302,9 +313,7 @@ fun LoginScreen(
 
 
     }
-
 }
-
 
 @Preview
 @Composable

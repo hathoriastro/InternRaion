@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 import com.example.raionapp.presentation.ui.theme.RaionappTheme
+import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
 
 //        Menambahkan AuthViewModel
         val authViewModel: AuthViewModel  by viewModels()

@@ -67,7 +67,7 @@ class AuthenticationManager(val context: Context) {
 
     fun signInWithGoogle(): Flow<AuthResponse> = callbackFlow {
         val googleIdOption = GetGoogleIdOption.Builder()
-            . setFilterByAuthorizedAccounts(false)
+            .setFilterByAuthorizedAccounts(false)
             .setServerClientId(context.getString(R.string.web_client_id))
             .setAutoSelectEnabled(false)
             .setNonce(createNonce())
