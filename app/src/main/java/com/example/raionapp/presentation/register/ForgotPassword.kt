@@ -2,11 +2,9 @@ package com.example.raionapp.presentation.register
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -17,8 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -34,12 +30,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import kotlin.math.round
+import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 
 @Composable
-fun ForgotPasswordScreen(navController: NavController) {
+fun ForgotPasswordScreen(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    authViewModel: AuthViewModel
+) {
     var UserEmail by remember { mutableStateOf("") }
 
     Box(
@@ -51,7 +51,7 @@ fun ForgotPasswordScreen(navController: NavController) {
         Image(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(0.dp,40.dp)
+                .padding(0.dp, 40.dp)
                 .size(90.dp),
             painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "Logo"
@@ -135,14 +135,14 @@ fun ForgotPasswordScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(60.dp))
                 Image(
                     modifier = Modifier
-                        .clickable { navController.navigate("verif") }
+                        .clickable {
+                            navController.navigate("verif")
+                        }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.reset_password_button),
                     contentDescription = " "
                 )
-
             }
-
         }
 
         /*Image(
@@ -201,9 +201,17 @@ fun ForgotPasswordScreen(navController: NavController) {
 }
 
 
+
 @Preview
 @Composable
-fun ForgotPasswordScreenReview(modifier: Modifier = Modifier) {
-    ForgotPasswordScreen(navController = rememberNavController())
-
+fun ForgotPasswordScreenPreview(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    authViewModel: AuthViewModel = AuthViewModel()
+) {
+    ForgotPasswordScreen(
+        modifier = modifier,
+        navController = navController,
+        authViewModel = authViewModel
+    )
 }
