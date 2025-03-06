@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import com.example.raionapp.presentation.register.ForgotPasswordScreen
 import com.example.raionapp.presentation.register.RegisterScreen
 import com.example.raionapp.presentation.register.SignUpScreen
+import com.example.raionapp.presentation.register.VerifyScreen
 
 @Composable
 fun AppNavHost() {
@@ -21,6 +22,7 @@ fun AppNavHost() {
         composable("register") { RegisterScreen(navController) }
         composable("signup") { SignUpScreen(navController) }
         composable("forgotpassword") { ForgotPasswordScreen(navController) }
+        composable("verif") { VerifyScreen(navController) }
     }
 }
 

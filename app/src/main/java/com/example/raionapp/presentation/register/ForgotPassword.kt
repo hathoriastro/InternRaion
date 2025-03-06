@@ -135,10 +135,10 @@ fun ForgotPasswordScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(60.dp))
                 Image(
                     modifier = Modifier
-                        .clickable { }
+                        .clickable { navController.navigate("verif") }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.reset_password_button),
-                    contentDescription = "Log In Button"
+                    contentDescription = " "
                 )
 
             }

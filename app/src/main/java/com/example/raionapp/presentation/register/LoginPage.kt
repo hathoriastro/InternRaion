@@ -130,7 +130,7 @@ var Pass by remember { mutableStateOf(("")) }
                     contentDescription = " "
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 TextField(
                     modifier = Modifier
