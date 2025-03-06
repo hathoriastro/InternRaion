@@ -53,14 +53,14 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         Image(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(0.dp,20.dp),
+                .padding(0.dp,40.dp),
             painter = painterResource(id = R.drawable.logo_app),
             contentDescription = "Logo"
         )
 
         Image(
             modifier = Modifier
-                .padding(20.dp,50.dp)
+                .padding(20.dp,70.dp)
                 .size(190.dp),
             painter = painterResource(id = R.drawable.sign_up_now_text),
             contentDescription = "Welcome Back"
@@ -69,7 +69,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .height(600.dp)
+                .height(570.dp)
                 .size(350.dp)
                 .fillMaxSize()
                 .background(
@@ -259,6 +259,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
 
         ) {
             Icon(
+                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
                 painter = painterResource(id = R.drawable.arrow_back_button),
                 contentDescription = "Back"
             )

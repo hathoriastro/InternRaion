@@ -253,6 +253,7 @@ var Pass by remember { mutableStateOf(("")) }
 
         ) {
             Icon(
+                modifier = Modifier.padding(top = 20.dp),
                 painter = painterResource(id = R.drawable.arrow_back_button),
                 contentDescription = "Back"
             )
