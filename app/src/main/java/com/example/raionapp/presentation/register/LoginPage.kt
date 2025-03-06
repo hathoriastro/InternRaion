@@ -33,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import kotlin.math.round
 
@@ -82,10 +83,42 @@ var Pass by remember { mutableStateOf(("")) }
             ) {
 
                 Spacer(modifier = Modifier.height(5.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.login_and_signup),
-                    contentDescription = "Sign Up Button"
-                )
+
+                Row {
+                    Button(
+                        onClick = { },
+                        modifier = Modifier
+                            .border(30.dp, color = Color.Transparent)
+                            .width(150.dp),
+                        shape = RoundedCornerShape(10.dp, 0.dp, 0.dp, 10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFF0F1F5),
+                        )
+                    ){
+                        Text(
+                            text = ("Sign Up"),
+                            color = Color.Black
+                        )
+                    }
+
+                    Button(
+                        onClick = { },
+                        modifier = Modifier
+                            .border(30.dp, color = Color.Transparent)
+                            .width(150.dp),
+                        shape = RoundedCornerShape(0.dp, 10.dp, 10.dp, 0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White
+                        )
+                    ){
+                        Text(
+                            text = ("Log In"),
+                            color = Color.Black
+                        )
+                    }
+
+                }
+
 
                 Spacer(modifier = Modifier.height(40.dp))
 
@@ -109,7 +142,9 @@ var Pass by remember { mutableStateOf(("")) }
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
-                        focusedPlaceholderColor = Color.LightGray
+                        focusedPlaceholderColor = Color.LightGray,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
                     )
                 )
                 Spacer(modifier = Modifier.height(20.dp))
@@ -133,7 +168,9 @@ var Pass by remember { mutableStateOf(("")) }
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
-                        focusedPlaceholderColor = Color.LightGray
+                        focusedPlaceholderColor = Color.LightGray,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent
                     )
                 )
                 /*Image(
