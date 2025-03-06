@@ -108,9 +108,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 _authState.value = AuthState.Error(e.localizedMessage ?: "An error occurred")
             }
         }
-
-
     }
+
+
 }
 
 sealed class AuthState {
