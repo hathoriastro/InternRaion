@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,32 +30,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
-
-// Import Class Backend
-import com.example.raionapp.backend.loginAndRegister.AuthenticationManager
-
-import androidx.compose.ui.platform.LocalContext // Import local context yang engga tau fungsinya apa
-import com.example.raionapp.presentation.ui.theme.Wireframe
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import kotlin.math.round
 
 @Composable
-// Function dari backend
-fun RegisterScreenBackend() {
-    val context = LocalContext.current
-    val authenticationManager = remember {
-        AuthenticationManager(context)
-    }
-    val coroutineScope = rememberCoroutineScope()
-}
-
-@Composable
-fun RegisterScreen(modifier: Modifier = Modifier) {
-    var Username by remember { mutableStateOf("") }
-    var Pass by remember { mutableStateOf(("")) }
+fun RegisterScreen(navController: NavController) {
+var Username by remember { mutableStateOf("") }
+var Pass by remember { mutableStateOf(("")) }
 
     Box(
         modifier = Modifier
@@ -67,14 +53,15 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
         Image(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(0.dp,20.dp),
-            painter = painterResource(id = R.drawable.logo_app),
+                .padding(0.dp,40.dp)
+                .size(90.dp),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "Logo"
         )
 
         Image(
             modifier = Modifier
-                .padding(20.dp,50.dp)
+                .padding(20.dp,70.dp)
                 .size(190.dp),
             painter = painterResource(id = R.drawable.welcome_back),
             contentDescription = "Welcome Back"
@@ -83,7 +70,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .height(600.dp)
+                .height(570.dp)
                 .size(350.dp)
                 .fillMaxSize()
                 .background(
@@ -99,10 +86,42 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
             ) {
 
                 Spacer(modifier = Modifier.height(5.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.login_and_signup),
-                    contentDescription = "Sign Up Button"
-                )
+
+                Row {
+                    Button(
+                        onClick = { navController.navigate("signup") },
+                        modifier = Modifier
+                            .border(30.dp, color = Color.Transparent)
+                            .width(150.dp),
+                        shape = RoundedCornerShape(10.dp, 0.dp, 0.dp, 10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFFF0F1F5),
+                        )
+                    ){
+                        Text(
+                            text = ("Sign Up"),
+                            color = Color.Black
+                        )
+                    }
+
+                    Button(
+                        onClick = { },
+                        modifier = Modifier
+                            .border(30.dp, color = Color.Transparent)
+                            .width(150.dp),
+                        shape = RoundedCornerShape(0.dp, 10.dp, 10.dp, 0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White
+                        )
+                    ){
+                        Text(
+                            text = ("Log In"),
+                            color = Color.Black
+                        )
+                    }
+
+                }
+
 
                 Spacer(modifier = Modifier.height(40.dp))
 
@@ -111,7 +130,7 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     contentDescription = " "
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 TextField(
                     modifier = Modifier
@@ -126,7 +145,11 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
-                        focusedPlaceholderColor = Color.LightGray
+                        focusedPlaceholderColor = Color.LightGray,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
                 )
                 Spacer(modifier = Modifier.height(20.dp))
@@ -150,7 +173,11 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
-                        focusedPlaceholderColor = Color.LightGray
+                        focusedPlaceholderColor = Color.LightGray,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
                 )
                 /*Image(
@@ -163,7 +190,9 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(20.dp))
                 Row( ){
                     Icon(
-                        modifier = Modifier.clickable {  },
+                        modifier = Modifier
+                            .clickable {  }
+                            .align(Alignment.CenterVertically),
                         painter = painterResource(id = R.drawable.check_box_outline),
                         contentDescription = "Check Box"
                     )
@@ -171,12 +200,12 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(text = "Remember Me", modifier = Modifier.align(Alignment.CenterVertically))
 
-                    Spacer(modifier = Modifier.width(75.dp))
+                    Spacer(modifier = Modifier.width(65.dp))
                     Text(
                         text = "Forgot Password?",
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
-                            .clickable {  },
+                            .clickable { navController.navigate("forgotpassword") },
                         color = Color(0xFF1A5294)
                     )
                 }
@@ -184,38 +213,19 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
                 // Ini perubahannya, coba git
 
                 Spacer(modifier = Modifier.height(20.dp))
-
-                // Aku ubah dikit tombolnya, dari yang ini
-//                Image(
-//                    modifier = Modifier
-//                        .clickable { }
-//                        .align(Alignment.CenterHorizontally),
-//                    painter = painterResource(id = R.drawable.log_in_button),
-//                    contentDescription = "Log In Button"
-//                )
-                // Menjadi ini, aku ubah dari image ke button
-                Button(
-                    onClick = {
-
-                    },
+                Image(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(46.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Wireframe
-                    )
-                ) {
-                    Text(
-                        text = "Log In",
-                    )
-                }
+                        .clickable { }
+                        .align(Alignment.CenterHorizontally),
+                    painter = painterResource(id = R.drawable.log_in_button),
+                    contentDescription = "Log In Button"
+                )
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Image(
                     painter = painterResource(id = R.drawable.or_line),
                     contentDescription = "Or Line",
-                    modifier = Modifier.height(60.dp)
+                    modifier = Modifier.height(30.dp)
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -235,21 +245,6 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
             contentDescription = "Half Frame Background"
         )*/
 
-        Button(
-            onClick = {},
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
-            )
-
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.arrow_back_button),
-                contentDescription = "Back"
-            )
-        }
 
         /*Column(
             modifier = Modifier
@@ -284,9 +279,9 @@ fun RegisterScreen(modifier: Modifier = Modifier) {
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview(modifier: Modifier = Modifier) {
-    RegisterScreen()
-
+    RegisterScreen(navController = rememberNavController())
+    
 }
