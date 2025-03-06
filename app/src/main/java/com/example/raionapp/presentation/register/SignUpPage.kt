@@ -41,7 +41,7 @@ import kotlin.math.round
 fun SignUpScreen(modifier: Modifier = Modifier) {
     var Username by remember { mutableStateOf("") }
     var Pass by remember { mutableStateOf(("")) }
-    var Useremail by remember { mutableStateOf(("")) }
+    var UserEmail by remember { mutableStateOf(("")) }
 
 
     Box(
@@ -144,7 +144,9 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                         focusedContainerColor = Color.White,
                         focusedPlaceholderColor = Color.LightGray,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
                 )
                 Spacer(modifier = Modifier.height(10.dp))
@@ -159,18 +161,20 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = Useremail,
+                    value = UserEmail,
                     onValueChange = {
-                        Useremail = it
+                        UserEmail = it
                     },
                     shape = RoundedCornerShape(10.dp),
-                    placeholder = {Text("Email")},
+                    placeholder = {Text("Email Address")},
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
                         focusedPlaceholderColor = Color.LightGray,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
                 )
 
@@ -196,7 +200,9 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                         focusedContainerColor = Color.White,
                         focusedPlaceholderColor = Color.LightGray,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
                 )
                 /*Image(

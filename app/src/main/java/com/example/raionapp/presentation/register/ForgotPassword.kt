@@ -38,8 +38,7 @@ import kotlin.math.round
 
 @Composable
 fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
-    var Username by remember { mutableStateOf("") }
-    var Pass by remember { mutableStateOf(("")) }
+    var UserEmail by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -99,16 +98,20 @@ fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = Username,
+                    value = UserEmail,
                     onValueChange = {
-                        Username = it
+                        UserEmail = it
                     },
                     placeholder = {Text("Email Address")},
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
-                        focusedPlaceholderColor = Color.LightGray
+                        focusedPlaceholderColor = Color.LightGray,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
                 )
                 Spacer(modifier = Modifier.height(20.dp))

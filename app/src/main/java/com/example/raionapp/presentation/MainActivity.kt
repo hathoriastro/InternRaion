@@ -11,7 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.raionapp.presentation.register.ForgotPasswordScreen
 import com.example.raionapp.presentation.register.RegisterScreen
+import com.example.raionapp.presentation.register.SignUpScreen
 import com.example.raionapp.presentation.ui.theme.RaionappTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RaionappTheme {
-            RegisterScreen()
+                SignUpScreen()
             }
         }
     }

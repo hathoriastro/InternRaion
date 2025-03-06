@@ -144,7 +144,9 @@ var Pass by remember { mutableStateOf(("")) }
                         focusedContainerColor = Color.White,
                         focusedPlaceholderColor = Color.LightGray,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
                 )
                 Spacer(modifier = Modifier.height(20.dp))
@@ -170,7 +172,9 @@ var Pass by remember { mutableStateOf(("")) }
                         focusedContainerColor = Color.White,
                         focusedPlaceholderColor = Color.LightGray,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black
                     )
                 )
                 /*Image(
@@ -183,7 +187,9 @@ var Pass by remember { mutableStateOf(("")) }
                 Spacer(modifier = Modifier.height(20.dp))
                 Row( ){
                     Icon(
-                        modifier = Modifier.clickable {  },
+                        modifier = Modifier
+                            .clickable {  }
+                            .align(Alignment.CenterVertically),
                         painter = painterResource(id = R.drawable.check_box_outline),
                         contentDescription = "Check Box"
                     )
@@ -191,7 +197,7 @@ var Pass by remember { mutableStateOf(("")) }
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(text = "Remember Me", modifier = Modifier.align(Alignment.CenterVertically))
 
-                    Spacer(modifier = Modifier.width(75.dp))
+                    Spacer(modifier = Modifier.width(65.dp))
                     Text(
                         text = "Forgot Password?",
                         modifier = Modifier
