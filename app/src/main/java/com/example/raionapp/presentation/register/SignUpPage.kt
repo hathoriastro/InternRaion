@@ -35,10 +35,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import kotlin.math.round
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
+fun SignUpScreen(navController: NavController) {
     var Username by remember { mutableStateOf("") }
     var Pass by remember { mutableStateOf(("")) }
     var UserEmail by remember { mutableStateOf(("")) }
@@ -53,8 +55,9 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         Image(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(0.dp,40.dp),
-            painter = painterResource(id = R.drawable.logo_app),
+                .padding(0.dp,40.dp)
+                .size(90.dp),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "Logo"
         )
 
@@ -103,7 +106,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
                     }
 
                     Button(
-                        onClick = { },
+                        onClick = { navController.navigate("register") },
                         modifier = Modifier
                             .border(30.dp, color = Color.Transparent)
                             .width(150.dp),
@@ -248,22 +251,6 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             contentDescription = "Half Frame Background"
         )*/
 
-        Button(
-            onClick = {},
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
-            )
-
-        ) {
-            Icon(
-                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp),
-                painter = painterResource(id = R.drawable.arrow_back_button),
-                contentDescription = "Back"
-            )
-        }
 
         /*Column(
             modifier = Modifier
@@ -301,6 +288,6 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun SignUpScreenPreview(modifier: Modifier = Modifier) {
-    SignUpScreen()
+    SignUpScreen(navController = rememberNavController())
 
 }

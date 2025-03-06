@@ -34,10 +34,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import kotlin.math.round
 
 @Composable
-fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
+fun ForgotPasswordScreen(navController: NavController) {
     var UserEmail by remember { mutableStateOf("") }
 
     Box(
@@ -49,15 +51,16 @@ fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
         Image(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(0.dp,20.dp),
-            painter = painterResource(id = R.drawable.logo_app),
+                .padding(0.dp,40.dp)
+                .size(90.dp),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "Logo"
         )
 
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .height(650.dp)
+                .height(570.dp)
                 .size(350.dp)
                 .fillMaxSize()
                 .background(
@@ -149,7 +152,7 @@ fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
         )*/
 
         Button(
-            onClick = {},
+            onClick = { navController.navigate("register") },
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(0.dp),
@@ -159,6 +162,7 @@ fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
 
         ) {
             Icon(
+                modifier = Modifier.padding(0.dp, 40.dp),
                 painter = painterResource(id = R.drawable.arrow_back_button),
                 contentDescription = "Back"
             )
@@ -200,6 +204,6 @@ fun ForgotPasswordScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun ForgotPasswordScreenReview(modifier: Modifier = Modifier) {
-    ForgotPasswordScreen()
+    ForgotPasswordScreen(navController = rememberNavController())
 
 }

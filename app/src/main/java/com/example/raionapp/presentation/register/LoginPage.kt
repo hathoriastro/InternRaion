@@ -35,10 +35,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import kotlin.math.round
 
 @Composable
-fun RegisterScreen(modifier: Modifier = Modifier) {
+fun RegisterScreen(navController: NavController) {
 var Username by remember { mutableStateOf("") }
 var Pass by remember { mutableStateOf(("")) }
 
@@ -51,14 +53,15 @@ var Pass by remember { mutableStateOf(("")) }
         Image(
             modifier = Modifier
                 .align(Alignment.TopCenter)
-                .padding(0.dp,20.dp),
-            painter = painterResource(id = R.drawable.logo_app),
+                .padding(0.dp,40.dp)
+                .size(90.dp),
+            painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "Logo"
         )
 
         Image(
             modifier = Modifier
-                .padding(20.dp,50.dp)
+                .padding(20.dp,70.dp)
                 .size(190.dp),
             painter = painterResource(id = R.drawable.welcome_back),
             contentDescription = "Welcome Back"
@@ -67,7 +70,7 @@ var Pass by remember { mutableStateOf(("")) }
         Box(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .height(600.dp)
+                .height(570.dp)
                 .size(350.dp)
                 .fillMaxSize()
                 .background(
@@ -86,7 +89,7 @@ var Pass by remember { mutableStateOf(("")) }
 
                 Row {
                     Button(
-                        onClick = { },
+                        onClick = { navController.navigate("signup") },
                         modifier = Modifier
                             .border(30.dp, color = Color.Transparent)
                             .width(150.dp),
@@ -202,7 +205,7 @@ var Pass by remember { mutableStateOf(("")) }
                         text = "Forgot Password?",
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
-                            .clickable {  },
+                            .clickable { navController.navigate("forgotpassword") },
                         color = Color(0xFF1A5294)
                     )
                 }
@@ -222,7 +225,7 @@ var Pass by remember { mutableStateOf(("")) }
                 Image(
                     painter = painterResource(id = R.drawable.or_line),
                     contentDescription = "Or Line",
-                    modifier = Modifier.height(60.dp)
+                    modifier = Modifier.height(30.dp)
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -242,22 +245,6 @@ var Pass by remember { mutableStateOf(("")) }
             contentDescription = "Half Frame Background"
         )*/
 
-        Button(
-            onClick = {},
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(0.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent
-            )
-
-        ) {
-            Icon(
-                modifier = Modifier.padding(top = 20.dp),
-                painter = painterResource(id = R.drawable.arrow_back_button),
-                contentDescription = "Back"
-            )
-        }
 
         /*Column(
             modifier = Modifier
@@ -292,9 +279,9 @@ var Pass by remember { mutableStateOf(("")) }
 }
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun RegisterScreenPreview(modifier: Modifier = Modifier) {
-    RegisterScreen()
+    RegisterScreen(navController = rememberNavController())
     
 }

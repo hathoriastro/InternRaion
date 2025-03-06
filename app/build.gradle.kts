@@ -65,4 +65,7 @@ dependencies {
 
     // Firebase Authentication
     implementation("com.google.firebase:firebase-auth")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 }
