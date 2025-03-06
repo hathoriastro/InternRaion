@@ -47,16 +47,16 @@ import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel?
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf(("")) }
 
 //    Backend
-    val authState = authViewModel.authState.observeAsState()
+    val authState = authViewModel?.authState?.observeAsState()
     val context = LocalContext.current
-    LaunchedEffect(authState.value) {
-        when(authState.value) {
+    LaunchedEffect(authState?.value) {
+        when(authState?.value) {
             is AuthState.Authenticated -> navController.navigate("home")
             is AuthState.Error -> Toast.makeText(context,
                 (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
@@ -238,8 +238,8 @@ fun LoginScreen(
 
                 Image(
                     modifier = Modifier
-                        .clickable(enabled = authState.value != AuthState.Loading) {
-                            authViewModel.login(username, password)
+                        .clickable(enabled = authState?.value != AuthState.Loading) {
+                            authViewModel?.login(username, password)
                         }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.log_in_button),
@@ -258,7 +258,9 @@ fun LoginScreen(
                     painter = painterResource(id = R.drawable.continue_with_google),
                     contentDescription = " ",
                     modifier = Modifier
-                        .clickable {  }
+                        .clickable {
+
+                        }
                 )
             }
 
@@ -309,7 +311,7 @@ fun LoginScreen(
 fun LoginScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel = AuthViewModel()
+    authViewModel: AuthViewModel? = null
 ) {
     LoginScreen(
         modifier = modifier,

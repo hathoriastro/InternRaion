@@ -44,24 +44,24 @@ import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController
-//    authViewModel: AuthViewModel
+    navController: NavHostController,
+    authViewModel: AuthViewModel?
 ) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf(("")) }
     var userEmail by remember { mutableStateOf(("")) }
 
     // backend
-//    val authState = authViewModel.authState.observeAsState()
-//    val context = LocalContext.current
-//    LaunchedEffect(authState.value) {
-//        when(authState.value) {
-//            is AuthState.Authenticated -> navController.navigate("home")
-//            is AuthState.Error -> Toast.makeText(context,
-//                (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
-//            else -> Unit
-//        }
-//    }
+    val authState = authViewModel?.authState?.observeAsState()
+    val context = LocalContext.current
+    LaunchedEffect(authState?.value) {
+        when(authState?.value) {
+            is AuthState.Authenticated -> navController.navigate("home")
+            is AuthState.Error -> Toast.makeText(context,
+                (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
+            else -> Unit
+        }
+    }
 
 
     Box(
@@ -124,7 +124,9 @@ fun SignUpScreen(
                     }
 
                     Button(
-                        onClick = { navController.navigate("register") },
+                        onClick = {
+                            navController.navigate("register")
+                                  },
                         modifier = Modifier
                             .border(30.dp, color = Color.Transparent)
                             .width(150.dp),
@@ -235,15 +237,12 @@ fun SignUpScreen(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-
-                // Ini perubahannya, coba git
-
                 Spacer(modifier = Modifier.height(20.dp))
                 Image(
                     modifier = Modifier
                         .clickable {
                             Log.d("SignUpScreen", "Image clicked")
-//                            authViewModel.signIn(userEmail,password) // backend
+                            authViewModel?.signIn(userEmail,password) // backend
                         }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.sign_up_button),
@@ -310,11 +309,11 @@ fun SignUpScreen(
 fun SignUpScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel = AuthViewModel()
+    authViewModel: AuthViewModel? = null
 ) {
     SignUpScreen(
         modifier = modifier,
-        navController = navController
-//        authViewModel = authViewModel
+        navController = navController,
+        authViewModel = authViewModel
     )
 }

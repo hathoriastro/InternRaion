@@ -38,7 +38,7 @@ import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 fun ForgotPasswordScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel?
 ) {
     var UserEmail by remember { mutableStateOf("") }
 
@@ -207,7 +207,7 @@ fun ForgotPasswordScreen(
 fun ForgotPasswordScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel = AuthViewModel()
+    authViewModel: AuthViewModel? = null
 ) {
     ForgotPasswordScreen(
         modifier = modifier,
