@@ -42,7 +42,7 @@ import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 fun VerifyScreen(
     modifier: Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel?
 ) {
     var VerifyNum1 by remember { mutableStateOf("") }
     var VerifyNum2 by remember { mutableStateOf("") }
@@ -316,7 +316,7 @@ fun VerifyScreen(
 fun VerifyScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel = AuthViewModel()
+    authViewModel: AuthViewModel? = null
 ) {
     VerifyScreen(
         modifier = modifier,

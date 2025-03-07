@@ -73,8 +73,6 @@ fun LoginScreen(
         }
     }
 
-
-
 //    FrontEnd
     Box(
         modifier = Modifier
@@ -153,7 +151,6 @@ fun LoginScreen(
                     }
 
                 }
-
 
                 Spacer(modifier = Modifier.height(40.dp))
 

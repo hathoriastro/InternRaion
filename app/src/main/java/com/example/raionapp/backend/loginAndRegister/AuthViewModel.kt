@@ -21,8 +21,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _authState = MutableLiveData<AuthState>()
     val authState : LiveData<AuthState> = _authState
 
-
-
     init {
         checkAuthStatus()
     }

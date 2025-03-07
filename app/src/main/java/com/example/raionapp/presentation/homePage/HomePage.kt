@@ -22,12 +22,12 @@ import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 fun HomePage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel?
 ) {
     // Backend AuthViewModel
-    val authState = authViewModel.authState.observeAsState()
-    LaunchedEffect(authState.value) {
-        when(authState.value) {
+    val authState = authViewModel?.authState?.observeAsState()
+    LaunchedEffect(authState?.value) {
+        when(authState?.value) {
             is AuthState.Unauthenticated -> navController.navigate("register")
             else -> Unit
         }
@@ -43,7 +43,7 @@ fun HomePage(
         Button(
             modifier = modifier,
             onClick = {
-            authViewModel.signOut()
+            authViewModel?.signOut()
         }) {
             Text(text = "Sign Out")
         }
@@ -55,7 +55,7 @@ fun HomePage(
 fun HomePagePreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel = AuthViewModel()
+    authViewModel: AuthViewModel? = null
 ) {
     HomePage(
         modifier = modifier,
