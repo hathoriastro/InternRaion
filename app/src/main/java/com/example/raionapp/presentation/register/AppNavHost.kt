@@ -22,7 +22,7 @@ fun AppNavHost() {
         composable("register") { RegisterScreen(navController) }
         composable("signup") { SignUpScreen(navController) }
         composable("forgotpassword") { ForgotPasswordScreen(navController) }
-        composable("verif") { VerifyScreen(navController) }
+        composable("verifyscreen") { VerifyScreen(navController) }
     }
 }
 

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import kotlin.math.round
@@ -140,7 +142,11 @@ var Pass by remember { mutableStateOf(("")) }
                     onValueChange = {
                         Username = it
                     },
-                    placeholder = {Text("Username")},
+                    placeholder = {
+                        Text(
+                            text = "Username"
+                        )
+                    },
                     shape = RoundedCornerShape(10.dp),
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
@@ -188,7 +194,9 @@ var Pass by remember { mutableStateOf(("")) }
 
 
                 Spacer(modifier = Modifier.height(20.dp))
-                Row( ){
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ){
                     Icon(
                         modifier = Modifier
                             .clickable {  }
@@ -197,12 +205,17 @@ var Pass by remember { mutableStateOf(("")) }
                         contentDescription = "Check Box"
                     )
 
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(text = "Remember Me", modifier = Modifier.align(Alignment.CenterVertically))
+                    Spacer(modifier = Modifier.width(3.dp))
+                    Text(
+                        text = "Remember Me",
+                        modifier = Modifier.align(Alignment.CenterVertically),
+                        fontSize = 13.sp
+                    )
 
-                    Spacer(modifier = Modifier.width(65.dp))
+                    Spacer(modifier = Modifier.width(80.dp))
                     Text(
                         text = "Forgot Password?",
+                        fontSize = 13.sp,
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
                             .clickable { navController.navigate("forgotpassword") },

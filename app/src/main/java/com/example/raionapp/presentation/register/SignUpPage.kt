@@ -1,6 +1,5 @@
 package com.example.raionapp.presentation.register
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -37,7 +36,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import kotlin.math.round
 
 @Composable
 fun SignUpScreen(navController: NavController) {

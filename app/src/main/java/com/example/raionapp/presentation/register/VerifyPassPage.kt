@@ -1,5 +1,7 @@
 package com.example.raionapp.presentation.register
 
+import com.example.raionapp.R
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,15 +32,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.raionapp.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import kotlin.math.round
 
 @Composable
 fun VerifyScreen(navController: NavController) {
@@ -98,8 +99,17 @@ fun VerifyScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Image(
-                    painter = painterResource(id = R.drawable.check_your_email_text),
+                    painter = painterResource(id = R.drawable.check_your_email_only_text),
                     contentDescription = " "
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+                Text(
+                    text = "We've sent a reset link to your@gmail.com Enter the 5-digit code from the email",
+                    color = Color.Gray,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    fontSize = 15.sp
                 )
 
                 Spacer(modifier = Modifier.height(150.dp))

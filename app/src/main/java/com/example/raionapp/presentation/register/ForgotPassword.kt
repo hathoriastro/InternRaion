@@ -1,5 +1,7 @@
 package com.example.raionapp.presentation.register
 
+import com.example.raionapp.R
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,7 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.raionapp.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -135,7 +136,7 @@ fun ForgotPasswordScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(60.dp))
                 Image(
                     modifier = Modifier
-                        .clickable { navController.navigate("verif") }
+                        .clickable { navController.navigate("verifyscreen") }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.reset_password_button),
                     contentDescription = " "
