@@ -1,5 +1,7 @@
 package com.example.raionapp.presentation.register
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,13 +18,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,18 +30,38 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.raionapp.backend.loginAndRegister.AuthState
+import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 
 @Composable
-fun SignUpScreen(navController: NavController) {
-    var Username by remember { mutableStateOf("") }
-    var Pass by remember { mutableStateOf(("")) }
-    var UserEmail by remember { mutableStateOf(("")) }
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    authViewModel: AuthViewModel?
+) {
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf(("")) }
+    var userEmail by remember { mutableStateOf(("")) }
+
+    // backend
+    val authState = authViewModel?.authState?.observeAsState()
+    val context = LocalContext.current
+    LaunchedEffect(authState?.value) {
+        when(authState?.value) {
+            is AuthState.Authenticated -> navController.navigate("home")
+            is AuthState.Error -> Toast.makeText(context,
+                (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
+            else -> Unit
+        }
+    }
 
 
     Box(
@@ -104,7 +124,9 @@ fun SignUpScreen(navController: NavController) {
                     }
 
                     Button(
-                        onClick = { navController.navigate("register") },
+                        onClick = {
+                            navController.navigate("register")
+                                  },
                         modifier = Modifier
                             .border(30.dp, color = Color.Transparent)
                             .width(150.dp),
@@ -134,9 +156,9 @@ fun SignUpScreen(navController: NavController) {
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = Username,
+                    value = username,
                     onValueChange = {
-                        Username = it
+                        username = it
                     },
                     placeholder = {Text("Username")},
                     shape = RoundedCornerShape(10.dp),
@@ -162,9 +184,9 @@ fun SignUpScreen(navController: NavController) {
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = UserEmail,
+                    value = userEmail,
                     onValueChange = {
-                        UserEmail = it
+                        userEmail = it
                     },
                     shape = RoundedCornerShape(10.dp),
                     placeholder = {Text("Email Address")},
@@ -190,9 +212,9 @@ fun SignUpScreen(navController: NavController) {
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = Pass,
+                    value = password,
                     onValueChange = {
-                        Pass = it
+                        password = it
                     },
                     shape = RoundedCornerShape(10.dp),
                     placeholder = {Text("Password")},
@@ -215,13 +237,13 @@ fun SignUpScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-
-                // Ini perubahannya, coba git
-
                 Spacer(modifier = Modifier.height(20.dp))
                 Image(
                     modifier = Modifier
-                        .clickable { }
+                        .clickable {
+                            Log.d("SignUpScreen", "Image clicked")
+                            authViewModel?.signIn(userEmail,password) // backend
+                        }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.sign_up_button),
                     contentDescription = "Log In Button"
@@ -240,7 +262,6 @@ fun SignUpScreen(navController: NavController) {
                         .clickable {  }
                 )
             }
-
         }
 
         /*Image(
@@ -285,7 +306,14 @@ fun SignUpScreen(navController: NavController) {
 
 @Preview
 @Composable
-fun SignUpScreenPreview(modifier: Modifier = Modifier) {
-    SignUpScreen(navController = rememberNavController())
-
+fun SignUpScreenPreview(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    authViewModel: AuthViewModel? = null
+) {
+    SignUpScreen(
+        modifier = modifier,
+        navController = navController,
+        authViewModel = authViewModel
+    )
 }

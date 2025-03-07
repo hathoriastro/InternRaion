@@ -12,7 +12,20 @@
           "package_name": "com.example.raionapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "913952271844-vekpivaq310fg1rchtmm2ga0atk6iji2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.raionapp",
+            "certificate_hash": "557195b30e6438dd04a03ba5552aa63ab609c1cf"
+          }
+        },
+        {
+          "client_id": "913952271844-tk3acl0dfeb05nn9t7f6cstpr25fg6lu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDMk7m2932dtp9wq7IcfBkG4Ohz0d1OVp4"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "913952271844-tk3acl0dfeb05nn9t7f6cstpr25fg6lu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

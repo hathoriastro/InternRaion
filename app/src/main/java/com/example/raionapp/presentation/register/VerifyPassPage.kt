@@ -21,8 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -37,12 +35,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 
 @Composable
-fun VerifyScreen(navController: NavController) {
+fun VerifyScreen(
+    modifier: Modifier,
+    navController: NavHostController,
+    authViewModel: AuthViewModel?
+) {
     var VerifyNum1 by remember { mutableStateOf("") }
     var VerifyNum2 by remember { mutableStateOf("") }
     var VerifyNum3 by remember { mutableStateOf("") }
@@ -321,7 +325,14 @@ fun VerifyScreen(navController: NavController) {
 
 @Preview
 @Composable
-fun VerifyPageScreenReview(modifier: Modifier = Modifier) {
-    VerifyScreen(navController = rememberNavController())
-
+fun VerifyScreenPreview(
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    authViewModel: AuthViewModel? = null
+) {
+    VerifyScreen(
+        modifier = modifier,
+        navController = navController,
+        authViewModel = authViewModel
+    )
 }

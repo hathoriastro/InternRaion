@@ -60,12 +60,24 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //Firebase dependencies Bom
+    // Firebase dependencies Bom
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
 
-    // Firebase Authentication
+    // Firebase ObserveAsState()
+    implementation("androidx.compose.runtime:runtime-livedata:1.0.5")
+
+    // Firebase Native Authentication
     implementation("com.google.firebase:firebase-auth")
 
+    // Firebase Google Authentication
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.navigation:navigation-compose:2.8.8")
+
+    // Credential Manager
+    implementation("androidx.credentials:credentials:1.5.0-rc01")
+    implementation("androidx.credentials:credentials-play-services-auth:1.5.0-rc01")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
 }
