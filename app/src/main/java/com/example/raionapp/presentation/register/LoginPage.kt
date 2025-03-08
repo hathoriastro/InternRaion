@@ -70,7 +70,7 @@ fun LoginScreen(
     val icon = if(passwordVisibility)
         painterResource(id = R.drawable.password_visible)
     else
-        painterResource(id = R.drawable.no_look)
+        painterResource(id = R.drawable.password_not_visible_small)
 
 //    Backend
     val authState = authViewModel?.authState?.observeAsState()
