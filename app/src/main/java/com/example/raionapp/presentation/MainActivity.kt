@@ -23,12 +23,18 @@ class MainActivity : ComponentActivity() {
         FirebaseApp.initializeApp(this)
 
 //        Menambahkan AuthViewModel
-        val authViewModel: AuthViewModel  by viewModels()
+        val authViewModel: AuthViewModel by viewModels()
+
         enableEdgeToEdge()
         setContent {
             RaionappTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AppNavHost(modifier = Modifier.padding(innerPadding), authViewModel = authViewModel)
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
+                    AppNavHost(
+                        modifier = Modifier.padding(innerPadding),
+                        authViewModel = authViewModel
+                    )
                 }
             }
         }

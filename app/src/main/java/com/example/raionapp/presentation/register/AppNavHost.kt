@@ -29,9 +29,7 @@ fun AppNavHost(
             LoginScreen(modifier,navController, authViewModel)
         }
         composable("signup") {
-            SignUpScreen(
-                modifier,navController, authViewModel
-            )
+            SignUpScreen(modifier,navController, authViewModel)
         }
         composable("home") {
             HomePage(modifier,navController, authViewModel)

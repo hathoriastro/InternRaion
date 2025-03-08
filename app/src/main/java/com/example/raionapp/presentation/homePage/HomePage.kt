@@ -9,14 +9,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.backend.loginAndRegister.AuthState
 import com.example.raionapp.backend.loginAndRegister.AuthViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomePage(
@@ -33,6 +36,7 @@ fun HomePage(
         }
     }
 
+    val context = LocalContext.current
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -43,7 +47,7 @@ fun HomePage(
         Button(
             modifier = modifier,
             onClick = {
-            authViewModel?.signOut()
+                    authViewModel?.signOut(context)
         }) {
             Text(text = "Sign Out")
         }
