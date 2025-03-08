@@ -50,6 +50,8 @@ fun SignUpScreen(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf(("")) }
     var userEmail by remember { mutableStateOf(("")) }
+    var isPasswordValid by remember { mutableStateOf(true) }
+    var passwordError by remember { mutableStateOf("") }
 
     // backend
     val authState = authViewModel?.authState?.observeAsState()
@@ -61,6 +63,10 @@ fun SignUpScreen(
                 (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
             else -> Unit
         }
+    }
+
+    fun validatePassword(password: String): Boolean {
+        return password.length >= 6
     }
 
 
@@ -215,34 +221,47 @@ fun SignUpScreen(
                     value = password,
                     onValueChange = {
                         password = it
+                        isPasswordValid = validatePassword(it)
+                        if (!isPasswordValid) {
+                            passwordError = "Password must be at least 6 characters long"
+                        } else {
+                            passwordError = ""
+                        }
                     },
                     shape = RoundedCornerShape(10.dp),
-                    placeholder = {Text("Password")},
+                    placeholder = { Text("Password") },
                     colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color(0xFFF0F1F5),
-                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = if (isPasswordValid) Color(0xFFF0F1F5) else Color.Red.copy(alpha = 0.1f),
+                        focusedContainerColor = if (isPasswordValid) Color.White else Color.Red.copy(alpha = 0.1f),
                         focusedPlaceholderColor = Color.LightGray,
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         focusedTextColor = Color.Black,
                         unfocusedTextColor = Color.Black
-                    )
+                    ),
+                    isError = !isPasswordValid
                 )
-                /*Image(
-                    modifier = Modifier.clickable {  },
-                    painter = painterResource(id = R.drawable.username_input),
-                    contentDescription = "Username"
-                )*/
 
+                if (!isPasswordValid) {
+                    Text(
+                        text = passwordError,
+                        color = Color.Red,
+                        modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Spacer(modifier = Modifier.height(20.dp))
                 Image(
                     modifier = Modifier
                         .clickable {
-                            Log.d("SignUpScreen", "Image clicked")
-                            authViewModel?.signIn(userEmail,password) // backend
+                            if (validatePassword(password)) {
+                                Log.d("SignUpScreen", "Image clicked")
+                                authViewModel?.signIn(userEmail, password) // backend
+                            } else {
+                                isPasswordValid = false
+                                passwordError = "Password must be at least 6 characters long"
+                            }
                         }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.sign_up_button),
