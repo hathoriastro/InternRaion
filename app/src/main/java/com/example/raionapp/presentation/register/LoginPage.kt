@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -32,10 +33,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -52,7 +57,13 @@ fun LoginScreen(
     authViewModel: AuthViewModel?
 ) {
     var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf(("")) }
+    var password by rememberSaveable { mutableStateOf(("")) }
+    var passwordVisibility by remember { mutableStateOf(false) }
+
+    val icon = if(passwordVisibility)
+        painterResource(id = R.drawable.password_visible)
+    else
+        painterResource(id = R.drawable.password_not_visible_small)
 
 //    Backend
     val authState = authViewModel?.authState?.observeAsState()
@@ -148,7 +159,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Image(
-                    painter = painterResource(id = R.drawable.username_text),
+                    painter = painterResource(id = R.drawable.email_small_text),
                     contentDescription = " "
                 )
 
@@ -164,7 +175,7 @@ fun LoginScreen(
                     },
                     placeholder = {
                         Text(
-                            text = "Username"
+                            text = "Email Address"
                         )
                     },
                     shape = RoundedCornerShape(10.dp),
@@ -205,7 +216,19 @@ fun LoginScreen(
                         focusedIndicatorColor = Color.Transparent,
                         focusedTextColor = Color.Black,
                         unfocusedTextColor = Color.Black
-                    )
+                    ),
+                    trailingIcon = {
+                        IconButton(onClick = {
+                            passwordVisibility = !passwordVisibility
+                        }) {
+                            Icon(
+                                painter = icon,
+                                contentDescription = " "
+                            )
+                        }
+                    },
+                    visualTransformation = if(passwordVisibility) VisualTransformation.None
+                    else PasswordVisualTransformation()
                 )
                 /*Image(
                     modifier = Modifier.clickable {  },
@@ -218,22 +241,7 @@ fun LoginScreen(
                 Row(
                     modifier = Modifier.fillMaxWidth()
                 ){
-                    Icon(
-                        modifier = Modifier
-                            .clickable {  }
-                            .align(Alignment.CenterVertically),
-                        painter = painterResource(id = R.drawable.check_box_outline),
-                        contentDescription = "Check Box"
-                    )
-
-                    Spacer(modifier = Modifier.width(3.dp))
-                    Text(
-                        text = "Remember Me",
-                        modifier = Modifier.align(Alignment.CenterVertically),
-                        fontSize = 13.sp
-                    )
-
-                    Spacer(modifier = Modifier.width(80.dp))
+                    Spacer(modifier = Modifier.width(180.dp))
                     Text(
                         text = "Forgot Password?",
                         fontSize = 13.sp,
@@ -268,6 +276,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 val context = LocalContext.current
+                Spacer(modifier = Modifier.height(10.dp))
                 Image(
                     painter = painterResource(id = R.drawable.continue_with_google),
                     contentDescription = " ",
