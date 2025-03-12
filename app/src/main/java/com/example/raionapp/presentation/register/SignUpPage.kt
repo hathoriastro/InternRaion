@@ -1,6 +1,5 @@
 package com.example.raionapp.presentation.register
 
-import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -16,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -41,6 +42,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.presentation.authentication.AuthState
 import com.example.raionapp.presentation.authentication.AuthViewModel
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun SignUpScreen(
@@ -49,8 +52,9 @@ fun SignUpScreen(
     authViewModel: AuthViewModel?
 ) {
     var username by remember { mutableStateOf("") }
+    var fullname by remember { mutableStateOf("") }
     var password by remember { mutableStateOf(("")) }
-    var userEmail by remember { mutableStateOf(("")) }
+    var email by remember { mutableStateOf(("")) }
     var isPasswordValid by remember { mutableStateOf(true) }
     var passwordError by remember { mutableStateOf("") }
 
@@ -74,7 +78,8 @@ fun SignUpScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White),
+            .verticalScroll(rememberScrollState())
+            .background(color = Color.White)
     ) {
 
         Image(
@@ -191,9 +196,9 @@ fun SignUpScreen(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = userEmail,
+                    value = email,
                     onValueChange = {
-                        userEmail = it
+                        email = it
                     },
                     shape = RoundedCornerShape(10.dp),
                     placeholder = {Text("Email Address")},
@@ -258,7 +263,13 @@ fun SignUpScreen(
                         .clickable {
                             if (validatePassword(password)) {
                                 Log.d("SignUpScreen", "Image clicked")
-                                authViewModel?.signIn(userEmail, password) // backend
+                                // backend
+                                authViewModel?.signIn(
+                                    username = username,
+                                    password = password,
+                                    email = email,
+                                    fullName = "Anisa"
+                                )
                             } else {
                                 isPasswordValid = false
                                 passwordError = "Password must be at least 6 characters long"

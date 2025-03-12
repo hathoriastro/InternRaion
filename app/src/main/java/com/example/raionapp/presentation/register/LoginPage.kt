@@ -1,6 +1,5 @@
 package com.example.raionapp.presentation.register
 
-import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -55,7 +56,7 @@ fun LoginScreen(
     navController: NavController,
     authViewModel: AuthViewModel?,
 ) {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf(("")) }
     var passwordVisibility by remember { mutableStateOf(false) }
 
@@ -82,6 +83,7 @@ fun LoginScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(color = Color.White),
     ) {
 
@@ -170,9 +172,9 @@ fun LoginScreen(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = username,
+                    value = email,
                     onValueChange = {
-                        username = it
+                        email = it
                     },
                     placeholder = {
                         Text(
@@ -260,7 +262,7 @@ fun LoginScreen(
                 Image(
                     modifier = Modifier
                         .clickable(enabled = authState?.value != AuthState.Loading) {
-                            authViewModel?.login(username, password)
+                            authViewModel?.login(email, password)
                         }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.log_in_button),

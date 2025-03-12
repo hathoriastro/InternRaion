@@ -2,6 +2,7 @@ package com.example.raionapp.presentation.authentication
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -11,6 +12,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.raionapp.Firestore.Model.ProfileDataClass
 import com.example.raionapp.Firestore.ProfileCollection
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
@@ -26,6 +28,7 @@ class AuthViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val profileCollection = ProfileCollection() // Firestore collection
     private val _authState = MutableLiveData<AuthState>()
     val authState : LiveData<AuthState> = _authState
 
@@ -53,37 +56,91 @@ class AuthViewModel(
             .addOnCompleteListener{ task ->
                 if (task.isSuccessful) {
                     _authState.value = AuthState.Authenticated
+                    loadUserProfile() // Mengambil data user dari Firestore
                 } else {
                     _authState.value = AuthState.Error(task.exception?.message ?: "An error occurred")
                 }
             }
     }
 
-    fun signIn(email: String, password: String) {
+    fun signIn(
+        email: String,
+        password: String,
+        username: String,
+        fullName: String,
+    ) {
         if (email.isEmpty() || password.isEmpty()) {
             _authState.value = AuthState.Error("Please fill in all fields")
             return
-        }
+        } // Mungkin nanti dapat dihilangkan
 
         _authState.value = AuthState.Loading
         auth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener{ task ->
                 if (task.isSuccessful) {
                     _authState.value = AuthState.Authenticated
+                    saveUserProfile(username,fullName)
                 } else {
                     _authState.value = AuthState.Error(task.exception?.message ?: "An error occurred")
                 }
             }
     }
 
-    private val tag = "Google Authentication: "
+    private fun saveUserProfile(
+        username: String,
+        fullName: String
+    ) {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val profile = ProfileDataClass(
+                userId = currentUser.uid,
+                username = username,
+                fullName = fullName,
+                email = currentUser.email ?: "",
+                numberOfAnswer = 0,
+                numberOfQuestion = 0,
+                profilePicture = currentUser.photoUrl?.toString()
+            )
+            viewModelScope.launch {
+                try {
+                    profileCollection.addProfileToFirestore(profile)
+                    // Jika perlu, Anda dapat meng-update LiveData lain untuk notifikasi sukses
+                } catch (e: Exception) {
+                    Log.e("AuthViewModel", "Error saving user profile: ${e.message}")
+                }
+            }
+        }
+    }
 
+    private val _userProfile = MutableLiveData<ProfileDataClass>()
+    val userProfile: LiveData<ProfileDataClass> = _userProfile
+
+    private fun loadUserProfile() {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            viewModelScope.launch {
+                try {
+                    val profile = profileCollection.getProfileFromFirestore(currentUser.uid)
+                    if (profile != null) {
+                        _userProfile.value = profile
+                        Log.d("AuthViewModel", "Profile loaded: ${profile.userId}")
+                    }
+                } catch (e: Exception) {
+                    Log.e("AuthViewModel", "Error loading user profile: ${e.message}")
+                }
+            }
+        }
+    }
+
+//    Dibawah ini adalah semua tentang authentikasi menggunakan google
+    private val tag = "Google Authentication: "
     fun signInGoogle(activityContext: Context) {
         viewModelScope.launch {
             try {
                 val result = buildCredentialRequest(activityContext)
                 if (handleSignInGoogle(result) == true) {
                     _authState.value = AuthState.Authenticated
+                    saveUserProfileFromGoogle()
                 } else {
                     _authState.value = AuthState.Unauthenticated
                 }
@@ -143,6 +200,30 @@ class AuthViewModel(
         )
     }
 
+    private fun saveUserProfileFromGoogle() {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val profile = ProfileDataClass(
+                userId = currentUser.uid,
+                username = currentUser.displayName ?: "",
+                fullName = currentUser.displayName ?: "",
+                email = currentUser.email ?: "",
+                numberOfAnswer = 0,
+                numberOfQuestion = 0,
+                profilePicture = currentUser.photoUrl?.toString()
+            )
+            viewModelScope.launch {
+                try {
+                    profileCollection.addProfileToFirestore(profile)
+                    Log.d("AuthViewModel", "Profile saved: ${profile.userId}")
+                } catch (e: Exception) {
+                    Log.e("AuthViewModel", "Error saving user profile: ${e.message}")
+                }
+            }
+        }
+    }
+
+//    SignOut untuk seluruh authentikasi (google dan biasa)
     fun signOut(activityContext: Context) {
         viewModelScope.launch {
             CredentialManager
