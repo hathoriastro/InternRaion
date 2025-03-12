@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -40,9 +39,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.backend.loginAndRegister.AuthState
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
-import kotlinx.coroutines.launch
+import com.example.raionapp.presentation.authentication.AuthState
+import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
 fun SignUpScreen(
@@ -277,7 +275,6 @@ fun SignUpScreen(
                     modifier = Modifier.height(40.dp)
                 )
 
-                val context = LocalContext.current
                 Image(
                     painter = painterResource(id = R.drawable.continue_with_google),
                     contentDescription = " ",
@@ -334,7 +331,7 @@ fun SignUpScreen(
 fun SignUpScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null
+    authViewModel: AuthViewModel? = null,
 ) {
     SignUpScreen(
         modifier = modifier,

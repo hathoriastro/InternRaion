@@ -10,7 +10,7 @@ import com.example.raionapp.presentation.register.SignUpScreen
 import com.example.raionapp.presentation.register.VerifyScreen
 
 // Import Backend AuthViewModel
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
+import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.HomePage
 
 @Composable

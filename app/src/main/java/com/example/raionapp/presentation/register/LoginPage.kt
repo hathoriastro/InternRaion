@@ -1,5 +1,6 @@
 package com.example.raionapp.presentation.register
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,15 +46,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.backend.loginAndRegister.AuthState
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
-
+import com.example.raionapp.presentation.authentication.AuthState
+import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
 ) {
     var username by remember { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf(("")) }
@@ -66,8 +65,8 @@ fun LoginScreen(
         painterResource(id = R.drawable.password_not_visible_small)
 
 //    Backend
-    val authState = authViewModel?.authState?.observeAsState()
     val context = LocalContext.current
+    val authState = authViewModel?.authState?.observeAsState() // Untuk email dan password biasa
     LaunchedEffect(authState?.value) {
         when(authState?.value) {
             is AuthState.Authenticated -> navController.navigate("home")
@@ -76,6 +75,8 @@ fun LoginScreen(
             else -> Unit
         }
     }
+
+
 
 //    FrontEnd
     Box(
@@ -275,7 +276,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                val context = LocalContext.current
                 Spacer(modifier = Modifier.height(10.dp))
                 Image(
                     painter = painterResource(id = R.drawable.continue_with_google),
@@ -286,7 +286,6 @@ fun LoginScreen(
                         }
                 )
             }
-
         }
 
         /*Image(
@@ -332,11 +331,11 @@ fun LoginScreen(
 fun LoginScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null
+    authViewModel: AuthViewModel? = null,
 ) {
     LoginScreen(
         modifier = modifier,
         navController = navController,
-        authViewModel = authViewModel
+        authViewModel = authViewModel,
     )
 }
