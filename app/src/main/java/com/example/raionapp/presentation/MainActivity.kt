@@ -1,6 +1,7 @@
 package com.example.raionapp.presentation
 
 import AppNavHost
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,8 +13,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
+import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.ui.theme.RaionappTheme
 import com.google.firebase.FirebaseApp
 
@@ -22,10 +24,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
 
+        enableEdgeToEdge()
 //        Menambahkan AuthViewModel
         val authViewModel: AuthViewModel by viewModels()
-
-        enableEdgeToEdge()
         setContent {
             RaionappTheme {
                 Scaffold(
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     AppNavHost(
                         modifier = Modifier.padding(innerPadding),
-                        authViewModel = authViewModel
+                        authViewModel = authViewModel,
                     )
                 }
             }

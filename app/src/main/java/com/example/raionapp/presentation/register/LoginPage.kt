@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -33,7 +35,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,17 +47,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.backend.loginAndRegister.AuthState
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
-
+import com.example.raionapp.presentation.authentication.AuthState
+import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
 ) {
-    var username by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf(("")) }
     var passwordVisibility by remember { mutableStateOf(false) }
 
@@ -66,8 +66,8 @@ fun LoginScreen(
         painterResource(id = R.drawable.password_not_visible_small)
 
 //    Backend
-    val authState = authViewModel?.authState?.observeAsState()
     val context = LocalContext.current
+    val authState = authViewModel?.authState?.observeAsState() // Untuk email dan password biasa
     LaunchedEffect(authState?.value) {
         when(authState?.value) {
             is AuthState.Authenticated -> navController.navigate("home")
@@ -77,10 +77,13 @@ fun LoginScreen(
         }
     }
 
+
+
 //    FrontEnd
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(color = Color.White),
     ) {
 
@@ -169,9 +172,9 @@ fun LoginScreen(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = username,
+                    value = email,
                     onValueChange = {
-                        username = it
+                        email = it
                     },
                     placeholder = {
                         Text(
@@ -259,7 +262,7 @@ fun LoginScreen(
                 Image(
                     modifier = Modifier
                         .clickable(enabled = authState?.value != AuthState.Loading) {
-                            authViewModel?.login(username, password)
+                            authViewModel?.login(email, password)
                         }
                         .align(Alignment.CenterHorizontally),
                     painter = painterResource(id = R.drawable.log_in_button),
@@ -275,7 +278,6 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                val context = LocalContext.current
                 Spacer(modifier = Modifier.height(10.dp))
                 Image(
                     painter = painterResource(id = R.drawable.continue_with_google),
@@ -286,7 +288,6 @@ fun LoginScreen(
                         }
                 )
             }
-
         }
 
         /*Image(
@@ -332,11 +333,11 @@ fun LoginScreen(
 fun LoginScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null
+    authViewModel: AuthViewModel? = null,
 ) {
     LoginScreen(
         modifier = modifier,
         navController = navController,
-        authViewModel = authViewModel
+        authViewModel = authViewModel,
     )
 }

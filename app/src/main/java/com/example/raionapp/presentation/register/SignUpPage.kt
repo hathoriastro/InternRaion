@@ -1,6 +1,5 @@
 package com.example.raionapp.presentation.register
 
-import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -36,7 +35,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.R
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -49,6 +47,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.raionapp.presentation.authentication.AuthState
+import com.example.raionapp.presentation.authentication.AuthViewModel
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
 import com.example.raionapp.backend.loginAndRegister.AuthState
 import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 import com.example.raionapp.common.montserratFont
@@ -61,8 +63,9 @@ fun SignUpScreen(
     authViewModel: AuthViewModel?
 ) {
     var username by remember { mutableStateOf("") }
+    var fullname by remember { mutableStateOf("") }
     var password by remember { mutableStateOf(("")) }
-    var userEmail by remember { mutableStateOf(("")) }
+    var email by remember { mutableStateOf(("")) }
     var isPasswordValid by remember { mutableStateOf(true) }
     var passwordError by remember { mutableStateOf("") }
 
@@ -212,9 +215,9 @@ fun SignUpScreen(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .width(500.dp),
-                    value = userEmail,
+                    value = email,
                     onValueChange = {
-                        userEmail = it
+                        email = it
                     },
                     shape = RoundedCornerShape(10.dp),
                     placeholder = {Text("Email Address")},
@@ -284,7 +287,13 @@ fun SignUpScreen(
                         .clickable {
                             if (validatePassword(password)) {
                                 Log.d("SignUpScreen", "Image clicked")
-                                authViewModel?.signIn(userEmail, password) // backend
+                                // backend
+                                authViewModel?.signIn(
+                                    username = username,
+                                    password = password,
+                                    email = email,
+                                    fullName = "Anisa"
+                                )
                             } else {
                                 isPasswordValid = false
                                 passwordError = "Password must be at least 6 characters long"
@@ -301,7 +310,6 @@ fun SignUpScreen(
                     modifier = Modifier.height(40.dp)
                 )
 
-                val context = LocalContext.current
                 Image(
                     painter = painterResource(id = R.drawable.continue_with_google),
                     contentDescription = " ",
@@ -358,7 +366,7 @@ fun SignUpScreen(
 fun SignUpScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null
+    authViewModel: AuthViewModel? = null,
 ) {
     SignUpScreen(
         modifier = modifier,

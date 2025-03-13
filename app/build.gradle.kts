@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -63,7 +64,7 @@ dependencies {
     // Firebase dependencies Bom
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
 
-    // Firebase ObserveAsState()
+    // Firebase ObserveAsState() MVVM
     implementation("androidx.compose.runtime:runtime-livedata:1.0.5")
 
     // Firebase Native Authentication
@@ -80,6 +81,8 @@ dependencies {
     implementation("androidx.credentials:credentials-play-services-auth:1.5.0-rc01")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
 
+    // Coil Dependency for Image Loading
+    implementation("io.coil-kt:coil-compose:2.2.2")
     // Text Fonts
     implementation("androidx.compose.ui:ui-text-google-fonts:1.0.0")
 
