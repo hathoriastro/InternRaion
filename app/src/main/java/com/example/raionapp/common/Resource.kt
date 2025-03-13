@@ -1,6 +1,24 @@
 package com.example.raionapp.common
 
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
+
 sealed class Resource<T>(val data: T? = null, val message: String? = null)
     class Success<T>(data: T) : Resource<T>(data)
     class Error<T>(message: String, data: T? = null) : Resource<T>(data, message)
     class Loading<T>(data: T? = null) : Resource<T>(data)
+
+val montserratFont = FontFamily(
+    Font(
+        googleFont = GoogleFont("Montserrat"),
+        fontProvider = GoogleFont.Provider(
+            providerAuthority = "com.google.android.gms.fonts",
+            providerPackage = "com.google.android.gms",
+            certificates = emptyList()
+        ),
+        weight = FontWeight.Normal
+    )
+)

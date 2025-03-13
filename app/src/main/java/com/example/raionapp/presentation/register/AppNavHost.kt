@@ -11,7 +11,8 @@ import com.example.raionapp.presentation.register.VerifyScreen
 
 // Import Backend AuthViewModel
 import com.example.raionapp.backend.loginAndRegister.AuthViewModel
-import com.example.raionapp.presentation.homePage.HomePage
+import com.example.raionapp.presentation.homePage.HomePageScreen
+import com.example.raionapp.presentation.profile.ProfilePage
 
 @Composable
 fun AppNavHost(
@@ -22,7 +23,7 @@ fun AppNavHost(
 
     NavHost(
         navController = navController, // ✅ Pass it here
-        startDestination = "register",
+        startDestination = "home",
         modifier = Modifier.fillMaxSize()
     ) {
         composable("register") {
@@ -32,13 +33,17 @@ fun AppNavHost(
             SignUpScreen(modifier,navController, authViewModel)
         }
         composable("home") {
-            HomePage(modifier,navController, authViewModel)
+            HomePageScreen(modifier,navController, authViewModel)
         }
         composable("forgotpassword") {
             ForgotPasswordScreen(modifier,navController, authViewModel)
         }
         composable("verif") {
             VerifyScreen(modifier,navController, authViewModel)
+        }
+
+        composable("profile") {
+            ProfilePage(modifier,navController, authViewModel)
         }
     }
 }
