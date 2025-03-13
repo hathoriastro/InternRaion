@@ -24,8 +24,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import com.example.raionapp.R
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
 fun NavBar(

@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 
 @Composable
 fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifier) {

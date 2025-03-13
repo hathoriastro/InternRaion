@@ -39,7 +39,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -51,8 +50,6 @@ import com.example.raionapp.presentation.authentication.AuthState
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.sp
-import com.example.raionapp.backend.loginAndRegister.AuthState
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 import com.example.raionapp.common.montserratFont
 import kotlinx.coroutines.launch
 
@@ -292,7 +289,7 @@ fun SignUpScreen(
                                     username = username,
                                     password = password,
                                     email = email,
-                                    fullName = "Anisa"
+                                    fullName = "Anisa" // Contoh
                                 )
                             } else {
                                 isPasswordValid = false

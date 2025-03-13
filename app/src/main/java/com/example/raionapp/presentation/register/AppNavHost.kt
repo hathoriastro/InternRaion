@@ -4,15 +4,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.raionapp.presentation.register.ForgotPasswordScreen
+import com.example.raionapp.presentation.register.nantiAja.ForgotPasswordScreen
 import com.example.raionapp.presentation.register.LoginScreen
 import com.example.raionapp.presentation.register.SignUpScreen
-import com.example.raionapp.presentation.register.VerifyScreen
+import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
 
 // Import Backend AuthViewModel
 import com.example.raionapp.presentation.authentication.AuthViewModel
-import com.example.raionapp.presentation.homePage.HomePage
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 import com.example.raionapp.presentation.homePage.HomePageScreen
 import com.example.raionapp.presentation.profile.ProfilePage
 
