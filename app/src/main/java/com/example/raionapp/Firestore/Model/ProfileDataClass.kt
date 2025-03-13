@@ -3,9 +3,10 @@ package com.example.raionapp.Firestore.Model
 data class ProfileDataClass(
     val userId: String,
     val username: String?,
-    val fullName: String?,
+    val fullname: String?,
     val email: String,
-    val numberOfQuestion: Int = 0,
-    val numberOfAnswer: Int = 0,
-    val profilePicture: String? // ????
+    val numberOfQuestion: Int,
+    val numberOfAnswer: Int,
+    val profilePicture: String?, // ????
+    val role: String
 )

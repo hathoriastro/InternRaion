@@ -14,11 +14,12 @@ class ProfileCollection {
             val profileHashMap = hashMapOf(
                 "userId" to profile.userId,
                 "username" to profile.username,
-                "fullName" to profile.fullName,
+                "fullName" to profile.fullname,
                 "email" to profile.email,
                 "numberOfQuestion" to profile.numberOfQuestion,
                 "numberOfAnswer" to profile.numberOfAnswer,
-                "profilePicture" to profile.profilePicture
+                "profilePicture" to profile.profilePicture,
+                "role" to profile.role
             )
 
         if (!profile.userId.isNullOrEmpty()) {

@@ -18,11 +18,12 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.cancellation.CancellationException
-import com.example.raionapp.R
 
 class AuthViewModel(
     application: Application,
@@ -92,19 +93,28 @@ class AuthViewModel(
     ) {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val profile = ProfileDataClass(
-                userId = currentUser.uid,
-                username = username,
-                fullName = fullName,
-                email = currentUser.email ?: "",
-                numberOfAnswer = 0,
-                numberOfQuestion = 0,
-                profilePicture = currentUser.photoUrl?.toString()
-            )
             viewModelScope.launch {
                 try {
+                    val existingProfile = profileCollection.getProfileFromFirestore(currentUser.uid)
+
+                    val role = "student"
+
+                    if (existingProfile != null && existingProfile.role == "mentor") {
+                        val role = "mentor"
+                    }
+
+                    val profile = ProfileDataClass(
+                        userId = currentUser.uid,
+                        username = currentUser.displayName ?: "",
+                        fullname = currentUser.displayName ?: "",
+                        email = currentUser.email ?: "",
+                        numberOfAnswer = 0,
+                        numberOfQuestion = 0,
+                        profilePicture = currentUser.photoUrl?.toString(),
+                        role = role
+                    )
                     profileCollection.addProfileToFirestore(profile)
-                    // Jika perlu, Anda dapat meng-update LiveData lain untuk notifikasi sukses
+                    Log.d("AuthViewModel", "Profile saved: ${profile.userId}")
                 } catch (e: Exception) {
                     Log.e("AuthViewModel", "Error saving user profile: ${e.message}")
                 }
@@ -203,17 +213,25 @@ class AuthViewModel(
     private fun saveUserProfileFromGoogle() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val profile = ProfileDataClass(
-                userId = currentUser.uid,
-                username = currentUser.displayName ?: "",
-                fullName = currentUser.displayName ?: "",
-                email = currentUser.email ?: "",
-                numberOfAnswer = 0,
-                numberOfQuestion = 0,
-                profilePicture = currentUser.photoUrl?.toString()
-            )
             viewModelScope.launch {
                 try {
+//                    val existingProfile = profileCollection.getProfileFromFirestore(currentUser.uid)
+
+                    val role = "student"
+//                    if (existingProfile != null && existingProfile.role == "mentor") {
+//                        role = "trese"
+//                    }
+//                    println(role)
+                    val profile = ProfileDataClass(
+                        userId = currentUser.uid,
+                        username = currentUser.displayName ?: "",
+                        fullname = currentUser.displayName ?: "",
+                        email = currentUser.email ?: "",
+                        numberOfAnswer = 0,
+                        numberOfQuestion = 0,
+                        profilePicture = currentUser.photoUrl?.toString(),
+                        role = role
+                    )
                     profileCollection.addProfileToFirestore(profile)
                     Log.d("AuthViewModel", "Profile saved: ${profile.userId}")
                 } catch (e: Exception) {
@@ -225,12 +243,12 @@ class AuthViewModel(
 
 //    SignOut untuk seluruh authentikasi (google dan biasa)
     fun signOut(activityContext: Context) {
+        auth.signOut()
         viewModelScope.launch {
             CredentialManager
                 .create(activityContext)
                 .clearCredentialState(ClearCredentialStateRequest())
         }
-        auth.signOut()
         _authState.value = AuthState.Unauthenticated
     }
 }
