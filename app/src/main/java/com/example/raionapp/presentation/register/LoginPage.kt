@@ -95,6 +95,12 @@ fun LoginScreen(
             .background(color = Color.White),
     ) {
         Image(
+            painter = painterResource(id = R.drawable.splashscreenpng),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Image(
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(0.dp,40.dp)
