@@ -102,7 +102,7 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
                     modifier = Modifier
                         .size(60.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0xFFA7A7A7)) // Background color to match button
+                        .background(Color.Transparent) // Background color to match button
                         .clickable { /* Handle Click Here */ },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
@@ -130,7 +130,7 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
                     modifier = Modifier
                         .size(80.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0xFFA7A7A7)) // Background color to match button
+                        .background(Color.Transparent) // Background color to match button
                         .clickable { /* Handle Click Here */ },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
@@ -157,7 +157,7 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
                     modifier = Modifier
                         .size(34.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0xFFA7A7A7)) // Background color to match button
+                        .background(Color.Transparent) // Background color to match button
                         .clickable { /* Handle Click Here */ },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
@@ -178,7 +178,7 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
                     modifier = Modifier
                         .size(34.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0xFFA7A7A7)) // Background color to match button
+                        .background(Color.Transparent) // Background color to match button
                         .clickable { /* Handle Click Here */ },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {

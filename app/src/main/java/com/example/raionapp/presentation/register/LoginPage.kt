@@ -5,13 +5,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -37,8 +40,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -48,6 +57,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.backend.loginAndRegister.AuthState
 import com.example.raionapp.backend.loginAndRegister.AuthViewModel
+import com.example.raionapp.common.montserratFont
 
 
 @Composable
@@ -83,7 +93,6 @@ fun LoginScreen(
             .fillMaxSize()
             .background(color = Color.White),
     ) {
-
         Image(
             modifier = Modifier
                 .align(Alignment.TopCenter)
@@ -93,13 +102,49 @@ fun LoginScreen(
             contentDescription = "Logo"
         )
 
-        Image(
-            modifier = Modifier
-                .padding(20.dp,70.dp)
-                .size(190.dp),
-            painter = painterResource(id = R.drawable.welcome_back),
-            contentDescription = "Welcome Back"
-        )
+        Column(
+            modifier = Modifier.offset(x = 30.dp, y = 150.dp)
+        ){
+            Text(
+                text = "Welcome Back!",
+
+                // Headline/H1 Head Bold
+                style = TextStyle(
+                    fontSize = 32.sp,
+                    fontFamily = montserratFont,
+                    fontWeight = FontWeight(700),
+                    color = Color(0xFF000000),
+                ),
+                modifier = Modifier
+                    .width(250.dp)
+                    .height(39.dp)
+            )
+
+            Text(
+                text = "Step into a world of endless knowledge",
+
+                // Body Text/Body 1 Medium
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    lineHeight = 22.4.sp,
+                    fontFamily = montserratFont,
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF000000),
+                )
+            )
+            Text(
+                text = "Log In now!",
+
+                // Body Text/Body 1 Medium
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    lineHeight = 22.4.sp,
+                    fontFamily = montserratFont,
+                    fontWeight = FontWeight(400),
+                    color = Color(0xFF000000),
+                )
+            )
+        }
 
         Box(
             modifier = Modifier
@@ -121,39 +166,61 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(5.dp))
 
-                Row {
-                    Button(
-                        onClick = { navController.navigate("signup") },
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(1.dp, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .border(width = 1.dp, color = Color(0xFFF5F6F9), shape = RoundedCornerShape(size = 7.dp))
+                        .width(332.dp)
+                        .height(46.dp)
+                        .background(color = Color(0xFFF5F6F9), shape = RoundedCornerShape(size = 7.dp))
+                        .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
+                ) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .border(30.dp, color = Color.Transparent)
-                            .width(150.dp),
-                        shape = RoundedCornerShape(10.dp, 0.dp, 0.dp, 10.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFFF0F1F5),
-                        )
-                    ){
+                            .width(161.dp)
+                            .fillMaxHeight()
+                            .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
+                            .clickable { navController.navigate("signup") }
+                    ) {
                         Text(
-                            text = ("Sign Up"),
-                            color = Color.Black
+                            text = "Sign Up",
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF232447),
+                            ),
+                            modifier =Modifier
+                                .align(Alignment.CenterVertically)
                         )
                     }
 
-                    Button(
-                        onClick = { },
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .border(30.dp, color = Color.Transparent)
-                            .width(150.dp),
-                        shape = RoundedCornerShape(0.dp, 10.dp, 10.dp, 0.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White
-                        )
-                    ){
+                            .width(161.dp)
+                            .fillMaxHeight()
+                            .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
+                            .background(Color.White)
+                            .clickable {  }
+                    ) {
                         Text(
-                            text = ("Log In"),
-                            color = Color.Black
+                            text = "Log In",
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF232447),
+                            ),
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
                         )
                     }
-
                 }
 
                 Spacer(modifier = Modifier.height(40.dp))
@@ -175,7 +242,15 @@ fun LoginScreen(
                     },
                     placeholder = {
                         Text(
-                            text = "Email Address"
+                            text = "Email Address",
+
+                            // Body Text/Body Small Medium
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                lineHeight = 19.6.sp,
+                                fontFamily = montserratFont,
+                                color = Color(0xFF757575),
+                            )
                         )
                     },
                     shape = RoundedCornerShape(10.dp),
@@ -207,7 +282,19 @@ fun LoginScreen(
                         password = it
                     },
                     shape = RoundedCornerShape(10.dp),
-                    placeholder = {Text("Password")},
+                    placeholder = {
+                        Text(
+                            text = "Password",
+
+                            // Body Text/Body Small Medium
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                lineHeight = 19.6.sp,
+                                fontFamily = montserratFont,
+                                color = Color(0xFF757575),
+                            )
+                        )
+                    },
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = Color(0xFFF0F1F5),
                         focusedContainerColor = Color.White,
@@ -244,27 +331,43 @@ fun LoginScreen(
                     Spacer(modifier = Modifier.width(180.dp))
                     Text(
                         text = "Forgot Password?",
-                        fontSize = 13.sp,
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                            .clickable { navController.navigate("forgotpassword") },
-                        color = Color(0xFF1A5294)
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            lineHeight = 19.6.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF1A5294),
+                        )
                     )
                 }
 
-                // Ini perubahannya, coba git
-
                 Spacer(modifier = Modifier.height(20.dp))
 
-                Image(
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
+                        .shadow(elevation = 2.dp, spotColor = Color(0x3DE4E5E7), ambientColor = Color(0x3DE4E5E7))
+                        .border(width = 1.dp, color = Color.Transparent, shape = RoundedCornerShape(size = 10.dp))
+                        .width(332.dp)
+                        .height(46.dp)
+                        .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(size = 10.dp))
+                        .padding(horizontal = 14.dp)
                         .clickable(enabled = authState?.value != AuthState.Loading) {
                             authViewModel?.login(username, password)
                         }
-                        .align(Alignment.CenterHorizontally),
-                    painter = painterResource(id = R.drawable.log_in_button),
-                    contentDescription = "Log In Button"
-                )
+                ) {
+                    Text(
+                        text = "Log In",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            lineHeight = 19.6.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                        )
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(20.dp))
                 Image(
