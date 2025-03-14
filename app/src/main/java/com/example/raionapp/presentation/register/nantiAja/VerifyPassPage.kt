@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.register
+package com.example.raionapp.presentation.register.nantiAja
 
 import com.example.raionapp.R
 

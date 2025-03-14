@@ -45,7 +45,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -56,6 +55,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthState
 import com.example.raionapp.presentation.authentication.AuthViewModel
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
+import com.example.raionapp.common.montserratFont
 import kotlinx.coroutines.launch
 
 @Composable
@@ -221,6 +223,7 @@ fun SignUpScreen(
                                 .align(Alignment.CenterVertically)
                         )
                     }
+
                 }
 
                 Spacer(modifier = Modifier.height(40.dp))
@@ -435,7 +438,13 @@ fun SignUpScreen(
                         .clickable {
                             if (validatePassword(password)) {
                                 Log.d("SignUpScreen", "Image clicked")
-                                authViewModel?.signIn(fullname, username, userEmail, password) // backend
+                                // backend
+                                authViewModel?.signIn(
+                                    username = username,
+                                    password = password,
+                                    email = email,
+                                    fullName = "Anisa" // Contoh
+                                )
                             } else {
                                 isPasswordValid = false
                                 passwordError = "Password must be at least 6 characters long"
@@ -516,7 +525,7 @@ fun SignUpScreen(
 fun SignUpScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null
+    authViewModel: AuthViewModel? = null,
 ) {
     SignUpScreen(
         modifier = modifier,
