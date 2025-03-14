@@ -13,6 +13,7 @@ import com.example.raionapp.presentation.register.VerifyScreen
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.HomePage
 import com.example.raionapp.backend.loginAndRegister.AuthViewModel
+import com.example.raionapp.presentation.homePage.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
 import com.example.raionapp.presentation.profile.ProfilePage
 
@@ -43,9 +44,11 @@ fun AppNavHost(
         composable("verif") {
             VerifyScreen(modifier,navController, authViewModel)
         }
-
         composable("profile") {
             ProfilePage(modifier,navController, authViewModel)
+        }
+        composable("addthread") {
+            AddThreadPage(modifier,navController, authViewModel)
         }
     }
 }
