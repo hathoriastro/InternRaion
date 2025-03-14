@@ -41,8 +41,8 @@ import com.example.raionapp.R
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
 fun AddThreadPage(
