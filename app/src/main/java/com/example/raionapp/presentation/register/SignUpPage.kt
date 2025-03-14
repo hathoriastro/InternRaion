@@ -442,8 +442,8 @@ fun SignUpScreen(
                                 authViewModel?.signIn(
                                     username = username,
                                     password = password,
-                                    email = email,
-                                    fullName = "Anisa" // Contoh
+                                    email = userEmail,
+                                    fullName = fullname // Fixx
                                 )
                             } else {
                                 isPasswordValid = false
