@@ -87,10 +87,8 @@ fun HomePageScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {
-                    authViewModel?.signOut(context) // Tombol untuk signOut sementara, Engga bener, ini hanya coba coba aja
-                },
-                containerColor = Color(0xFF7D7F83),
+                onClick = { navController.navigate("addthread") },
+                containerColor = Color(0xFF1A5294),
                 shape = RoundedCornerShape(30.dp),
                 contentColor = Color.White,
                 modifier = Modifier.offset(y = -10.dp)
@@ -107,7 +105,7 @@ fun HomePageScreen(
                 color = Color.White,
                 shadowElevation = 8.dp
             ) {
-                NavBar(navController = navController, authViewModel = authViewModel)
+                NavBar(navController = navController)
             }
         }
     ){ paddingValues ->
@@ -122,7 +120,7 @@ fun HomePageScreen(
                         color = Color.White,
                         shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
                     )
-                    .height(570.dp)
+                    .height(640.dp)
                     .align(Alignment.BottomCenter)
                     .zIndex(2f)
                     .fillMaxWidth()

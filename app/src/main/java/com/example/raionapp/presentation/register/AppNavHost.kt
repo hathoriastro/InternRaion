@@ -13,6 +13,7 @@ import androidx.credentials.CredentialManager
 
 // Import Backend AuthViewModel
 import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.homePage.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
 import com.example.raionapp.presentation.profile.ProfilePage
 
@@ -44,9 +45,11 @@ fun AppNavHost(
         composable("verif") {
             VerifyScreen(modifier,navController, authViewModel)
         }
-
         composable("profile") {
             ProfilePage(modifier,navController, authViewModel, context)
+        }
+        composable("addthread") {
+            AddThreadPage(modifier,navController, authViewModel)
         }
     }
 }

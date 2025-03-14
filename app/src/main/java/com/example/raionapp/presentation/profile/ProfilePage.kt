@@ -80,7 +80,7 @@ fun ProfilePage(
                 color = Color.White,
                 shadowElevation = 8.dp
             ) {
-                NavBar(navController = navController, authViewModel = authViewModel)
+                NavBar(navController = navController)
             }
         }
     ){
@@ -96,12 +96,12 @@ fun ProfilePage(
                         .align(Alignment.BottomCenter)
                         .fillMaxWidth()
                         .height(380.dp)
-                        .zIndex(1f),
+                        .zIndex(0f),
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color(0xFFD9D9D9))
+                            .background(Color.White)
                     )
                 }
             }
@@ -155,7 +155,7 @@ fun ProfilePage(
                     modifier = Modifier
                         .size(240.dp, 80.dp)
                         .align(Alignment.CenterHorizontally)
-                        .background(color = Color(0xFF757575), RoundedCornerShape(20.dp)),
+                        .background(color = Color(0xFF1A5294), RoundedCornerShape(20.dp)),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ){
                     Column(
@@ -214,7 +214,7 @@ fun ProfilePage(
                     modifier = Modifier
                         .size(330.dp,120.dp)
                         .align(Alignment.CenterHorizontally)
-                        .background(color = Color(0xFF7D7F83), shape = RoundedCornerShape(20.dp))
+                        .background(color = Color(0xFF5598CC), shape = RoundedCornerShape(20.dp))
                 ){
                     Row(
                         modifier = Modifier
@@ -341,7 +341,7 @@ fun ProfilePage(
                     modifier = Modifier
                         .size(330.dp,120.dp)
                         .align(Alignment.CenterHorizontally)
-                        .background(color = Color(0xFF7D7F83), shape = RoundedCornerShape(20.dp))
+                        .background(color = Color(0xFF5598CC), shape = RoundedCornerShape(20.dp))
                 ){
                     Row(
                         modifier = Modifier
