@@ -53,9 +53,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.backend.loginAndRegister.AuthState
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.authentication.AuthState
+import com.example.raionapp.presentation.authentication.AuthViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -435,7 +435,7 @@ fun SignUpScreen(
                         .clickable {
                             if (validatePassword(password)) {
                                 Log.d("SignUpScreen", "Image clicked")
-                                authViewModel?.signIn(userEmail, password) // backend
+                                authViewModel?.signIn(fullname, username, userEmail, password) // backend
                             } else {
                                 isPasswordValid = false
                                 passwordError = "Password must be at least 6 characters long"

@@ -52,7 +52,6 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
-import com.example.raionapp.backend.loginAndRegister.AuthViewModel
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
@@ -61,6 +60,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.authentication.AuthViewModel
 
 
 @Composable
