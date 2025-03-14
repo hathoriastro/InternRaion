@@ -27,7 +27,7 @@ fun AppNavHost(
 
     NavHost(
         navController = navController, // ✅ Pass it here
-        startDestination = "home",
+        startDestination = "profile",
         modifier = Modifier.fillMaxSize()
     ) {
         composable("register") {
