@@ -21,6 +21,7 @@ fun TopBarAndProfile(modifier: Modifier = Modifier) {
             contentDescription = "Header Background",
         )
 
+//        Profile Picture
         Image(
             painter = painterResource(id = R.drawable.heading_small_circle),
             contentDescription = " ",

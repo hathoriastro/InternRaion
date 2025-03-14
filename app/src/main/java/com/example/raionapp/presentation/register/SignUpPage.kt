@@ -1,5 +1,7 @@
 package com.example.raionapp.presentation.register
 
+import android.content.Context
+import android.credentials.CredentialManager
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -57,7 +59,8 @@ import kotlinx.coroutines.launch
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    context: Context
 ) {
     var username by remember { mutableStateOf("") }
     var fullname by remember { mutableStateOf("") }
@@ -68,7 +71,6 @@ fun SignUpScreen(
 
     // backend
     val authState = authViewModel?.authState?.observeAsState()
-    val context = LocalContext.current
     LaunchedEffect(authState?.value) {
         when(authState?.value) {
             is AuthState.Authenticated -> navController.navigate("home")
@@ -364,10 +366,12 @@ fun SignUpScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     authViewModel: AuthViewModel? = null,
+    context: Context
 ) {
     SignUpScreen(
         modifier = modifier,
         navController = navController,
-        authViewModel = authViewModel
+        authViewModel = authViewModel,
+        context = context
     )
 }

@@ -1,3 +1,4 @@
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
@@ -8,6 +9,7 @@ import com.example.raionapp.presentation.register.nantiAja.ForgotPasswordScreen
 import com.example.raionapp.presentation.register.LoginScreen
 import com.example.raionapp.presentation.register.SignUpScreen
 import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
+import androidx.credentials.CredentialManager
 
 // Import Backend AuthViewModel
 import com.example.raionapp.presentation.authentication.AuthViewModel
@@ -17,7 +19,8 @@ import com.example.raionapp.presentation.profile.ProfilePage
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
+    context: Context
 ) {
     val navController = rememberNavController() // ✅ Create navController instance
 
@@ -27,13 +30,13 @@ fun AppNavHost(
         modifier = Modifier.fillMaxSize()
     ) {
         composable("register") {
-            LoginScreen(modifier,navController, authViewModel)
+            LoginScreen(modifier,navController, authViewModel, context)
         }
         composable("signup") {
-            SignUpScreen(modifier,navController, authViewModel)
+            SignUpScreen(modifier,navController, authViewModel, context)
         }
         composable("home") {
-            HomePageScreen(modifier,navController, authViewModel)
+            HomePageScreen(modifier,navController, authViewModel, context)
         }
         composable("forgotpassword") {
             ForgotPasswordScreen(modifier,navController, authViewModel)
@@ -43,7 +46,7 @@ fun AppNavHost(
         }
 
         composable("profile") {
-            ProfilePage(modifier,navController, authViewModel)
+            ProfilePage(modifier,navController, authViewModel, context)
         }
     }
 }

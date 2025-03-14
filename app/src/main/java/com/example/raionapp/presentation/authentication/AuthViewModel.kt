@@ -28,7 +28,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class AuthViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val profileCollection = ProfileCollection() // Firestore collection
     private val _authState = MutableLiveData<AuthState>()
     val authState : LiveData<AuthState> = _authState
@@ -154,8 +154,7 @@ class AuthViewModel(
                 } else {
                     _authState.value = AuthState.Unauthenticated
                 }
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 if (e is CancellationException) throw e
                 println(tag + "singIn error: ${e.message}")
@@ -252,3 +251,4 @@ class AuthViewModel(
         _authState.value = AuthState.Unauthenticated
     }
 }
+

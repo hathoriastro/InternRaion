@@ -14,7 +14,7 @@ class ProfileCollection {
             val profileHashMap = hashMapOf(
                 "userId" to profile.userId,
                 "username" to profile.username,
-                "fullName" to profile.fullname,
+                "fullname" to profile.fullname,
                 "email" to profile.email,
                 "numberOfQuestion" to profile.numberOfQuestion,
                 "numberOfAnswer" to profile.numberOfAnswer,

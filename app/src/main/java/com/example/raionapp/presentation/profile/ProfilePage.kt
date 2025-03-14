@@ -1,5 +1,7 @@
 package com.example.raionapp.presentation.profile
 
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,7 +16,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
@@ -23,11 +25,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +40,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+import com.example.raionapp.Firestore.Model.ProfileDataClass
+import com.example.raionapp.Firestore.ProfileCollection
 import com.example.raionapp.R
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.NavBar
@@ -44,8 +51,29 @@ import com.example.raionapp.presentation.homePage.NavBar
 fun ProfilePage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    context: Context
 ){
+
+//    Backend
+//    val db = Firebase.firestore
+//    val collectionId = authViewModel?.auth?.currentUser?.uid
+//    var profile: ProfileDataClass? = null
+
+//    db.collection("profile")
+//        .document(collectionId.toString())
+//        .get()
+//        .addOnSuccessListener { document ->
+//            profile = document.toObject(ProfileDataClass::class.java)
+//        }.addOnFailureListener { e ->
+//            Log.w("ProfileCollection", "Gagal mengambil dokumen", e)
+//
+//        }
+
+//    Fixed Backend
+    val userProfileData = profileData(authViewModel = authViewModel)
+
+//    Frontend
     Scaffold (
         bottomBar = {
             Surface(
@@ -86,17 +114,34 @@ fun ProfilePage(
             ){
 
                 Spacer(modifier = Modifier.padding(vertical = 35.dp))
+
+//                Disini foto profil, bingung bagaimana cara mengambilnya
+//                Image(
+//                    painter = painterResource(id = R.drawable.profile_picture),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .align(Alignment.CenterHorizontally)
+//                        .fillMaxWidth()
+//                )
+
+//                Profile Picture
                 Image(
-                    painter = painterResource(id = R.drawable.profile_picture),
-                    contentDescription = null,
+                    painter = rememberAsyncImagePainter(
+                        model = userProfileData.value?.profilePicture,
+                        placeholder = painterResource(R.drawable.profile_picture),
+                        error = painterResource(R.drawable.profile_picture)
+                    ),
+                    contentDescription = "Foto Profil",
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
-                        .fillMaxWidth()
+                        .width(128.dp)
+                        .height(128.dp)
+                        .clip(CircleShape)
                 )
 
                 Spacer(modifier = Modifier.padding(vertical = 10.dp))
                 Text(
-                    "Username",
+                    text = userProfileData.value?.fullname ?: "....",
                     fontSize = 30.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
@@ -130,7 +175,7 @@ fun ProfilePage(
                         )
 
                         Text(
-                            "0",
+                            text = (userProfileData.value?.numberOfQuestion ?: 0).toString(),
                             fontWeight = FontWeight.Bold,
                             color = Color.White,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -154,7 +199,7 @@ fun ProfilePage(
                         )
 
                         Text(
-                            "0",
+                            text = (userProfileData.value?.numberOfAnswer ?: 0).toString(),
                             fontWeight = FontWeight.Bold,
                             color = Color.White,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -432,11 +477,13 @@ fun ProfilePage(
 fun ProfilePagePreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null
+    authViewModel: AuthViewModel? = null,
+    context: Context
 ) {
     ProfilePage(
         modifier = modifier,
         navController = navController,
-        authViewModel = authViewModel
+        authViewModel = authViewModel,
+        context = context
     )
 }

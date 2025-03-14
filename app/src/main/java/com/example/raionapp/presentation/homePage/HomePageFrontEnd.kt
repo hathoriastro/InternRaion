@@ -1,5 +1,6 @@
 package com.example.raionapp.presentation.homePage
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,6 +42,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,25 +59,37 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.credentials.CredentialManager
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.authentication.AuthState
 import com.example.raionapp.presentation.authentication.AuthViewModel
-
 
 @Composable
 fun HomePageScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel?,
+    context: Context
     ) {
+    val authState = authViewModel?.authState?.observeAsState()
+    LaunchedEffect(authState?.value) {
+        when(authState?.value) {
+            is AuthState.Unauthenticated -> navController.navigate("register")
+            else -> Unit
+        }
+    }
     val commentcount = 10
     val likecount = 0
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {},
+                onClick = {
+                    authViewModel?.signOut(context) // Tombol untuk signOut sementara, Engga bener, ini hanya coba coba aja
+                },
                 containerColor = Color(0xFF7D7F83),
                 shape = RoundedCornerShape(30.dp),
                 contentColor = Color.White,
@@ -129,11 +144,13 @@ fun HomePageScreen(
 fun HomePageScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null
+    authViewModel: AuthViewModel? = null,
+    context: Context
 ) {
     HomePageScreen(
         modifier = modifier,
         navController = navController,
-        authViewModel = authViewModel
+        authViewModel = authViewModel,
+        context = context
     )
 }

@@ -1,7 +1,6 @@
 package com.example.raionapp.presentation
 
 import AppNavHost
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,16 +9,15 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.ui.theme.RaionappTheme
 import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var context: android.content.Context
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
@@ -27,6 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 //        Menambahkan AuthViewModel
         val authViewModel: AuthViewModel by viewModels()
+        context = this
         setContent {
             RaionappTheme {
                 Scaffold(
@@ -35,25 +34,13 @@ class MainActivity : ComponentActivity() {
                     AppNavHost(
                         modifier = Modifier.padding(innerPadding),
                         authViewModel = authViewModel,
+                        context = context
                     )
                 }
+
+
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RaionappTheme {
-        Greeting("Android")
-    }
-}

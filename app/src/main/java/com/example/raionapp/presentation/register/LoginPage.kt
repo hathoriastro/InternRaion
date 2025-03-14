@@ -1,5 +1,6 @@
 package com.example.raionapp.presentation.register
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,7 +40,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -55,6 +55,7 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
     authViewModel: AuthViewModel?,
+    context: Context
 ) {
     var email by remember { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf(("")) }
@@ -66,7 +67,6 @@ fun LoginScreen(
         painterResource(id = R.drawable.password_not_visible_small)
 
 //    Backend
-    val context = LocalContext.current
     val authState = authViewModel?.authState?.observeAsState() // Untuk email dan password biasa
     LaunchedEffect(authState?.value) {
         when(authState?.value) {
@@ -334,10 +334,12 @@ fun LoginScreenPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     authViewModel: AuthViewModel? = null,
+    context: Context
 ) {
     LoginScreen(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        context = context
     )
 }
