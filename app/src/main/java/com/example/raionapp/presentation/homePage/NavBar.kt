@@ -56,24 +56,25 @@ fun NavBar(
             .zIndex(3f),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        NavItem("home", R.drawable.home_icon_unclicked, "Home", currentRoute, navController)
-        NavItem("bank", R.drawable.bank_soal_icon_unclicked, "Bank", currentRoute, navController)
-        NavItem("learn", R.drawable.learn_icon_unclicked, "Learn", currentRoute, navController)
-        NavItem("profile", R.drawable.profile_icon_unclicked, "Profile", currentRoute, navController)
+        NavItem("home", R.drawable.home_icon_unclicked, R.drawable.home_icon_clicked,"Home", currentRoute, navController)
+        NavItem("bank", R.drawable.bank_soal_icon_unclicked, R.drawable.bank_soal_icon_clicked,"Bank", currentRoute, navController)
+        NavItem("learningpage", R.drawable.learn_icon_unclicked, R.drawable.learn_icon_clicked,"Learn", currentRoute, navController)
+        NavItem("profile", R.drawable.profile_icon_unclicked, R.drawable.profile_icon_clicked,"Profile", currentRoute, navController)
     }
 }
 
 @Composable
 fun NavItem(
     id: String,
-    iconRes: Int,
+    iconRes: Int, // Unselected icon resource
+    selectedIconRes: Int, // Selected icon resource
     label: String,
     currentRoute: String,
     navController: NavHostController
 ) {
     val isSelected = currentRoute == id
-    val textColor = if (isSelected) Color(0xFF0000FF) else Color.Black
-    val iconTint = if (isSelected) Color(0xFF0000FF) else Color.Black
+    val textColor = if (isSelected) Color(0xFF1A5294) else Color.Black
+    val iconTint = if (isSelected) Color(0xFF1A5294) else Color.Black
 
     Column(
         modifier = Modifier
@@ -81,8 +82,9 @@ fun NavItem(
             .padding(vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Use the selected or unselected icon based on the state
         Icon(
-            painter = painterResource(id = iconRes),
+            painter = painterResource(id = if (isSelected) selectedIconRes else iconRes),
             contentDescription = null,
             tint = iconTint
         )

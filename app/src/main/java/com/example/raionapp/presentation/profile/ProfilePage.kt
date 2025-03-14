@@ -256,8 +256,9 @@ fun ProfilePage(
                                     .padding(start = 20.dp)
                                     .width(155.dp),
                                 color = Color.White,
-                                fontSize = 17.sp,
-                                fontWeight = FontWeight.SemiBold
+                                fontSize = 16.sp,
+                                lineHeight = 19.2.sp,
+                                fontWeight = FontWeight(500)
                             )
 
                             Icon(
@@ -293,7 +294,8 @@ fun ProfilePage(
                                     .align(Alignment.CenterVertically)
                                     .padding(start = 20.dp),
                                 color = Color.White,
-                                fontSize = 17.sp,
+                                fontSize = 16.sp,
+                                lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
 
@@ -331,7 +333,8 @@ fun ProfilePage(
                                     .padding(start = 20.dp)
                                     .width(147.dp),
                                 color = Color.White,
-                                fontSize = 17.sp,
+                                fontSize = 16.sp,
+                                lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
 
@@ -386,7 +389,8 @@ fun ProfilePage(
                                     .padding(start = 15.dp)
                                     .width(155.dp),
                                 color = Color.White,
-                                fontSize = 17.sp,
+                                lineHeight = 19.2.sp,
+                                fontSize = 16.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
 
@@ -424,7 +428,8 @@ fun ProfilePage(
                                     .padding(start = 20.dp)
                                     .width(155.dp),
                                 color = Color.White,
-                                fontSize = 17.sp,
+                                fontSize = 16.sp,
+                                lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
 
@@ -462,7 +467,8 @@ fun ProfilePage(
                                     .padding(start = 20.dp)
                                     .width(147.dp),
                                 color = Color.White,
-                                fontSize = 17.sp,
+                                fontSize = 16.sp,
+                                lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
 
@@ -500,7 +506,8 @@ fun ProfilePage(
                                     .padding(start = 20.dp)
                                     .width(147.dp),
                                 color = Color.White,
-                                fontSize = 17.sp,
+                                fontSize = 16.sp,
+                                lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
 

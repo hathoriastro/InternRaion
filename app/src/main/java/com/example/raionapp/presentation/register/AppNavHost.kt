@@ -15,6 +15,7 @@ import androidx.credentials.CredentialManager
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
+import com.example.raionapp.presentation.learningPage.learningPageHome.LearningPageHome
 import com.example.raionapp.presentation.profile.ProfilePage
 
 @Composable
@@ -44,6 +45,9 @@ fun AppNavHost(
         }
         composable("verif") {
             VerifyScreen(modifier,navController, authViewModel)
+        }
+        composable("learningpage") {
+            LearningPageHome(modifier,navController, authViewModel)
         }
         composable("profile") {
             ProfilePage(modifier,navController, authViewModel, context)
