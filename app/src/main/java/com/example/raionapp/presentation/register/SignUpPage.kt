@@ -243,7 +243,8 @@ fun SignUpScreen(
                         fontFamily = montserratFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal
-                    )
+                    ),
+                    color = Color.Black
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -289,7 +290,8 @@ fun SignUpScreen(
                         fontFamily = montserratFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal
-                    )
+                    ),
+                    color = Color.Black
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -334,7 +336,8 @@ fun SignUpScreen(
                         fontFamily = montserratFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal
-                    )
+                    ),
+                    color = Color.Black
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -379,7 +382,8 @@ fun SignUpScreen(
                         fontFamily = montserratFont,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal
-                    )
+                    ),
+                    color = Color.Black
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))

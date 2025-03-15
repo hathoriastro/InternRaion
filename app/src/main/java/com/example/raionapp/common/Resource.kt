@@ -5,6 +5,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
+import androidx.compose.ui.unit.em
 
 sealed class Resource<T>(val data: T? = null, val message: String? = null)
     class Success<T>(data: T) : Resource<T>(data)
@@ -19,6 +20,6 @@ val montserratFont = FontFamily(
             providerPackage = "com.google.android.gms",
             certificates = emptyList()
         ),
-        weight = FontWeight.Normal
+        weight = FontWeight.Normal,
     )
     )
