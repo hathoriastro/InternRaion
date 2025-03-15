@@ -76,6 +76,29 @@ fun HomePageScreen(
                 authViewModel = authViewModel,
             )
             Column(
+                modifier = Modifier
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
+                    )
+                    .height(640.dp)
+                    .align(Alignment.BottomCenter)
+                    .zIndex(2f)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                thread.forEach { (threadId, threadData) ->
+                    ContentScreen(
+                        fullname = threadData.fullname,
+                        username = threadData.username,
+                        profilePicture = threadData.authorProfilePicture,
+                        text = threadData.threadText,
+                        numberOfComment = threadData.numberOfComment,
+                        numberOfLike = threadData.numberOfLike,
+                        coroutineScope = coroutineScope,
+                        threadId = threadId
+                    )
+                }
                 Modifier.fillMaxSize()
             ) {
                 Spacer(modifier = Modifier.height(150.dp))
@@ -110,7 +133,6 @@ fun HomePageScreen(
             }
         }
     }
-
 }
 
 @Preview

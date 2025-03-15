@@ -19,6 +19,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,9 +34,14 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.Firestore.ThreadCollection
 import com.example.raionapp.R
 import kotlinx.coroutines.CoroutineScope
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.launch
 
 @Composable
-fun Thread(
+fun ContentScreen(
+    threadId: String,
     fullname: String,
     username: String,
     profilePicture: String?,
@@ -46,6 +53,10 @@ fun Thread(
 ) {
     val thread = threadDataSync()
     val threadCollection = ThreadCollection()
+
+//    Perihal like
+    var isLiked by remember { mutableStateOf(false) }
+    var likeCount by remember { mutableStateOf(numberOfLike) }
 
     Box(modifier = Modifier
         .wrapContentHeight()
@@ -158,9 +169,17 @@ fun Thread(
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
                         .clickable {
-//                            coroutineScope?.launch {
-//                                threadCollection.updateLikeAndCommentThread()
-//                            }
+                            coroutineScope?.launch {
+                                if (isLiked == false) {
+                                    likeCount++
+                                } else {
+                                    likeCount--
+                                }
+                                isLiked = !isLiked
+
+                                val updateThread = mapOf("numberOfLike" to likeCount)
+                                threadCollection.updateThreadFirestore(threadId, updateThread)
+                            }
                         },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
@@ -231,13 +250,14 @@ fun Thread(
 fun ContentScreenPreview(
     modifier: Modifier = Modifier
 ) {
-   Thread(
+   ContentScreen(
        fullname = "Lorem",
        username = "Ipsum",
        profilePicture = null,
        text = "Ini hanyalah preview",
        numberOfComment = 0,
        numberOfLike = 0,
-       coroutineScope = null
+       coroutineScope = null,
+       threadId = ""
    )
 }
