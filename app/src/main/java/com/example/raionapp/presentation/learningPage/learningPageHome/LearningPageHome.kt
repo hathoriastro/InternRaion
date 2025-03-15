@@ -1,6 +1,5 @@
 package com.example.raionapp.presentation.learningPage.learningPageHome
 
-import com.example.raionapp.presentation.homePage.Thread
 import com.example.raionapp.presentation.homePage.NavBar
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import androidx.compose.foundation.background

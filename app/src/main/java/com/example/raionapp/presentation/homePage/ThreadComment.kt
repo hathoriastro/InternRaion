@@ -231,7 +231,7 @@ fun ThreadComment(
 fun ThreadCommentPreview(
     modifier: Modifier = Modifier
 ) {
-    Thread(
+    ThreadComment(
         fullname = "Lorem",
         username = "Ipsum",
         profilePicture = null,
