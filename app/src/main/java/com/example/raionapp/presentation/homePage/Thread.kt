@@ -9,13 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -35,7 +34,7 @@ import com.example.raionapp.R
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun ContentScreen(
+fun Thread(
     fullname: String,
     username: String,
     profilePicture: String?,
@@ -49,7 +48,7 @@ fun ContentScreen(
     val threadCollection = ThreadCollection()
 
     Box(modifier = Modifier
-        .height(400.dp)
+        .wrapContentHeight()
         .fillMaxWidth()
     ) {
         Column(
@@ -104,13 +103,13 @@ fun ContentScreen(
             Text(
                 text = text,
                 modifier = Modifier
-                    .padding(top = 10.dp)
+                    .padding(top = 10.dp, start = 3.dp)
                     .fillMaxWidth(),
                 fontSize = 18.sp,
                 color = Color.Black
             )
 
-            Card(
+            /*Card(
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .height(200.dp)
@@ -118,9 +117,11 @@ fun ContentScreen(
                     .padding(vertical = 20.dp)
             ) {
 
-            }
+            }*/
 
-            Row(){
+            Row(
+                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
+            ){
                 Box(
                     modifier = Modifier
                         .size(60.dp, 30.dp)
@@ -230,7 +231,7 @@ fun ContentScreen(
 fun ContentScreenPreview(
     modifier: Modifier = Modifier
 ) {
-   ContentScreen(
+   Thread(
        fullname = "Lorem",
        username = "Ipsum",
        profilePicture = null,

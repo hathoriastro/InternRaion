@@ -57,7 +57,7 @@ fun NavBar(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         NavItem("home", R.drawable.home_icon_unclicked, R.drawable.home_icon_clicked,"Home", currentRoute, navController)
-        NavItem("bank", R.drawable.bank_soal_icon_unclicked, R.drawable.bank_soal_icon_clicked,"Bank", currentRoute, navController)
+        NavItem("bank", R.drawable.bank_soal_icon_unclicked_coba, R.drawable.bank_soal_icon_clicked,"Bank", currentRoute, navController)
         NavItem("learningpage", R.drawable.learn_icon_unclicked, R.drawable.learn_icon_clicked,"Learn", currentRoute, navController)
         NavItem("profile", R.drawable.profile_icon_unclicked, R.drawable.profile_icon_clicked,"Profile", currentRoute, navController)
     }
@@ -79,7 +79,7 @@ fun NavItem(
     Column(
         modifier = Modifier
             .clickable { navController.navigate(id) }
-            .padding(vertical = 8.dp),
+            .padding(vertical = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Use the selected or unselected icon based on the state

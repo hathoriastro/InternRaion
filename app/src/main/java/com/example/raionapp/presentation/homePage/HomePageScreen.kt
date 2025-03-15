@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -69,35 +70,43 @@ fun HomePageScreen(
             .fillMaxSize()
             .padding(paddingValues)
         ){
-            TopBarAndProfile(modifier = Modifier.zIndex(0f), authViewModel = authViewModel)
+            TopBarAndProfile(
+                modifier = modifier,
+                navController = navController,
+                authViewModel = authViewModel,
+            )
             Column(
-                modifier = Modifier
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
-                    )
-                    .height(640.dp)
-                    .align(Alignment.BottomCenter)
-                    .zIndex(2f)
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
+                Modifier.fillMaxSize()
             ) {
-                thread.forEach { (threadId, threadData) ->
-                    ContentScreen(
-                        fullname = threadData.fullname,
-                        username = threadData.username,
-                        profilePicture = threadData.authorProfilePicture,
-                        text = threadData.threadText,
-                        numberOfComment = threadData.numberOfComment,
-                        numberOfLike = threadData.numberOfLike,
-                        coroutineScope = coroutineScope
-                    )
-                }
+                Spacer(modifier = Modifier.height(150.dp))
+                Column(
+                    modifier = Modifier
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
+                        )
+                        .zIndex(2f)
+                        .fillMaxSize()
+                        .background(color = Color.White, shape = RoundedCornerShape(10.dp))
+                        .verticalScroll(rememberScrollState()),
+                ) {
+                    thread.forEach { (threadId, threadData) ->
+                        Thread(
+                            fullname = threadData.fullname,
+                            username = threadData.username,
+                            profilePicture = threadData.authorProfilePicture,
+                            text = threadData.threadText,
+                            numberOfComment = threadData.numberOfComment,
+                            numberOfLike = threadData.numberOfLike,
+                            coroutineScope = coroutineScope
+                        )
+                    }
 //                ContentScreen("Jamal", "udinpetot")
 //
 //                ContentScreen("Joko", "jokoganteng123")
 //
 //                ContentScreen("Tirta", "doktertirta")
+                }
             }
         }
     }
