@@ -86,7 +86,10 @@ fun LearningPageHome(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            TopBarAndProfile(modifier = Modifier.zIndex(0f))
+            TopBarAndProfile(
+                modifier = Modifier.zIndex(0f),
+                authViewModel = authViewModel
+            )
             Box(
                 modifier = Modifier
                     .background(

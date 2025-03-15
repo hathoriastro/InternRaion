@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.example.raionapp.Firestore.Model.ThreadDataClass
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 @Composable
 fun threadDataSync(): List<Pair<String, ThreadDataClass>>  {
@@ -17,6 +18,7 @@ fun threadDataSync(): List<Pair<String, ThreadDataClass>>  {
 
     LaunchedEffect(Unit) {
         firestore.collection("thread")
+            .orderBy("timeCreated", Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, error ->
                 if (error != null) {
                     Log.e("ThreadsList", "Error fetching threads: ${error.message}")

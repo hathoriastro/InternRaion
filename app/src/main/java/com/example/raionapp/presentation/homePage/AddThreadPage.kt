@@ -42,10 +42,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.Firestore.Model.ProfileDataClass
 import com.example.raionapp.Firestore.Model.ThreadDataClass
+import com.example.raionapp.Firestore.ProfileCollection
 import com.example.raionapp.Firestore.ThreadCollection
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.profile.profileData
+import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -57,6 +59,9 @@ fun AddThreadPage(
 ) {
     var thread by remember { mutableStateOf("") }
 
+//  Kirim Thread ke Firestore
+    val authorProfileData = profileData(authViewModel)
+    val coroutineScope = rememberCoroutineScope()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -98,9 +103,6 @@ fun AddThreadPage(
             }
             Spacer(modifier = Modifier.padding(vertical = 20.dp))
 
-//            Kirim Thread ke Firestore
-            val authorProfileData = profileData(authViewModel)
-            val coroutineScope = rememberCoroutineScope()
             Row(
                 modifier = Modifier
                     .padding(start = 10.dp)
@@ -184,6 +186,7 @@ private fun sendThread(
     threadContent: String = "",
     coroutineScope: CoroutineScope
 ) {
+    var questionCount = authorProfile?.numberOfQuestion
     coroutineScope.launch {
         val thread = ThreadDataClass(
             userId = authorProfile?.userId.orEmpty(),
@@ -194,7 +197,13 @@ private fun sendThread(
             numberOfLike = 0,
             numberOfComment = 0
         )
-        val threadId = ThreadCollection().addThreadToFirestore(thread)
+        ThreadCollection().addThreadToFirestore(thread)
+
+        val updateNumberOfQuestion = mapOf("numberOfQuestion" to (questionCount?.plus(1)))
+        ProfileCollection().updateProfileInFirestore(
+            authorProfile?.userId.toString(),
+            updateNumberOfQuestion
+        )
     }
 }
 

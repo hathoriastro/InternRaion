@@ -28,10 +28,13 @@ import kotlin.coroutines.cancellation.CancellationException
 class AuthViewModel(
     application: Application,
 ) : AndroidViewModel(application) {
+
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val profileCollection = ProfileCollection() // Firestore collection
     private val _authState = MutableLiveData<AuthState>()
     val authState : LiveData<AuthState> = _authState
+    private val _userProfile = MutableLiveData<ProfileDataClass>()
+    val userProfile: LiveData<ProfileDataClass> = _userProfile
 
     init {
         checkAuthStatus()
@@ -122,8 +125,6 @@ class AuthViewModel(
         }
     }
 
-    private val _userProfile = MutableLiveData<ProfileDataClass>()
-    val userProfile: LiveData<ProfileDataClass> = _userProfile
 
     private fun loadUserProfile() {
         val currentUser = auth.currentUser
@@ -204,9 +205,11 @@ class AuthViewModel(
             )
             .build()
 
-        return CredentialManager.create(activityContext).getCredential(
-            request = request, context = activityContext
-        )
+        return CredentialManager.create(activityContext)
+            .getCredential(
+                request = request,
+                context = activityContext
+            )
     }
 
     private fun saveUserProfileFromGoogle() {
@@ -214,25 +217,28 @@ class AuthViewModel(
         if (currentUser != null) {
             viewModelScope.launch {
                 try {
+                    if (profileCollection.checkProfileExists(currentUser.uid)) {
+                        loadUserProfile()
+                    } else {
 //                    val existingProfile = profileCollection.getProfileFromFirestore(currentUser.uid)
-
-                    val role = "student"
+                        val role = "student"
 //                    if (existingProfile != null && existingProfile.role == "mentor") {
 //                        role = "trese"
 //                    }
 //                    println(role)
-                    val profile = ProfileDataClass(
-                        userId = currentUser.uid,
-                        username = currentUser.displayName ?: "",
-                        fullname = currentUser.displayName ?: "",
-                        email = currentUser.email ?: "",
-                        numberOfAnswer = 0,
-                        numberOfQuestion = 0,
-                        profilePicture = currentUser.photoUrl?.toString(),
-                        role = role
-                    )
-                    profileCollection.addProfileToFirestore(profile)
-                    Log.d("AuthViewModel", "Profile saved: ${profile.userId}")
+                        val profile = ProfileDataClass(
+                            userId = currentUser.uid,
+                            username = currentUser.displayName ?: "",
+                            fullname = currentUser.displayName ?: "",
+                            email = currentUser.email ?: "",
+                            numberOfAnswer = 0,
+                            numberOfQuestion = 0,
+                            profilePicture = currentUser.photoUrl?.toString(),
+                            role = role
+                        )
+                        profileCollection.addProfileToFirestore(profile)
+                        Log.d("AuthViewModel", "Profile saved: ${profile.userId}")
+                    }
                 } catch (e: Exception) {
                     Log.e("AuthViewModel", "Error saving user profile: ${e.message}")
                 }

@@ -90,7 +90,8 @@ fun HomePageScreen(
                         text = threadData.threadText,
                         numberOfComment = threadData.numberOfComment,
                         numberOfLike = threadData.numberOfLike,
-                        coroutineScope = coroutineScope
+                        coroutineScope = coroutineScope,
+                        threadId = threadId
                     )
                 }
 //                ContentScreen("Jamal", "udinpetot")
@@ -101,7 +102,6 @@ fun HomePageScreen(
             }
         }
     }
-
 }
 
 @Preview

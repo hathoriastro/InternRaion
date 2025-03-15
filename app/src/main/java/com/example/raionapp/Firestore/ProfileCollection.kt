@@ -35,7 +35,7 @@ class ProfileCollection {
 //    Untuk melakukan Update Profile di Firestore
     suspend fun updateProfileInFirestore(
         userId: String,
-        updateData: Map<String, Any>
+        updateData: Map<String, Any?>
     ) {
         db.collection("profile")
             .document(userId)
@@ -57,10 +57,19 @@ class ProfileCollection {
             }.addOnFailureListener { e ->
                 Log.w("ProfileCollection", "Gagal mengambil dokumen", e)
             }.await()
-        return if (documentSnapshot.exists()) {
-            documentSnapshot.toObject(ProfileDataClass::class.java)
-        } else {
-            null
+        return documentSnapshot.toObject(ProfileDataClass::class.java)
+    }
+
+    suspend fun checkProfileExists(userId: String): Boolean {
+        return try {
+            val documentSnapshot = db.collection("profile")
+                .document(userId)
+                .get()
+                .await()
+            documentSnapshot.exists()
+        } catch (e: Exception) {
+            Log.e("Firestore", "Error checking document: ", e)
+            false
         }
     }
 }

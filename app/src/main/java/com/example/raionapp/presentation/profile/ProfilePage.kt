@@ -72,6 +72,8 @@ fun ProfilePage(
             else -> Unit
         }
     }
+    //    Fixed Backend
+    val userProfileData = profileData(authViewModel = authViewModel)
 
 
 //    Frontend
@@ -131,8 +133,6 @@ fun ProfilePage(
 //                        .fillMaxWidth()
 //                )
 
-            //    Fixed Backend
-                val userProfileData = profileData(authViewModel = authViewModel)
                 Image(
                     painter = rememberAsyncImagePainter(
                         model = userProfileData.value?.profilePicture,

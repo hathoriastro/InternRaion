@@ -3,6 +3,7 @@ package com.example.raionapp.Firestore
 import android.util.Log
 import com.example.raionapp.Firestore.Model.ThreadDataClass
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
@@ -17,7 +18,8 @@ class ThreadCollection {
                 "threadText" to thread.threadText,
                 "authorProfilePicture" to thread.authorProfilePicture,
                 "numberOfLike" to thread.numberOfLike,
-                "numberOfComment" to thread.numberOfComment
+                "numberOfComment" to thread.numberOfComment,
+                "timeCreated" to FieldValue.serverTimestamp()
             )
     //        Membuat document terlebih dahulu, lalu mengambil id nya untuk dijadikan threadId
             val documentId = db.collection("thread").add(threadHashMap).await()
@@ -32,7 +34,7 @@ class ThreadCollection {
                 }.await()
     }
 
-    suspend fun updateLikeAndCommentThread(
+    suspend fun updateThreadFirestore(
         threadId: String,
         updateData: Map<String, Any>
     ) {
