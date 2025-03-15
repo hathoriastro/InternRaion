@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
@@ -29,14 +29,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
+import com.example.raionapp.Firestore.ThreadCollection
 import com.example.raionapp.R
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
-fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifier) {
-    val commentcount = 0
-    val likecount = 0
+fun ContentScreen(
+    fullname: String,
+    username: String,
+    profilePicture: String?,
+    text: String,
+    numberOfComment: Int,
+    numberOfLike: Int,
+    modifier: Modifier = Modifier,
+    coroutineScope: CoroutineScope?
+) {
+    val thread = threadDataSync()
+    val threadCollection = ThreadCollection()
+
     Box(modifier = Modifier
         .height(400.dp)
         .fillMaxWidth()
@@ -51,11 +62,24 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
             Row(
                 modifier = Modifier
             ){
-                Icon(
-                    painter = painterResource(id = R.drawable.heading_small_circle),
-                    contentDescription = null,
-                    modifier = Modifier
+//                Icon(
+//                    painter = painterResource(id = R.drawable.heading_small_circle),
+//                    contentDescription = null,
+//                    modifier = Modifier
+//                        .size(50.dp)
+//                )
+
+//                User Profile Picture
+                Image(
+                    painter = rememberAsyncImagePainter(
+                        model = profilePicture,
+                        placeholder = painterResource(R.drawable.heading_small_circle),
+                        error = painterResource(R.drawable.heading_small_circle)
+                    ),
+                    contentDescription = "Foto Profil Comment",
+                    modifier = modifier
                         .size(50.dp)
+                        .clip(CircleShape)
                 )
 
                 Column(
@@ -63,14 +87,14 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
                         .padding(10.dp, 0.dp)
                 ) {
                     Text(
-                        text = UserName,
+                        text = fullname,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
 
                     Text(
-                        text = "@" + UserTag,
+                        text = "@" + username,
                         color = Color(0xFFA7A7A7)
                     )
                 }
@@ -78,7 +102,7 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
             }
 
             Text(
-                "Ini pertanyaan",
+                text = text,
                 modifier = Modifier
                     .padding(top = 10.dp)
                     .fillMaxWidth(),
@@ -102,11 +126,13 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
                         .size(60.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
-                        .clickable { /* Handle Click Here */ },
+                        .clickable {
+
+                        },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
                     Text(
-                        text = commentcount.toString(),
+                        text = numberOfComment.toString(),
                         fontSize = 12.sp,
                         color = Color.Black, // Text color for contrast
                         modifier = Modifier.padding(end = 10.dp) // Adjust padding if needed
@@ -130,11 +156,15 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
                         .size(80.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
-                        .clickable { /* Handle Click Here */ },
+                        .clickable {
+//                            coroutineScope?.launch {
+//                                threadCollection.updateLikeAndCommentThread()
+//                            }
+                        },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
                     Text(
-                        text = likecount.toString(),
+                        text = numberOfLike.toString(),
                         fontSize = 12.sp,
                         color = Color.Black, // Text color for contrast
                         modifier = Modifier.padding(end = 10.dp) // Adjust padding if needed
@@ -193,4 +223,20 @@ fun ContentScreen(UserName: String, UserTag: String, modifier: Modifier = Modifi
         }
     }
     Divider()
+}
+
+@Preview
+@Composable
+fun ContentScreenPreview(
+    modifier: Modifier = Modifier
+) {
+   ContentScreen(
+       fullname = "Lorem",
+       username = "Ipsum",
+       profilePicture = null,
+       text = "Ini hanyalah preview",
+       numberOfComment = 0,
+       numberOfLike = 0,
+       coroutineScope = null
+   )
 }

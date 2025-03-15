@@ -1,8 +1,10 @@
 package com.example.raionapp.presentation.homePage
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,12 +12,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -24,14 +24,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,8 +40,14 @@ import com.example.raionapp.R
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.raionapp.Firestore.Model.ProfileDataClass
+import com.example.raionapp.Firestore.Model.ThreadDataClass
+import com.example.raionapp.Firestore.ThreadCollection
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.profile.profileData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddThreadPage(
@@ -51,6 +56,7 @@ fun AddThreadPage(
     authViewModel: AuthViewModel?
 ) {
     var thread by remember { mutableStateOf("") }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -91,11 +97,28 @@ fun AddThreadPage(
                 )
             }
             Spacer(modifier = Modifier.padding(vertical = 20.dp))
+
+//            Kirim Thread ke Firestore
+            val authorProfileData = profileData(authViewModel)
+            val coroutineScope = rememberCoroutineScope()
             Row(
                 modifier = Modifier
                     .padding(start = 10.dp)
                     .background(color = Color(0xFFFDBA21), shape = RoundedCornerShape(size = 16.dp))
                     .size(height = 32.dp, width = 111.dp)
+                    .clickable {
+                        try {
+                            sendThread(
+                                authorProfile = authorProfileData.value,
+                                threadContent = thread,
+                                coroutineScope = coroutineScope
+                            )
+                            navController.navigate("home")
+                        } catch (e: Exception) {
+                            Log.e("AddThreadPage", "Error: ${e.message}")
+                        }
+                    },
+                horizontalArrangement = Arrangement.Center
             ){
                 Icon(
                     painter = painterResource(id = R.drawable.plus_subject_icon),
@@ -116,7 +139,7 @@ fun AddThreadPage(
                     ),
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
-                        .padding(start = 7.dp),
+                        .padding(start = 5.dp),
                 )
 
             }
@@ -154,7 +177,25 @@ fun AddThreadPage(
             )
         }
     }
+}
 
+private fun sendThread(
+    authorProfile: ProfileDataClass?,
+    threadContent: String = "",
+    coroutineScope: CoroutineScope
+) {
+    coroutineScope.launch {
+        val thread = ThreadDataClass(
+            userId = authorProfile?.userId.orEmpty(),
+            fullname = authorProfile?.fullname.orEmpty(),
+            username = authorProfile?.username.orEmpty(),
+            threadText = threadContent,
+            authorProfilePicture = authorProfile?.profilePicture.orEmpty(),
+            numberOfLike = 0,
+            numberOfComment = 0
+        )
+        val threadId = ThreadCollection().addThreadToFirestore(thread)
+    }
 }
 
 @Preview

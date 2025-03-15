@@ -30,6 +30,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,6 +39,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +52,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.Firestore.Model.ProfileDataClass
 import com.example.raionapp.Firestore.ProfileCollection
 import com.example.raionapp.R
+import com.example.raionapp.presentation.authentication.AuthState
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.NavBar
 
@@ -61,23 +64,15 @@ fun ProfilePage(
     context: Context
 ){
 
-//    Backend
-//    val db = Firebase.firestore
-//    val collectionId = authViewModel?.auth?.currentUser?.uid
-//    var profile: ProfileDataClass? = null
+    // Backend AuthViewModel, kembali ke halaman login jika sign out
+    val authState = authViewModel?.authState?.observeAsState()
+    LaunchedEffect(authState?.value) {
+        when(authState?.value) {
+            is AuthState.Unauthenticated -> navController.navigate("register")
+            else -> Unit
+        }
+    }
 
-//    db.collection("profile")
-//        .document(collectionId.toString())
-//        .get()
-//        .addOnSuccessListener { document ->
-//            profile = document.toObject(ProfileDataClass::class.java)
-//        }.addOnFailureListener { e ->
-//            Log.w("ProfileCollection", "Gagal mengambil dokumen", e)
-//
-//        }
-
-//    Fixed Backend
-    val userProfileData = profileData(authViewModel = authViewModel)
 
 //    Frontend
     Scaffold (
@@ -136,7 +131,8 @@ fun ProfilePage(
 //                        .fillMaxWidth()
 //                )
 
-//                Profile Picture
+            //    Fixed Backend
+                val userProfileData = profileData(authViewModel = authViewModel)
                 Image(
                     painter = rememberAsyncImagePainter(
                         model = userProfileData.value?.profilePicture,
@@ -482,7 +478,9 @@ fun ProfilePage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
-                                .clickable {  }, //Ini bisa di klik
+                                .clickable {
+                                    authViewModel?.signOut(context)
+                                }, //Ini bisa di klik
                         ){
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(

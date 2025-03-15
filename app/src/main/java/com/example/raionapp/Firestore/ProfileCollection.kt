@@ -11,30 +11,25 @@ class ProfileCollection {
     val db = Firebase.firestore
 
     suspend fun addProfileToFirestore(profile: ProfileDataClass){
-            val profileHashMap = hashMapOf(
-                "userId" to profile.userId,
-                "username" to profile.username,
-                "fullname" to profile.fullname,
-                "email" to profile.email,
-                "numberOfQuestion" to profile.numberOfQuestion,
-                "numberOfAnswer" to profile.numberOfAnswer,
-                "profilePicture" to profile.profilePicture,
-                "role" to profile.role
-            )
+        val profileHashMap = hashMapOf(
+            "userId" to profile.userId,
+            "username" to profile.username,
+            "fullname" to profile.fullname,
+            "email" to profile.email,
+            "numberOfQuestion" to profile.numberOfQuestion,
+            "numberOfAnswer" to profile.numberOfAnswer,
+            "profilePicture" to profile.profilePicture,
+            "role" to profile.role
+        )
 
-        if (!profile.userId.isNullOrEmpty()) {
-            db.collection("profile")
-                .document(profile.userId)
-                .set(profileHashMap)
-                .addOnSuccessListener { document ->
-                    Log.d("ProfileCollection", "Dokumen berhasil disimpan dengan ID: ${profile.userId}")
-                }.addOnFailureListener { e ->
-                    Log.w("ProfileCollection", "Error adding document", e)
-                }.await()
-        }
-        else {
-            Log.d("ProfileCollection", "User ID tidak boleh kosong")
-        }
+        db.collection("profile")
+            .document(profile.userId)
+            .set(profileHashMap)
+            .addOnSuccessListener { document ->
+                Log.d("ProfileCollection", "Dokumen berhasil disimpan dengan ID: ${profile.userId}")
+            }.addOnFailureListener { e ->
+                Log.w("ProfileCollection", "Error adding document", e)
+            }.await()
     }
 
 //    Untuk melakukan Update Profile di Firestore

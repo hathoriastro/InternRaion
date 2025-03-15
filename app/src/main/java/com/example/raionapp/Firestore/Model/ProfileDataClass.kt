@@ -10,7 +10,7 @@ data class ProfileDataClass(
     val profilePicture: String? = null,
     val role: String? = null
 ) {
-    // Constructor kosong untuk keperluan deserialisasi Firestore
+    // Untuk deserialisasi Firestore
     constructor() : this("", null, null, "", 0, 0, null, null)
 }
 

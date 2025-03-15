@@ -97,20 +97,20 @@ class AuthViewModel(
                 try {
                     val existingProfile = profileCollection.getProfileFromFirestore(currentUser.uid)
 
-                    val role = "student"
+                    var role = "student"
 
                     if (existingProfile != null && existingProfile.role == "mentor") {
-                        val role = "mentor"
+                        role = "mentor"
                     }
 
                     val profile = ProfileDataClass(
                         userId = currentUser.uid,
-                        username = currentUser.displayName ?: "",
-                        fullname = currentUser.displayName ?: "",
+                        username = username,
+                        fullname = fullName,
                         email = currentUser.email ?: "",
                         numberOfAnswer = 0,
                         numberOfQuestion = 0,
-                        profilePicture = currentUser.photoUrl?.toString(),
+                        profilePicture = null,
                         role = role
                     )
                     profileCollection.addProfileToFirestore(profile)
