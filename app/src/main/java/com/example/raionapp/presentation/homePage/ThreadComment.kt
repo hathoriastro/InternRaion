@@ -89,7 +89,7 @@ fun ThreadComment(
                             threadId = threadId,
                         )
                     }*/
-                    ContentScreen(
+                    Thread(
                         "Demo",
                         "Jamal",
                         "udinpetot",
@@ -105,7 +105,7 @@ fun ThreadComment(
                         "Jamal",
                         "udinpetot",
                         "Demo",
-                        "Thread Demo",
+                        "Comment Demo",
                         0,
                         0,
                         coroutineScope = coroutineScope
@@ -116,7 +116,7 @@ fun ThreadComment(
                         "Jamal",
                         "udinpetot",
                         "Demo",
-                        "Thread Demo",
+                        "Comment Demo",
                         0,
                         0,
                         coroutineScope = coroutineScope
