@@ -14,6 +14,7 @@ import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.threads.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
+import com.example.raionapp.presentation.homePage.ThreadComment
 import com.example.raionapp.presentation.learningPage.learningPageHome.LearningPageHome
 import com.example.raionapp.presentation.profile.ProfilePage
 
@@ -27,7 +28,7 @@ fun AppNavHost(
 
     NavHost(
         navController = navController, // ✅ Pass it here
-        startDestination = "register",
+        startDestination = "comment",
         modifier = Modifier.fillMaxSize()
     ) {
         composable("register") {
@@ -53,6 +54,9 @@ fun AppNavHost(
         }
         composable("addthread") {
             AddThreadPage(modifier,navController, authViewModel)
+        }
+        composable("comment") {
+            ThreadComment(modifier,navController, authViewModel, context)
         }
     }
 }
