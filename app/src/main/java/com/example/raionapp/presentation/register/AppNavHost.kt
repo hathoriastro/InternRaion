@@ -14,7 +14,9 @@ import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.threads.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
-import com.example.raionapp.presentation.homePage.ThreadComment
+import com.example.raionapp.presentation.homePage.comments.ThreadComment
+import com.example.raionapp.presentation.homePage.comments.ThreadCommentAdd
+import com.example.raionapp.presentation.homePage.threads.ThreadContent
 import com.example.raionapp.presentation.learningPage.learningPageHome.LearningPageHome
 import com.example.raionapp.presentation.profile.ProfilePage
 
@@ -28,7 +30,7 @@ fun AppNavHost(
 
     NavHost(
         navController = navController, // ✅ Pass it here
-        startDestination = "comment",
+        startDestination = "register",
         modifier = Modifier.fillMaxSize()
     ) {
         composable("register") {
@@ -55,8 +57,16 @@ fun AppNavHost(
         composable("addthread") {
             AddThreadPage(modifier,navController, authViewModel)
         }
-        composable("comment") {
-            ThreadComment(modifier,navController, authViewModel, context)
+        composable("addcomment/{threadId}")  { backStackEntry ->
+            // Ambil threadId dari argument rute
+            val threadId = backStackEntry.arguments?.getString("threadId") ?: ""
+            ThreadCommentAdd(modifier, navController, authViewModel, threadId)
         }
+        composable("comment/{threadId}") { backStackEntry ->
+            // Ambil threadId dari argument rute
+            val threadId = backStackEntry.arguments?.getString("threadId") ?: ""
+            ThreadComment(modifier, navController, authViewModel, threadId)
+        }
+
     }
 }

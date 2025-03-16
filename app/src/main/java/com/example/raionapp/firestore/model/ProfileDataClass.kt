@@ -9,8 +9,6 @@ data class ProfileDataClass(
     val numberOfAnswer: Int = 0,
     val profilePicture: String? = null,
     val role: String? = null
-) {
-    // Untuk deserialisasi Firestore
-    constructor() : this("", null, null, "", 0, 0, null, null)
-}
+)
+
 

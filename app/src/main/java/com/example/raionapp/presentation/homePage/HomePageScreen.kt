@@ -98,7 +98,8 @@ fun HomePageScreen(
                             text = threadData.threadText,
                             numberOfComment = threadData.numberOfComment,
                             numberOfLike = threadData.numberOfLike,
-                            threadId = threadId
+                            threadId = threadId,
+                            navController = navController
                         )
                     }
 //                ContentScreen("Jamal", "udinpetot")

@@ -3,6 +3,7 @@ package com.example.raionapp.firestore
 import android.util.Log
 import com.example.raionapp.firestore.model.CommentDataClass
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
@@ -17,7 +18,7 @@ class CommentCollection {
             "text" to comment.text,
             "numberOfLike" to comment.numberOfLike,
             "profilePicture" to comment.profilePicture,
-            "timeCreated" to comment.timeCreated
+            "timeCreated" to FieldValue.serverTimestamp()
         )
         val docomentRef = db.collection("thread")
             .document(threadId)
