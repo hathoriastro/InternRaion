@@ -1,243 +1,150 @@
 package com.example.raionapp.presentation.homePage
 
-import androidx.compose.foundation.Image
+import android.content.Context
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Divider
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
-import com.example.raionapp.Firestore.ThreadCollection
+import androidx.compose.ui.zIndex
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
-import kotlinx.coroutines.CoroutineScope
+import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
 fun ThreadComment(
-    fullname: String,
-    username: String,
-    profilePicture: String?,
-    text: String,
-    numberOfComment: Int,
-    numberOfLike: Int,
     modifier: Modifier = Modifier,
-    coroutineScope: CoroutineScope?
+    navController: NavHostController,
+    authViewModel: AuthViewModel?,
+    context: Context
 ) {
     val thread = threadDataSync()
-    val threadCollection = ThreadCollection()
+    val coroutineScope = rememberCoroutineScope()
 
-    Box(modifier = Modifier
-        .wrapContentHeight()
-        .fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .width(300.dp)
-                .fillMaxHeight()
-                .padding(top = 30.dp)
+    Scaffold(
+        bottomBar = {
+            Surface(
+                color = Color.White,
+                shadowElevation = 8.dp
+            ) {
+                NavBar(navController = navController)
+            }
+        }
+    ){ paddingValues ->
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
         ){
-            Row(
-                modifier = Modifier
-            ){
-//                Icon(
-//                    painter = painterResource(id = R.drawable.heading_small_circle),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .size(50.dp)
-//                )
-
-//                User Profile Picture
-                Image(
-                    painter = rememberAsyncImagePainter(
-                        model = profilePicture,
-                        placeholder = painterResource(R.drawable.heading_small_circle),
-                        error = painterResource(R.drawable.heading_small_circle)
-                    ),
-                    contentDescription = "Foto Profil Comment",
-                    modifier = modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                )
-
+            TopBarAndProfile(
+                modifier = modifier,
+                navController = navController,
+                authViewModel = authViewModel,
+            )
+            Column(
+                Modifier.fillMaxSize()
+            ) {
+                Spacer(modifier = Modifier.height(150.dp))
                 Column(
                     modifier = Modifier
-                        .padding(10.dp, 0.dp)
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
+                        )
+                        .zIndex(2f)
+                        .fillMaxSize()
+                        .background(color = Color.White, shape = RoundedCornerShape(10.dp))
+                        .verticalScroll(rememberScrollState()),
                 ) {
-                    Text(
-                        text = fullname,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                    /*thread.forEach { (threadId, threadData) ->
+                        ContentScreen(
+                            fullname = threadData.fullname,
+                            username = threadData.username,
+                            profilePicture = threadData.authorProfilePicture,
+                            text = threadData.threadText,
+                            numberOfComment = threadData.numberOfComment,
+                            numberOfLike = threadData.numberOfLike,
+                            coroutineScope = coroutineScope,
+                            threadId = threadId,
+                        )
+                    }*/
+                    ContentScreen(
+                        "Demo",
+                        "Jamal",
+                        "udinpetot",
+                        "Demo",
+                        "Thread Demo",
+                        0,
+                        0,
+                        coroutineScope = coroutineScope
                     )
 
-                    Text(
-                        text = "@" + username,
-                        color = Color(0xFFA7A7A7)
-                    )
-                }
-
-            }
-
-            Text(
-                text = text,
-                modifier = Modifier
-                    .padding(top = 10.dp, start = 3.dp)
-                    .fillMaxWidth(),
-                fontSize = 18.sp,
-                color = Color.Black
-            )
-
-            /*Card(
-                shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
-                    .height(200.dp)
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp)
-            ) {
-
-            }*/
-
-            Row(
-                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
-            ){
-                Box(
-                    modifier = Modifier
-                        .size(60.dp, 30.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.Transparent) // Background color to match button
-                        .clickable {
-
-                        },
-                    contentAlignment = Alignment.CenterEnd // Align text to the right
-                ) {
-                    Text(
-                        text = numberOfComment.toString(),
-                        fontSize = 12.sp,
-                        color = Color.Black, // Text color for contrast
-                        modifier = Modifier.padding(end = 10.dp) // Adjust padding if needed
+                    ThreadCommentSub(
+                        "Demo",
+                        "Jamal",
+                        "udinpetot",
+                        "Demo",
+                        "Thread Demo",
+                        0,
+                        0,
+                        coroutineScope = coroutineScope
                     )
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.comment_icon),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 10.dp),
-                        tint = Color.Black
-
-                    )
-                }
-
-                Spacer(modifier = Modifier.padding(5.dp))
-
-                Box(
-                    modifier = Modifier
-                        .size(80.dp, 30.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.Transparent) // Background color to match button
-                        .clickable {
-//                            coroutineScope?.launch {
-//                                threadCollection.updateLikeAndCommentThread()
-//                            }
-                        },
-                    contentAlignment = Alignment.CenterEnd // Align text to the right
-                ) {
-                    Text(
-                        text = numberOfLike.toString(),
-                        fontSize = 12.sp,
-                        color = Color.Black, // Text color for contrast
-                        modifier = Modifier.padding(end = 10.dp) // Adjust padding if needed
+                    ThreadCommentSub(
+                        "Demo",
+                        "Jamal",
+                        "udinpetot",
+                        "Demo",
+                        "Thread Demo",
+                        0,
+                        0,
+                        coroutineScope = coroutineScope
                     )
 
-                    Icon(
-                        painter = painterResource(id = R.drawable.heart_icon),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 10.dp),
-                        tint = Color.Black
-                    )
-                }
 
-                Spacer(modifier = Modifier.padding(5.dp))
-
-                Box(
-                    modifier = Modifier
-                        .size(34.dp, 30.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.Transparent) // Background color to match button
-                        .clickable { /* Handle Click Here */ },
-                    contentAlignment = Alignment.CenterEnd // Align text to the right
-                ) {
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.bookmark_icon),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.Center),
-                        tint = Color.Black
-                    )
-
-                }
-
-                Spacer(modifier = Modifier.padding(5.dp))
-
-                Box(
-                    modifier = Modifier
-                        .size(34.dp, 30.dp)
-                        .clip(RoundedCornerShape(20.dp))
-                        .background(Color.Transparent) // Background color to match button
-                        .clickable { /* Handle Click Here */ },
-                    contentAlignment = Alignment.CenterEnd // Align text to the right
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.share_icon),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .align(Alignment.Center),
-                        tint = Color.Black
-                    )
+//
+//                ContentScreen("Joko", "jokoganteng123")
+//
+//                ContentScreen("Tirta", "doktertirta")
                 }
             }
         }
     }
-    Divider()
 }
 
 @Preview
 @Composable
 fun ThreadCommentPreview(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    authViewModel: AuthViewModel? = null,
+    context: Context
 ) {
-    Thread(
-        fullname = "Lorem",
-        username = "Ipsum",
-        profilePicture = null,
-        text = "Ini hanyalah preview",
-        numberOfComment = 0,
-        numberOfLike = 0,
-        coroutineScope = null
+    ThreadComment(
+        modifier = modifier,
+        navController = navController,
+        authViewModel = authViewModel,
+        context = context
     )
 }
