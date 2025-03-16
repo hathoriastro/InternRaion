@@ -13,7 +13,6 @@ import com.google.firebase.ktx.Firebase
 class CommentViewModel : ViewModel() {
     private val db: FirebaseFirestore = Firebase.firestore
 
-    // Menggunakan Triple<String, String, CommentDataClass>
     private val _commentsState = MutableLiveData<List<Triple<String, String, CommentDataClass>>>()
     val commentState: LiveData<List<Triple<String, String, CommentDataClass>>> = _commentsState
 
@@ -30,10 +29,11 @@ class CommentViewModel : ViewModel() {
                 }
                 _commentsState.value = querySnapshot?.documents?.mapNotNull { document ->
                     document.toObject(CommentDataClass::class.java)?.let { comment ->
-                        // Membuat Triple: (document.id, comment.commentId, comment)
                         Triple(document.id, comment.commentId, comment)
                     }
                 } ?: emptyList()
             }
     }
+
+
 }

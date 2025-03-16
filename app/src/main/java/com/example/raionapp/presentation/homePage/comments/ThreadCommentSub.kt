@@ -150,19 +150,19 @@ fun ThreadCommentSub(
                             .background(Color.Transparent) // Background color to match button
                             .clickable {
                                 coroutineScope.launch {
-                                    if (isLiked == false) {
-                                        likeCount++
-                                    } else {
-                                        likeCount--
-                                    }
-                                    isLiked = !isLiked
-
-                                    val updateThread = mapOf("numberOfLike" to likeCount)
-                                    commentCollection.updateComment(
-                                        threadId = threadId,
-                                        commentId = commentId,
-                                        updateData = updateThread
-                                    )
+//                                    if (isLiked == false) {
+//                                        likeCount++
+//                                    } else {
+//                                        likeCount--
+//                                    }
+//                                    isLiked = !isLiked
+//
+//                                    val updateThread = mapOf("numberOfLike" to likeCount)
+//                                    commentCollection.updateComment(
+//                                        threadId = threadId,
+//                                        commentId = commentId,
+//                                        updateData = updateThread
+//                                    )
                                 }
                             },
                         contentAlignment = Alignment.CenterEnd // Align text to the right

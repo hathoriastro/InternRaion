@@ -186,7 +186,7 @@ fun ThreadCommentAdd(
 
 private fun sendComment(
     authorProfile: ProfileDataClass?,
-    commentContent: String = "",
+    commentContent: String,
     coroutineScope: CoroutineScope,
     threadId: String
 ) {
@@ -209,10 +209,8 @@ private fun sendComment(
             authorProfile?.userId.toString(),
             updateNumberOfAnswer
         )
-
         ThreadCollection().updateThreadFirestore(
-            threadId,
-            mapOf("numberOfComment" to FieldValue.increment(1))
+            threadId, (mapOf("numberOfComment" to FieldValue.increment(1)))
         )
     }
 }

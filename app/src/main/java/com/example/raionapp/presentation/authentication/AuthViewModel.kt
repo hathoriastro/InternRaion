@@ -28,9 +28,11 @@ class AuthViewModel(
 ) : AndroidViewModel(application) {
 
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val profileCollection = ProfileCollection() // Firestore collection
+    private val profileCollection = ProfileCollection()
+
     private val _authState = MutableLiveData<AuthState>()
     val authState : LiveData<AuthState> = _authState
+
     private val _userProfile = MutableLiveData<ProfileDataClass>()
     val userProfile: LiveData<ProfileDataClass> = _userProfile
 
