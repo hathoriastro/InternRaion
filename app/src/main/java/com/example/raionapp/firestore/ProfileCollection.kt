@@ -1,8 +1,8 @@
-package com.example.raionapp.Firestore
+package com.example.raionapp.firestore
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.example.raionapp.Firestore.Model.ProfileDataClass
+import com.example.raionapp.firestore.model.ProfileDataClass
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await

@@ -1,4 +1,4 @@
-package com.example.raionapp.Firestore.Model
+package com.example.raionapp.firestore.model
 
 data class ProfileDataClass(
     val userId: String = "",

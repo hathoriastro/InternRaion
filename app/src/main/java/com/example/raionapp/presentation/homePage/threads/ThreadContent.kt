@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.homePage
+package com.example.raionapp.presentation.homePage.threads
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,6 +19,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,12 +31,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.raionapp.Firestore.ThreadCollection
+import com.example.raionapp.firestore.ThreadCollection
 import com.example.raionapp.R
-import kotlinx.coroutines.CoroutineScope
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.launch
 
 @Composable
-fun ThreadComment(
+fun ThreadContent(
+    threadId: String,
     fullname: String,
     username: String,
     profilePicture: String?,
@@ -42,10 +49,14 @@ fun ThreadComment(
     numberOfComment: Int,
     numberOfLike: Int,
     modifier: Modifier = Modifier,
-    coroutineScope: CoroutineScope?
 ) {
-    val thread = threadDataSync()
+
     val threadCollection = ThreadCollection()
+    val coroutineScope = rememberCoroutineScope()
+
+//    Perihal like
+    var isLiked by remember { mutableStateOf(false) }
+    var likeCount by remember { mutableIntStateOf(numberOfLike) }
 
     Box(modifier = Modifier
         .wrapContentHeight()
@@ -93,7 +104,7 @@ fun ThreadComment(
                     )
 
                     Text(
-                        text = "@" + username,
+                        text = "@$username",
                         color = Color(0xFFA7A7A7)
                     )
                 }
@@ -158,9 +169,17 @@ fun ThreadComment(
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
                         .clickable {
-//                            coroutineScope?.launch {
-//                                threadCollection.updateLikeAndCommentThread()
-//                            }
+                            coroutineScope.launch {
+                                if (isLiked == false) {
+                                    likeCount++
+                                } else {
+                                    likeCount--
+                                }
+                                isLiked = !isLiked
+
+                                val updateThread = mapOf("numberOfLike" to likeCount)
+                                threadCollection.updateThreadFirestore(threadId, updateThread)
+                            }
                         },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
@@ -228,16 +247,14 @@ fun ThreadComment(
 
 @Preview
 @Composable
-fun ThreadCommentPreview(
-    modifier: Modifier = Modifier
-) {
-    ThreadComment(
-        fullname = "Lorem",
-        username = "Ipsum",
-        profilePicture = null,
-        text = "Ini hanyalah preview",
-        numberOfComment = 0,
-        numberOfLike = 0,
-        coroutineScope = null
-    )
+fun ContentScreenPreview() {
+   ThreadContent(
+       fullname = "Lorem",
+       username = "Ipsum",
+       profilePicture = null,
+       text = "Ini hanyalah preview",
+       numberOfComment = 0,
+       numberOfLike = 0,
+       threadId = ""
+   )
 }

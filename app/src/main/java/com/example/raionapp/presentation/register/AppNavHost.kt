@@ -9,11 +9,10 @@ import com.example.raionapp.presentation.register.nantiAja.ForgotPasswordScreen
 import com.example.raionapp.presentation.register.LoginScreen
 import com.example.raionapp.presentation.register.SignUpScreen
 import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
-import androidx.credentials.CredentialManager
 
 // Import Backend AuthViewModel
 import com.example.raionapp.presentation.authentication.AuthViewModel
-import com.example.raionapp.presentation.homePage.AddThreadPage
+import com.example.raionapp.presentation.homePage.threads.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
 import com.example.raionapp.presentation.learningPage.learningPageHome.LearningPageHome
 import com.example.raionapp.presentation.profile.ProfilePage
@@ -38,7 +37,7 @@ fun AppNavHost(
             SignUpScreen(modifier,navController, authViewModel, context)
         }
         composable("home") {
-            HomePageScreen(modifier,navController, authViewModel, context)
+            HomePageScreen(modifier,navController, authViewModel)
         }
         composable("forgotpassword") {
             ForgotPasswordScreen(modifier,navController, authViewModel)

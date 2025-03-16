@@ -6,8 +6,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.example.raionapp.Firestore.Model.ProfileDataClass
-import com.example.raionapp.Firestore.ProfileCollection
+import com.example.raionapp.firestore.model.ProfileDataClass
+import com.example.raionapp.firestore.ProfileCollection
 import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable

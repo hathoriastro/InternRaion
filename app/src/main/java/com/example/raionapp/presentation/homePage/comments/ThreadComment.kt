@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.homePage
+package com.example.raionapp.presentation.homePage.comments
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,10 +17,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,50 +33,48 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.raionapp.Firestore.ThreadCollection
 import com.example.raionapp.R
-import kotlinx.coroutines.CoroutineScope
-import androidx.compose.runtime.getValue
+import com.example.raionapp.firestore.CommentCollection
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import kotlinx.coroutines.launch
 
 @Composable
-fun Thread(
-    threadId: String,
+fun ThreadComment(
     fullname: String,
     username: String,
     profilePicture: String?,
     text: String,
     numberOfComment: Int,
     numberOfLike: Int,
+    threadId: String,
+    commentId: String,
     modifier: Modifier = Modifier,
-    coroutineScope: CoroutineScope?
 ) {
-    val thread = threadDataSync()
-    val threadCollection = ThreadCollection()
-
-//    Perihal like
+    val commentCollection = CommentCollection()
+    val coroutineScope = rememberCoroutineScope()
     var isLiked by remember { mutableStateOf(false) }
-    var likeCount by remember { mutableStateOf(numberOfLike) }
+    var likeCount by remember { mutableIntStateOf(numberOfLike) }
 
-    Box(modifier = Modifier
+    Box(modifier = modifier
         .wrapContentHeight()
         .fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .align(Alignment.Center)
                 .width(300.dp)
                 .fillMaxHeight()
                 .padding(top = 30.dp)
         ){
             Row(
-                modifier = Modifier
+                modifier = modifier
             ){
 //                Icon(
 //                    painter = painterResource(id = R.drawable.heading_small_circle),
 //                    contentDescription = null,
-//                    modifier = Modifier
+//                    modifier = modifier
 //                        .size(50.dp)
 //                )
 
@@ -92,7 +92,7 @@ fun Thread(
                 )
 
                 Column(
-                    modifier = Modifier
+                    modifier = modifier
                         .padding(10.dp, 0.dp)
                 ) {
                     Text(
@@ -103,7 +103,7 @@ fun Thread(
                     )
 
                     Text(
-                        text = "@" + username,
+                        text = "@$username",
                         color = Color(0xFFA7A7A7)
                     )
                 }
@@ -112,7 +112,7 @@ fun Thread(
 
             Text(
                 text = text,
-                modifier = Modifier
+                modifier = modifier
                     .padding(top = 10.dp, start = 3.dp)
                     .fillMaxWidth(),
                 fontSize = 18.sp,
@@ -121,7 +121,7 @@ fun Thread(
 
             /*Card(
                 shape = RoundedCornerShape(20.dp),
-                modifier = Modifier
+                modifier = modifier
                     .height(200.dp)
                     .fillMaxWidth()
                     .padding(vertical = 20.dp)
@@ -130,10 +130,10 @@ fun Thread(
             }*/
 
             Row(
-                modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
+                modifier = modifier.padding(top = 20.dp, bottom = 20.dp)
             ){
                 Box(
-                    modifier = Modifier
+                    modifier = modifier
                         .size(60.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
@@ -146,13 +146,13 @@ fun Thread(
                         text = numberOfComment.toString(),
                         fontSize = 12.sp,
                         color = Color.Black, // Text color for contrast
-                        modifier = Modifier.padding(end = 10.dp) // Adjust padding if needed
+                        modifier = modifier.padding(end = 10.dp) // Adjust padding if needed
                     )
 
                     Icon(
                         painter = painterResource(id = R.drawable.comment_icon),
                         contentDescription = null,
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterStart)
                             .padding(start = 10.dp),
                         tint = Color.Black
@@ -160,15 +160,15 @@ fun Thread(
                     )
                 }
 
-                Spacer(modifier = Modifier.padding(5.dp))
+                Spacer(modifier = modifier.padding(5.dp))
 
                 Box(
-                    modifier = Modifier
+                    modifier = modifier
                         .size(80.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
                         .clickable {
-                            coroutineScope?.launch {
+                            coroutineScope.launch {
                                 if (isLiked == false) {
                                     likeCount++
                                 } else {
@@ -176,8 +176,12 @@ fun Thread(
                                 }
                                 isLiked = !isLiked
 
-                                val updateThread = mapOf("numberOfLike" to likeCount)
-                                threadCollection.updateThreadFirestore(threadId, updateThread)
+                                val update = mapOf("numberOfLike" to likeCount)
+                                commentCollection.updateComment(
+                                    threadId = threadId,
+                                    commentId = commentId,
+                                    updateData = update
+                                )
                             }
                         },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
@@ -186,44 +190,46 @@ fun Thread(
                         text = numberOfLike.toString(),
                         fontSize = 12.sp,
                         color = Color.Black, // Text color for contrast
-                        modifier = Modifier.padding(end = 10.dp) // Adjust padding if needed
+                        modifier = modifier.padding(end = 10.dp) // Adjust padding if needed
                     )
 
                     Icon(
                         painter = painterResource(id = R.drawable.heart_icon),
                         contentDescription = null,
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterStart)
                             .padding(start = 10.dp),
                         tint = Color.Black
                     )
                 }
 
-                Spacer(modifier = Modifier.padding(5.dp))
+                Spacer(modifier = modifier.padding(5.dp))
 
                 Box(
-                    modifier = Modifier
+                    modifier = modifier
                         .size(34.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
-                        .clickable { /* Handle Click Here */ },
+                        .clickable {
+
+                        },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
 
                     Icon(
                         painter = painterResource(id = R.drawable.bookmark_icon),
                         contentDescription = null,
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.Center),
                         tint = Color.Black
                     )
 
                 }
 
-                Spacer(modifier = Modifier.padding(5.dp))
+                Spacer(modifier = modifier.padding(5.dp))
 
                 Box(
-                    modifier = Modifier
+                    modifier = modifier
                         .size(34.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
@@ -233,7 +239,7 @@ fun Thread(
                     Icon(
                         painter = painterResource(id = R.drawable.share_icon),
                         contentDescription = null,
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.Center),
                         tint = Color.Black
                     )
@@ -244,19 +250,20 @@ fun Thread(
     Divider()
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun ContentScreenPreview(
-    modifier: Modifier = Modifier
-) {
-   Thread(
-       fullname = "Lorem",
-       username = "Ipsum",
-       profilePicture = null,
-       text = "Ini hanyalah preview",
-       numberOfComment = 0,
-       numberOfLike = 0,
-       coroutineScope = null,
-       threadId = ""
-   )
+fun ThreadCommentPreview() {
+    MaterialTheme  {
+        ThreadComment(
+            fullname = "Lorem",
+            username = "Ipsum",
+            profilePicture = null,
+            text = "Ini hanyalah preview",
+            numberOfComment = 0,
+            numberOfLike = 0,
+            threadId = "",
+            commentId = "",
+            modifier = Modifier
+        )
+    }
 }

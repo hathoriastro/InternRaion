@@ -1,7 +1,7 @@
-package com.example.raionapp.Firestore
+package com.example.raionapp.firestore
 
 import android.util.Log
-import com.example.raionapp.Firestore.Model.ThreadDataClass
+import com.example.raionapp.firestore.model.ThreadDataClass
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
@@ -25,7 +25,8 @@ class ThreadCollection {
             val documentId = db.collection("thread").add(threadHashMap).await()
             val getDocumentId = documentId.id
 
-            db.collection("thread").document(getDocumentId)
+            db.collection("thread")
+                .document(getDocumentId)
                 .update("threadId", getDocumentId)
                 .addOnCompleteListener {
                     Log.d("ThreadCollection", "Dokumen berhasil disimpan dengan ID: $getDocumentId")
