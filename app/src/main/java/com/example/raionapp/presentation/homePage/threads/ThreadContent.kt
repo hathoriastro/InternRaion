@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.homePage
+package com.example.raionapp.presentation.homePage.threads
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,20 +27,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
-import com.example.raionapp.Firestore.ThreadCollection
+import com.example.raionapp.firestore.ThreadCollection
 import com.example.raionapp.R
-import kotlinx.coroutines.CoroutineScope
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
 @Composable
-fun Thread(
+fun ThreadContent(
     threadId: String,
     fullname: String,
     username: String,
@@ -49,15 +49,15 @@ fun Thread(
     numberOfComment: Int,
     numberOfLike: Int,
     modifier: Modifier = Modifier,
-    coroutineScope: CoroutineScope?,
-    navController: NavHostController,
+    navController: NavHostController?
 ) {
-    val thread = threadDataSync()
+
     val threadCollection = ThreadCollection()
+    val coroutineScope = rememberCoroutineScope()
 
 //    Perihal like
     var isLiked by remember { mutableStateOf(false) }
-    var likeCount by remember { mutableStateOf(numberOfLike) }
+    var likeCount by remember { mutableIntStateOf(numberOfLike) }
     var isSaved by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier
@@ -106,7 +106,7 @@ fun Thread(
                     )
 
                     Text(
-                        text = "@" + username,
+                        text = "@$username",
                         color = Color(0xFFA7A7A7)
                     )
                 }
@@ -140,7 +140,9 @@ fun Thread(
                         .size(60.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
-                        .clickable {navController.navigate("comment")},
+                        .clickable {
+                            navController?.navigate("comment/$threadId")
+                        },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
                     Text(
@@ -169,7 +171,7 @@ fun Thread(
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
                         .clickable {
-                            coroutineScope?.launch {
+                            coroutineScope.launch {
                                 if (isLiked == false) {
                                     likeCount++
                                 } else {
@@ -208,17 +210,17 @@ fun Thread(
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
                         .clickable {
-                            coroutineScope?.launch {
-                                if (isSaved == false) {
-                                    //likeCount++
-                                } else {
-                                    //likeCount--
-                                }
-                                isSaved = !isSaved
-
-                                val updateThread = mapOf("numberOfLike" to likeCount)
-                                threadCollection.updateThreadFirestore(threadId, updateThread)
-                            }
+//                            coroutineScope?.launch {
+//                                if (isSaved == false) {
+//                                    //likeCount++
+//                                } else {
+//                                    //likeCount--
+//                                }
+//                                isSaved = !isSaved
+//
+//                                val updateThread = mapOf("numberOfLike" to likeCount)
+//                                threadCollection.updateThreadFirestore(threadId, updateThread)
+//                            }
                         },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {

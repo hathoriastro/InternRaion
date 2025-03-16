@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.homePage
+package com.example.raionapp.presentation.homePage.threads
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -40,14 +40,13 @@ import com.example.raionapp.R
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.Firestore.Model.ProfileDataClass
-import com.example.raionapp.Firestore.Model.ThreadDataClass
-import com.example.raionapp.Firestore.ProfileCollection
-import com.example.raionapp.Firestore.ThreadCollection
+import com.example.raionapp.firestore.model.ProfileDataClass
+import com.example.raionapp.firestore.model.ThreadDataClass
+import com.example.raionapp.firestore.ProfileCollection
+import com.example.raionapp.firestore.ThreadCollection
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.profile.profileData
-import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

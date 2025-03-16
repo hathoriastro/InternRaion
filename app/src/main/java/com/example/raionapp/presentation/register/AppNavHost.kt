@@ -12,10 +12,12 @@ import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
 
 // Import Backend AuthViewModel
 import com.example.raionapp.presentation.authentication.AuthViewModel
-import com.example.raionapp.presentation.homePage.AddThreadPage
+import com.example.raionapp.presentation.homePage.threads.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
 import com.example.raionapp.presentation.homePage.SavedAnswers
-import com.example.raionapp.presentation.homePage.ThreadComment
+import com.example.raionapp.presentation.homePage.comments.ThreadComment
+import com.example.raionapp.presentation.homePage.comments.ThreadCommentAdd
+import com.example.raionapp.presentation.homePage.threads.ThreadContent
 import com.example.raionapp.presentation.homePage.ThreadCommentAdd
 import com.example.raionapp.presentation.learningPage.learningPageHome.BankPageHome
 import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
@@ -45,7 +47,7 @@ fun AppNavHost(
             SignUpScreen(modifier,navController, authViewModel, context)
         }
         composable("home") {
-            HomePageScreen(modifier,navController, authViewModel, context)
+            HomePageScreen(modifier,navController, authViewModel)
         }
         composable("forgotpassword") {
             ForgotPasswordScreen(modifier,navController, authViewModel)
@@ -62,8 +64,15 @@ fun AppNavHost(
         composable("addthread") {
             AddThreadPage(modifier,navController, authViewModel)
         }
-        composable("comment") {
-            ThreadComment(modifier,navController, authViewModel, context)
+        composable("addcomment/{threadId}")  { backStackEntry ->
+            // Ambil threadId dari argument rute
+            val threadId = backStackEntry.arguments?.getString("threadId") ?: ""
+            ThreadCommentAdd(modifier, navController, authViewModel, threadId)
+        }
+        composable("comment/{threadId}") { backStackEntry ->
+            // Ambil threadId dari argument rute
+            val threadId = backStackEntry.arguments?.getString("threadId") ?: ""
+            ThreadComment(modifier, navController, authViewModel, threadId)
         }
         composable("bank") {
             BankPageHome(modifier,navController, authViewModel)
@@ -79,9 +88,6 @@ fun AppNavHost(
         }
         composable("aboutpage") {
             AboutPage(modifier,navController, authViewModel)
-        }
-        composable("addcomment") {
-            ThreadCommentAdd(modifier,navController, authViewModel)
         }
     }
 }

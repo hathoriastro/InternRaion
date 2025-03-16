@@ -12,15 +12,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.raionapp.Firestore.Model.ProfileDataClass
-import com.example.raionapp.Firestore.ProfileCollection
+import com.example.raionapp.firestore.model.ProfileDataClass
+import com.example.raionapp.firestore.ProfileCollection
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.firebase.auth.FirebaseAuth
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.cancellation.CancellationException
@@ -30,9 +28,11 @@ class AuthViewModel(
 ) : AndroidViewModel(application) {
 
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val profileCollection = ProfileCollection() // Firestore collection
+    private val profileCollection = ProfileCollection()
+
     private val _authState = MutableLiveData<AuthState>()
     val authState : LiveData<AuthState> = _authState
+
     private val _userProfile = MutableLiveData<ProfileDataClass>()
     val userProfile: LiveData<ProfileDataClass> = _userProfile
 

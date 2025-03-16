@@ -1,6 +1,5 @@
 package com.example.raionapp.presentation.homePage
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,27 +16,30 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.homePage.threads.ThreadContent
+import com.example.raionapp.presentation.homePage.model.ThreadViewModel
 
 @Composable
 fun HomePageScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel?,
-    context: Context
 ) {
-    val thread = threadDataSync()
-    val coroutineScope = rememberCoroutineScope()
+
+    val threadViewModel: ThreadViewModel = viewModel()
+    val thread = threadViewModel.threadsState.observeAsState()
 
     Scaffold(
         floatingActionButton = {
@@ -88,15 +90,14 @@ fun HomePageScreen(
                         .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                         .verticalScroll(rememberScrollState()),
                 ) {
-                    thread.forEach { (threadId, threadData) ->
-                        Thread(
+                    thread.value?.forEach { (threadId, threadData) ->
+                        ThreadContent(
                             fullname = threadData.fullname,
                             username = threadData.username,
                             profilePicture = threadData.authorProfilePicture,
                             text = threadData.threadText,
                             numberOfComment = threadData.numberOfComment,
                             numberOfLike = threadData.numberOfLike,
-                            coroutineScope = coroutineScope,
                             threadId = threadId,
                             navController = navController
                         )
@@ -114,16 +115,10 @@ fun HomePageScreen(
 
 @Preview
 @Composable
-fun HomePageScreenPreview(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null,
-    context: Context
-) {
+fun HomePageScreenPreview() {
     HomePageScreen(
-        modifier = modifier,
-        navController = navController,
-        authViewModel = authViewModel,
-        context = context
+        modifier = Modifier,
+        navController = rememberNavController(),
+        authViewModel = null
     )
 }
