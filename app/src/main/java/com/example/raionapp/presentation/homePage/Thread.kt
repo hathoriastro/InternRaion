@@ -35,12 +35,11 @@ import com.example.raionapp.Firestore.ThreadCollection
 import com.example.raionapp.R
 import kotlinx.coroutines.CoroutineScope
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.launch
 
 @Composable
-fun ContentScreen(
+fun Thread(
     threadId: String,
     fullname: String,
     username: String,
@@ -250,7 +249,7 @@ fun ContentScreen(
 fun ContentScreenPreview(
     modifier: Modifier = Modifier
 ) {
-   ContentScreen(
+   Thread(
        fullname = "Lorem",
        username = "Ipsum",
        profilePicture = null,
