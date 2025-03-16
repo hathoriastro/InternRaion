@@ -9,14 +9,20 @@ import com.example.raionapp.presentation.register.nantiAja.ForgotPasswordScreen
 import com.example.raionapp.presentation.register.LoginScreen
 import com.example.raionapp.presentation.register.SignUpScreen
 import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
-import androidx.credentials.CredentialManager
 
 // Import Backend AuthViewModel
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
+import com.example.raionapp.presentation.homePage.SavedAnswers
 import com.example.raionapp.presentation.homePage.ThreadComment
-import com.example.raionapp.presentation.learningPage.learningPageHome.LearningPageHome
+import com.example.raionapp.presentation.homePage.ThreadCommentAdd
+import com.example.raionapp.presentation.learningPage.learningPageHome.BankPageHome
+import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.ReviewPageBox
+import com.example.raionapp.presentation.learningPage.learningPageHome.AboutPage
+import com.example.raionapp.presentation.learningPage.learningPageHome.LessonPage
+import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPage
 import com.example.raionapp.presentation.profile.ProfilePage
 
 @Composable
@@ -29,7 +35,7 @@ fun AppNavHost(
 
     NavHost(
         navController = navController, // ✅ Pass it here
-        startDestination = "comment",
+        startDestination = "register",
         modifier = Modifier.fillMaxSize()
     ) {
         composable("register") {
@@ -58,6 +64,24 @@ fun AppNavHost(
         }
         composable("comment") {
             ThreadComment(modifier,navController, authViewModel, context)
+        }
+        composable("bank") {
+            BankPageHome(modifier,navController, authViewModel)
+        }
+        composable("savedanswers") {
+            SavedAnswers(modifier,navController, authViewModel)
+        }
+        composable("lessonpage") {
+            LessonPage(modifier,navController, authViewModel)
+        }
+        composable("reviewpage") {
+            ReviewPage(modifier,navController, authViewModel)
+        }
+        composable("aboutpage") {
+            AboutPage(modifier,navController, authViewModel)
+        }
+        composable("addcomment") {
+            ThreadCommentAdd(modifier,navController, authViewModel)
         }
     }
 }

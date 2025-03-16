@@ -1,6 +1,5 @@
-package com.example.raionapp.presentation.learningPage.learningPageHome
+package com.example.raionapp.presentation.homePage.learningPage
 
-import com.example.raionapp.presentation.homePage.Thread
 import com.example.raionapp.presentation.homePage.NavBar
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import androidx.compose.foundation.background
@@ -20,7 +19,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -37,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,21 +56,6 @@ fun LearningPageHome(
     val commentcount = 10
     val likecount = 0
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navController.navigate("addthread") },
-                containerColor = Color(0xFF1A5294),
-                shape = RoundedCornerShape(30.dp),
-                contentColor = Color.White,
-                modifier = Modifier.offset(y = -10.dp)
-            ) {
-
-                Icon(
-                    painter = painterResource(id = R.drawable.plus),
-                    contentDescription = null,
-                )
-            }
-        },
         bottomBar = {
             Surface(
                 color = Color.White,
@@ -97,7 +81,7 @@ fun LearningPageHome(
                         color = Color.White,
                         shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
                     )
-                    .height(640.dp)
+                    .fillMaxHeight(0.77f)
                     .align(Alignment.BottomCenter)
                     .zIndex(0f)
                     .fillMaxWidth()
@@ -161,21 +145,104 @@ fun LearningPageHome(
                             shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
                         )
                         .fillMaxSize()
-                        .padding(top = 30.dp)
+                        .padding(top = 30.dp, start = 16.dp)
                         .align(Alignment.BottomCenter)
                         .zIndex(0f)
                         .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.Center
                 ) {
+                    Row {
+                        Text(
+                            text = "Kedokteran",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                lineHeight = 27.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF212121),
+                            ),
+                            modifier = Modifier.padding(vertical = 20.dp)
+                        )
+                    }
+
                     Row(
                         modifier = Modifier
-                            .horizontalScroll(rememberScrollState())
-                            .padding(start = 16.dp),
+                            .horizontalScroll(rememberScrollState()),
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
-                        LearningContent()
-                        LearningContent()
-                        LearningContent()
+                        LearningContent(
+                            navController = navController,
+                            authViewModel = authViewModel
+                            )
+                    }
+
+                    Row {
+                        Text(
+                            text = "Kedokteran",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                lineHeight = 27.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF212121),
+                            ),
+                            modifier = Modifier.padding(vertical = 20.dp)
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+                    ){
+                        LearningContent(
+                            navController = navController,
+                            authViewModel = authViewModel
+                        )
+
+                        LearningContent(
+                            navController = navController,
+                            authViewModel = authViewModel
+                        )
+
+                        LearningContent(
+                            navController = navController,
+                            authViewModel = authViewModel
+                        )
+                    }
+
+                    Row {
+                        Text(
+                            text = "Kedokteran",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                lineHeight = 27.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF212121),
+                            ),
+                            modifier = Modifier.padding(vertical = 20.dp)
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+                    ){
+                        LearningContent(
+                            navController = navController,
+                            authViewModel = authViewModel
+                        )
+
+                        LearningContent(
+                            navController = navController,
+                            authViewModel = authViewModel
+                        )
+
+                        LearningContent(
+                            navController = navController,
+                            authViewModel = authViewModel
+                        )
                     }
                 }
 

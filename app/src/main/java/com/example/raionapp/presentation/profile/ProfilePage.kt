@@ -1,16 +1,15 @@
 package com.example.raionapp.presentation.profile
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,7 +21,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -37,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -45,12 +42,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.Firestore.Model.ProfileDataClass
-import com.example.raionapp.Firestore.ProfileCollection
 import com.example.raionapp.R
 import com.example.raionapp.presentation.authentication.AuthState
 import com.example.raionapp.presentation.authentication.AuthViewModel
@@ -62,22 +57,18 @@ fun ProfilePage(
     navController: NavHostController,
     authViewModel: AuthViewModel?,
     context: Context
-){
-
-    // Backend AuthViewModel, kembali ke halaman login jika sign out
+) {
     val authState = authViewModel?.authState?.observeAsState()
     LaunchedEffect(authState?.value) {
-        when(authState?.value) {
+        when (authState?.value) {
             is AuthState.Unauthenticated -> navController.navigate("register")
             else -> Unit
         }
     }
-    //    Fixed Backend
+
     val userProfileData = profileData(authViewModel = authViewModel)
 
-
-//    Frontend
-    Scaffold (
+    Scaffold(
         bottomBar = {
             Surface(
                 color = Color.White,
@@ -86,109 +77,48 @@ fun ProfilePage(
                 NavBar(navController = navController)
             }
         }
-    ){
-            paddingValues ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-            .background(Color.White)
-        ){
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .background(Color.Transparent)
+        ) {
             Image(
                 painter = painterResource(id = R.drawable.splashscreenpng),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
             Box(modifier = Modifier.fillMaxSize()) {
-                Card(
+                Box(
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
+                        .fillMaxHeight(0.6f)
                         .fillMaxWidth()
-                        .height(480.dp)
-                        .zIndex(0f),
+                        .background(Color.White, RoundedCornerShape(10.dp))
+                        .align(Alignment.BottomCenter)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.White)
-                    )
-                }
-            }
-
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Color.Transparent)
-            ){
-
-                Spacer(modifier = Modifier.padding(vertical = 35.dp))
-
-//                Disini foto profil, bingung bagaimana cara mengambilnya
-//                Image(
-//                    painter = painterResource(id = R.drawable.profile_picture),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .align(Alignment.CenterHorizontally)
-//                        .fillMaxWidth()
-//                )
-
-                Image(
-                    painter = rememberAsyncImagePainter(
-                        model = userProfileData.value?.profilePicture,
-                        placeholder = painterResource(R.drawable.profile_picture),
-                        error = painterResource(R.drawable.profile_picture)
-                    ),
-                    contentDescription = "Foto Profil",
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .width(128.dp)
-                        .height(128.dp)
-                        .clip(CircleShape)
-                )
-
-                Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                Text(
-                    text = userProfileData.value?.fullname ?: "....",
-                    fontSize = 30.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally),
-                    color = Color.Black
-                )
-
-                Spacer(modifier = Modifier.padding(vertical = 13.dp))
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = Color.Transparent)
-                        .verticalScroll(rememberScrollState())
-                        .padding(bottom = 25.dp)
-                ){
                     Row(
                         modifier = Modifier
                             .size(240.dp, 80.dp)
-                            .align(Alignment.CenterHorizontally)
+                            .offset(y = -40.dp)
+                            .align(Alignment.TopCenter)
                             .background(color = Color(0xFF1A5294), RoundedCornerShape(20.dp)),
                         horizontalArrangement = Arrangement.SpaceEvenly
-                    ){
+                    ) {
                         Column(
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically),
-                        ){
+                            modifier = Modifier.align(Alignment.CenterVertically),
+                        ) {
                             Image(
                                 painter = painterResource(id = R.drawable.comment_count_icon),
-                                contentDescription =  null,
+                                contentDescription = null,
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             )
-
                             Text(
                                 "Question",
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White,
                             )
-
                             Text(
                                 text = (userProfileData.value?.numberOfQuestion ?: 0).toString(),
                                 fontWeight = FontWeight.Bold,
@@ -196,23 +126,19 @@ fun ProfilePage(
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             )
                         }
-
                         Column(
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                        ){
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        ) {
                             Image(
                                 painter = painterResource(id = R.drawable.answer_count_icon),
-                                contentDescription =  null,
+                                contentDescription = null,
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             )
-
                             Text(
                                 "Answer",
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White,
                             )
-
                             Text(
                                 text = (userProfileData.value?.numberOfAnswer ?: 0).toString(),
                                 fontWeight = FontWeight.Bold,
@@ -220,31 +146,81 @@ fun ProfilePage(
                                 modifier = Modifier.align(Alignment.CenterHorizontally)
                             )
                         }
-
                     }
+                }
+            }
 
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.Transparent)
+            ) {
+                Spacer(modifier = Modifier.padding(vertical = 35.dp))
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 30.dp)
+                ) {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            model = userProfileData.value?.profilePicture,
+                            placeholder = painterResource(R.drawable.profile_picture),
+                            error = painterResource(R.drawable.profile_picture)
+                        ),
+                        contentDescription = "Foto Profil",
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(128.dp)
+                            .height(128.dp)
+                            .clip(CircleShape)
+                    )
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Text(
+                        text = userProfileData.value?.fullname ?: "....",
+                        fontSize = 30.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        color = Color.Black
+                    )
+                }
+
+                Spacer(modifier = Modifier.padding(vertical = 13.dp))
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.6f)
+                        .align(Alignment.BottomCenter)
+                        .background(color = Color.Transparent)
+                        .verticalScroll(rememberScrollState())
+                ) {
                     Spacer(modifier = Modifier.padding(vertical = 20.dp))
                     Column(
                         modifier = Modifier
-                            .size(330.dp,120.dp)
+                            .size(330.dp, 150.dp)
                             .align(Alignment.CenterHorizontally)
-                            .background(color = Color(0xFF5598CC), shape = RoundedCornerShape(20.dp))
-                    ){
+                            .padding(top = 30.dp)
+                            .background(
+                                color = Color(0xFF5598CC),
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
-                                .clickable {  }, //Ini bisa di klik
-                        ){
+                                .clickable {
+                                    navController.navigate("savedanswers")
+                                },
+                        ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(
                                 painter = painterResource(id = R.drawable.saved_answers_icon),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically),
+                                modifier = Modifier.align(Alignment.CenterVertically),
                                 tint = Color.White
                             )
-
                             Text(
                                 "Saved Answers",
                                 modifier = Modifier
@@ -256,7 +232,6 @@ fun ProfilePage(
                                 lineHeight = 19.2.sp,
                                 fontWeight = FontWeight(500)
                             )
-
                             Icon(
                                 painter = painterResource(id = R.drawable.right_arrow_icon),
                                 contentDescription = null,
@@ -273,17 +248,15 @@ fun ProfilePage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
-                                .clickable {  }, //Ini bisa di klik
-                        ){
+                                .clickable { },
+                        ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(
                                 painter = painterResource(id = R.drawable.exported_questions_icon),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically),
+                                modifier = Modifier.align(Alignment.CenterVertically),
                                 tint = Color.White
                             )
-
                             Text(
                                 "Exported Questions",
                                 modifier = Modifier
@@ -294,7 +267,6 @@ fun ProfilePage(
                                 lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
-
                             Icon(
                                 painter = painterResource(id = R.drawable.right_arrow_icon),
                                 contentDescription = null,
@@ -305,23 +277,21 @@ fun ProfilePage(
                                     .offset(x = 83.dp)
                             )
                         }
-
                         Divider(color = Color.White)
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
-                                .clickable {  }, //Ini bisa di klik
-                        ){
+                                .clickable { },
+                        ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(
                                 painter = painterResource(id = R.drawable.mentorship_icon),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically),
+                                modifier = Modifier.align(Alignment.CenterVertically),
                                 tint = Color.White
                             )
-
                             Text(
                                 "Mentorship",
                                 modifier = Modifier
@@ -333,7 +303,6 @@ fun ProfilePage(
                                 lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
-
                             Icon(
                                 painter = painterResource(id = R.drawable.right_arrow_icon),
                                 contentDescription = null,
@@ -359,25 +328,26 @@ fun ProfilePage(
 
                     Column(
                         modifier = Modifier
-                            .size(330.dp,165.dp)
+                            .size(330.dp, 165.dp)
                             .align(Alignment.CenterHorizontally)
-                            .background(color = Color(0xFF5598CC), shape = RoundedCornerShape(20.dp))
-                    ){
+                            .background(
+                                color = Color(0xFF5598CC),
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
-                                .clickable {  }, //Ini bisa di klik
-                        ){
+                                .clickable { },
+                        ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(
                                 painter = painterResource(id = R.drawable.faq_icon),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically),
+                                modifier = Modifier.align(Alignment.CenterVertically),
                                 tint = Color.White
                             )
-
                             Text(
                                 "FAQ",
                                 modifier = Modifier
@@ -389,7 +359,6 @@ fun ProfilePage(
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
-
                             Icon(
                                 painter = painterResource(id = R.drawable.right_arrow_icon),
                                 contentDescription = null,
@@ -406,17 +375,15 @@ fun ProfilePage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
-                                .clickable {  }, //Ini bisa di klik
-                        ){
+                                .clickable { },
+                        ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(
                                 painter = painterResource(id = R.drawable.contact_us_icon),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically),
+                                modifier = Modifier.align(Alignment.CenterVertically),
                                 tint = Color.White
                             )
-
                             Text(
                                 "Contact Us",
                                 modifier = Modifier
@@ -428,7 +395,6 @@ fun ProfilePage(
                                 lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
-
                             Icon(
                                 painter = painterResource(id = R.drawable.right_arrow_icon),
                                 contentDescription = null,
@@ -439,23 +405,21 @@ fun ProfilePage(
                                     .offset(x = 77.dp)
                             )
                         }
-
                         Divider(color = Color.White)
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
-                                .clickable {  }, //Ini bisa di klik
-                        ){
+                                .clickable { },
+                        ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(
                                 painter = painterResource(id = R.drawable.about_icon),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically),
+                                modifier = Modifier.align(Alignment.CenterVertically),
                                 tint = Color.White
                             )
-
                             Text(
                                 "About",
                                 modifier = Modifier
@@ -467,7 +431,6 @@ fun ProfilePage(
                                 lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
-
                             Icon(
                                 painter = painterResource(id = R.drawable.right_arrow_icon),
                                 contentDescription = null,
@@ -478,25 +441,23 @@ fun ProfilePage(
                                     .offset(x = 83.dp)
                             )
                         }
-
                         Divider(color = Color.White)
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(40.dp)
                                 .clickable {
                                     authViewModel?.signOut(context)
-                                }, //Ini bisa di klik
-                        ){
+                                },
+                        ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(
                                 painter = painterResource(id = R.drawable.log_out_icon),
                                 contentDescription = null,
-                                modifier = Modifier
-                                    .align(Alignment.CenterVertically),
+                                modifier = Modifier.align(Alignment.CenterVertically),
                                 tint = Color.White
                             )
-
                             Text(
                                 "Log Out",
                                 modifier = Modifier
@@ -508,7 +469,6 @@ fun ProfilePage(
                                 lineHeight = 19.2.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
-
                             Icon(
                                 painter = painterResource(id = R.drawable.right_arrow_icon),
                                 contentDescription = null,
@@ -522,24 +482,9 @@ fun ProfilePage(
                         Spacer(modifier = Modifier.padding(vertical = 20.dp))
                     }
                 }
-
             }
         }
     }
-     /*Column(
-         modifier = Modifier
-             .fillMaxSize()
-             .background(color = Color.White)
-     ){
-         Image(
-             painter = painterResource(id = R.drawable.profile_picture),
-             contentDescription = null,
-             modifier = Modifier
-                 .align(Alignment.CenterHorizontally)
-                 .offset(y = 70.dp)
-         )
-
-     }*/
 }
 
 @Preview(showBackground = true)
@@ -548,7 +493,7 @@ fun ProfilePreview() {
     val mockProfileData = remember {
         mutableStateOf(ProfileDataClass(
             fullname = "John Doe",
-            profilePicture = "",  // Use a local drawable for preview
+            profilePicture = "",
             numberOfQuestion = 10,
             numberOfAnswer = 5
         ))
@@ -556,7 +501,7 @@ fun ProfilePreview() {
 
     ProfilePage(
         navController = rememberNavController(),
-        authViewModel = null,  // Set to null since it's not available in preview
+        authViewModel = null,
         context = androidx.compose.ui.platform.LocalContext.current
     )
 }

@@ -36,6 +36,7 @@ import com.example.raionapp.R
 import kotlinx.coroutines.CoroutineScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,7 +49,8 @@ fun Thread(
     numberOfComment: Int,
     numberOfLike: Int,
     modifier: Modifier = Modifier,
-    coroutineScope: CoroutineScope?
+    coroutineScope: CoroutineScope?,
+    navController: NavHostController,
 ) {
     val thread = threadDataSync()
     val threadCollection = ThreadCollection()
@@ -56,6 +58,7 @@ fun Thread(
 //    Perihal like
     var isLiked by remember { mutableStateOf(false) }
     var likeCount by remember { mutableStateOf(numberOfLike) }
+    var isSaved by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier
         .wrapContentHeight()
@@ -64,7 +67,7 @@ fun Thread(
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
-                .width(300.dp)
+                .fillMaxWidth(0.8f)
                 .fillMaxHeight()
                 .padding(top = 30.dp)
         ){
@@ -137,9 +140,7 @@ fun Thread(
                         .size(60.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
-                        .clickable {
-
-                        },
+                        .clickable {navController.navigate("comment")},
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
                     Text(
@@ -195,7 +196,7 @@ fun Thread(
                         modifier = Modifier
                             .align(Alignment.CenterStart)
                             .padding(start = 10.dp),
-                        tint = Color.Black
+                        if (isLiked) Color.Red else Color.Black
                     )
                 }
 
@@ -206,7 +207,19 @@ fun Thread(
                         .size(34.dp, 30.dp)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color.Transparent) // Background color to match button
-                        .clickable { /* Handle Click Here */ },
+                        .clickable {
+                            coroutineScope?.launch {
+                                if (isSaved == false) {
+                                    //likeCount++
+                                } else {
+                                    //likeCount--
+                                }
+                                isSaved = !isSaved
+
+                                val updateThread = mapOf("numberOfLike" to likeCount)
+                                threadCollection.updateThreadFirestore(threadId, updateThread)
+                            }
+                        },
                     contentAlignment = Alignment.CenterEnd // Align text to the right
                 ) {
 
@@ -215,7 +228,7 @@ fun Thread(
                         contentDescription = null,
                         modifier = Modifier
                             .align(Alignment.Center),
-                        tint = Color.Black
+                        if (isSaved) Color(0xFF5598CC) else Color.Black
                     )
 
                 }
@@ -242,21 +255,4 @@ fun Thread(
         }
     }
     Divider()
-}
-
-@Preview
-@Composable
-fun ContentScreenPreview(
-    modifier: Modifier = Modifier
-) {
-   Thread(
-       fullname = "Lorem",
-       username = "Ipsum",
-       profilePicture = null,
-       text = "Ini hanyalah preview",
-       numberOfComment = 0,
-       numberOfLike = 0,
-       coroutineScope = null,
-       threadId = ""
-   )
 }

@@ -98,6 +98,7 @@ fun HomePageScreen(
                             numberOfLike = threadData.numberOfLike,
                             coroutineScope = coroutineScope,
                             threadId = threadId,
+                            navController = navController
                         )
                     }
 //                ContentScreen("Jamal", "udinpetot")

@@ -42,8 +42,22 @@ fun ThreadComment(
 ) {
     val thread = threadDataSync()
     val coroutineScope = rememberCoroutineScope()
-
     Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { navController.navigate("addcomment") },
+                containerColor = Color(0xFF1A5294),
+                shape = RoundedCornerShape(30.dp),
+                contentColor = Color.White,
+                modifier = Modifier.offset(y = -10.dp)
+            ) {
+
+                Icon(
+                    painter = painterResource(id = R.drawable.plus),
+                    contentDescription = null,
+                )
+            }
+        },
         bottomBar = {
             Surface(
                 color = Color.White,
@@ -97,7 +111,8 @@ fun ThreadComment(
                         "Thread Demo",
                         0,
                         0,
-                        coroutineScope = coroutineScope
+                        coroutineScope = coroutineScope,
+                        navController = navController
                     )
 
                     ThreadCommentSub(
