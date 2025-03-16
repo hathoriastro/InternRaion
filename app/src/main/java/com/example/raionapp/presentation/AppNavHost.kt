@@ -17,11 +17,8 @@ import com.example.raionapp.presentation.homePage.HomePageScreen
 import com.example.raionapp.presentation.homePage.SavedAnswers
 import com.example.raionapp.presentation.homePage.comments.ThreadComment
 import com.example.raionapp.presentation.homePage.comments.ThreadCommentAdd
-import com.example.raionapp.presentation.homePage.threads.ThreadContent
-import com.example.raionapp.presentation.homePage.ThreadCommentAdd
-import com.example.raionapp.presentation.learningPage.learningPageHome.BankPageHome
+import com.example.raionapp.presentation.homePage.bankPage.BankPageHome
 import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
-import com.example.raionapp.presentation.homePage.learningPage.LessonPages.ReviewPageBox
 import com.example.raionapp.presentation.learningPage.learningPageHome.AboutPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.LessonPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPage

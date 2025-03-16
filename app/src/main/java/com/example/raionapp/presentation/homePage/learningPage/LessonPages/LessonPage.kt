@@ -1,12 +1,9 @@
 package com.example.raionapp.presentation.learningPage.learningPageHome
 
 import androidx.compose.foundation.Image
-import com.example.raionapp.presentation.homePage.NavBar
-import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,13 +19,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,8 +41,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthViewModel
-import com.example.raionapp.presentation.homePage.learningPage.BankContent
-import com.example.raionapp.presentation.homePage.learningPage.LearningContent
 
 @Composable
 fun LessonPage(

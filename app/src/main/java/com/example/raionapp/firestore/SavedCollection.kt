@@ -1,6 +1,8 @@
-package com.example.raionapp.firestore.model
+package com.example.raionapp.firestore
 
 import android.util.Log
+import com.example.raionapp.firestore.model.CommentDataClass
+import com.example.raionapp.firestore.model.ThreadDataClass
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
