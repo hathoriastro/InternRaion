@@ -530,20 +530,3 @@ fun SignUpScreen(
     }
 
 }
-
-
-@Preview
-@Composable
-fun SignUpScreenPreview(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null,
-    context: Context
-) {
-    SignUpScreen(
-        modifier = modifier,
-        navController = navController,
-        authViewModel = authViewModel,
-        context = context
-    )
-}
