@@ -9,8 +9,6 @@ import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.raionapp.firestore.model.ProfileDataClass
 import com.example.raionapp.firestore.ProfileCollection
@@ -19,6 +17,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.cancellation.CancellationException
@@ -30,11 +31,12 @@ class AuthViewModel(
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val profileCollection = ProfileCollection()
 
-    private val _authState = MutableLiveData<AuthState>()
-    val authState : LiveData<AuthState> = _authState
+    private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
+    val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
-    private val _userProfile = MutableLiveData<ProfileDataClass>()
-    val userProfile: LiveData<ProfileDataClass> = _userProfile
+    // Menggunakan StateFlow untuk userProfile, dideklarasikan sebagai nullable
+    private val _userProfile = MutableStateFlow<ProfileDataClass?>(null)
+    val userProfile: StateFlow<ProfileDataClass?> = _userProfile.asStateFlow()
 
     init {
         checkAuthStatus()

@@ -29,6 +29,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -78,7 +79,7 @@ fun LoginScreen(
         painterResource(id = R.drawable.password_not_visible_small)
 
 //    Backend
-    val authState = authViewModel?.authState?.observeAsState() // Untuk email dan password biasa
+    val authState = authViewModel?.authState?.collectAsState() // Untuk email dan password biasa
     LaunchedEffect(authState?.value) {
         when(authState?.value) {
             is AuthState.Authenticated -> navController.navigate("signup")

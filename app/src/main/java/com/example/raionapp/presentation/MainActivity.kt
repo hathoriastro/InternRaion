@@ -15,9 +15,6 @@ import com.example.raionapp.presentation.ui.theme.RaionappTheme
 import com.google.firebase.FirebaseApp
 
 class MainActivity : ComponentActivity() {
-
-    lateinit var context: android.content.Context
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
@@ -25,7 +22,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 //        Menambahkan AuthViewModel
         val authViewModel: AuthViewModel by viewModels()
-        context = this
         setContent {
             RaionappTheme {
                 Scaffold(
@@ -34,11 +30,9 @@ class MainActivity : ComponentActivity() {
                     AppNavHost(
                         modifier = Modifier.padding(innerPadding),
                         authViewModel = authViewModel,
-                        context = context
+                        context = this
                     )
                 }
-
-
             }
         }
     }
