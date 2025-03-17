@@ -1,5 +1,6 @@
 package com.example.raionapp.presentation.homePage.comments
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -45,14 +47,15 @@ fun ThreadComment(
     threadId: String
 ) {
     val commentViewModel: CommentViewModel = viewModel()
+    val threadViewModel: ThreadViewModel = viewModel()
 
     LaunchedEffect(threadId) {
         commentViewModel.loadComments(threadId)
     }
-    val commentModel = commentViewModel.commentState.observeAsState()
-    val threadViewModel: ThreadViewModel = viewModel()
-    val thread = threadViewModel.threadsState.observeAsState()
-    val selectedThread = thread.value?.firstOrNull { it.first == threadId }
+
+    val commentModel = commentViewModel.commentState.collectAsState()
+    val thread = threadViewModel.threadsState.collectAsState()
+    val selectedThread = thread.value.firstOrNull { it.first == threadId }
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -112,10 +115,11 @@ fun ThreadComment(
                             numberOfComment = threadData.numberOfComment,
                             numberOfLike = threadData.numberOfLike,
                             navController = navController,
-                            modifier = Modifier
+                            modifier = Modifier,
+                            isLiked = threadData.isLiked
                         )
                     }
-                    commentModel.value?.forEach { (threadId, commentId, commentData) ->
+                    commentModel.value.forEach { (_, commentId, commentData) ->
                         ThreadCommentSub(
                             threadId = threadId,
                             fullname = commentData.fullname,
@@ -123,8 +127,10 @@ fun ThreadComment(
                             profilePicture = commentData.profilePicture,
                             text = commentData.text,
                             numberOfLike = commentData.numberOfLike,
-                            commentId = commentId
+                            commentId = commentId,
+                            isLiked = commentData.isLiked
                         )
+                        Log.d("ThreadCommentSubwad213124124", "isLiked ${commentData.isLiked}")
                     }
                 }
             }

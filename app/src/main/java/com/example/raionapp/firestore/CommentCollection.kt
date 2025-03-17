@@ -18,6 +18,7 @@ class CommentCollection {
             "text" to comment.text,
             "numberOfLike" to comment.numberOfLike,
             "profilePicture" to comment.profilePicture,
+            "isLiked" to false,
             "timeCreated" to FieldValue.serverTimestamp()
         )
         val docomentRef = db.collection("thread")
@@ -34,7 +35,7 @@ class CommentCollection {
             .document(getCommentId)
             .update("commentId", getCommentId)
             .addOnCompleteListener {
-                Log.d("CommentCollection", "Dokumen berhasil disimpan dengan ID: $getCommentId")
+                Log.d("CommentCollection", "threadId: $threadId, commentId: $getCommentId")
             }.addOnFailureListener { e ->
                 Log.e("CommentCollection", "Gagal menambahkan comment ", e)
             }.await()
@@ -51,7 +52,7 @@ class CommentCollection {
             .document(commentId)
             .update(updateData)
             .addOnSuccessListener { document ->
-                Log.d("CommentCollection", "Dokumen berhasil diupdate dengan ID: $threadId")
+                Log.d("CommentCollection", "Dokumen berhasil diupdate dengan ID: $commentId")
             }.addOnFailureListener { e ->
                 Log.w("CommentCollection", "Error updating document", e)
             }.await()

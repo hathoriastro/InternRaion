@@ -12,6 +12,7 @@ data class ThreadDataClass(
     val authorProfilePicture: String? = null,
     val numberOfLike: Int = 0,
     val numberOfComment: Int = 0,
+    val isLiked: Boolean = false,
     @ServerTimestamp val timeCreated: Date? = null
 //    val saveIcon: Boolean?, // Apakah perlu?? Bagaimana cara menyimpan data ini di Firestore?
 //    val likeIcon: Boolean?, // Apakah perlu?? Bagaimana cara menyimpan data ini di Firestore?

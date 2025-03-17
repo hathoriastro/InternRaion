@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.raionapp.R
 import androidx.compose.ui.text.TextStyle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.firestore.model.ProfileDataClass
@@ -47,6 +48,7 @@ import com.example.raionapp.firestore.CommentCollection
 import com.example.raionapp.firestore.ThreadCollection
 import com.example.raionapp.firestore.model.CommentDataClass
 import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.homePage.model.CommentViewModel
 import com.example.raionapp.presentation.profile.profileData
 import com.google.firebase.firestore.FieldValue
 import kotlinx.coroutines.CoroutineScope
@@ -64,6 +66,9 @@ fun ThreadCommentAdd(
 //  Kirim Thread ke Firestore
     val authorProfileData = profileData(authViewModel)
     val coroutineScope = rememberCoroutineScope()
+
+    val commentViewModel: CommentViewModel = viewModel()
+
 
     Box(
         modifier = Modifier
@@ -113,12 +118,12 @@ fun ThreadCommentAdd(
                     .size(height = 32.dp, width = 111.dp)
                     .clickable {
                         try {
-                            sendComment(
+                            commentViewModel.sendComment(
                                 authorProfile = authorProfileData.value,
                                 commentContent = comment,
-                                coroutineScope = coroutineScope,
                                 threadId = threadId
                             )
+                            Log.w("Thread Comment Add", "Before Navigation ThreadId: $threadId")
                             navController.navigate("comment/$threadId")
                         } catch (e: Exception) {
                             Log.e("AddThreadPage", "Error: ${e.message}")
@@ -181,37 +186,6 @@ fun ThreadCommentAdd(
                 )
             )
         }
-    }
-}
-
-private fun sendComment(
-    authorProfile: ProfileDataClass?,
-    commentContent: String,
-    coroutineScope: CoroutineScope,
-    threadId: String
-) {
-    var answerCount = authorProfile?.numberOfAnswer ?: 0
-
-    coroutineScope.launch {
-        val comment = CommentDataClass(
-            threadId = threadId,
-            fullname = authorProfile?.fullname.orEmpty(),
-            username = authorProfile?.username.orEmpty(),
-            profilePicture = authorProfile?.profilePicture,
-            text = commentContent,
-            numberOfLike = 0,
-        )
-
-        CommentCollection().addCommentToThread(threadId, comment)
-
-        val updateNumberOfAnswer = mapOf("numberOfAnswer" to (answerCount + 1))
-        ProfileCollection().updateProfileInFirestore(
-            authorProfile?.userId.toString(),
-            updateNumberOfAnswer
-        )
-        ThreadCollection().updateThreadFirestore(
-            threadId, (mapOf("numberOfComment" to FieldValue.increment(1)))
-        )
     }
 }
 

@@ -194,7 +194,7 @@ private fun sendThread(
             threadText = threadContent,
             authorProfilePicture = authorProfile?.profilePicture.orEmpty(),
             numberOfLike = 0,
-            numberOfComment = 0
+            numberOfComment = 0,
         )
         ThreadCollection().addThreadToFirestore(thread)
 

@@ -36,7 +36,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.raionapp.presentation.homePage.model.ThreadViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,15 +50,18 @@ fun ThreadContent(
     text: String,
     numberOfComment: Int,
     numberOfLike: Int,
+    isLiked: Boolean,
     modifier: Modifier = Modifier,
     navController: NavHostController?
 ) {
 
+    val threadViewModel: ThreadViewModel = viewModel()
     val threadCollection = ThreadCollection()
     val coroutineScope = rememberCoroutineScope()
 
+
 //    Perihal like
-    var isLiked by remember { mutableStateOf(false) }
+    var isLiked by remember { mutableStateOf(isLiked) }
     var likeCount by remember { mutableIntStateOf(numberOfLike) }
     var isSaved by remember { mutableStateOf(false) }
 
@@ -179,7 +184,10 @@ fun ThreadContent(
                                 }
                                 isLiked = !isLiked
 
-                                val updateThread = mapOf("numberOfLike" to likeCount)
+                                val updateThread = mapOf(
+                                    "numberOfLike" to likeCount,
+                                    "isLiked" to isLiked
+                                )
                                 threadCollection.updateThreadFirestore(threadId, updateThread)
                             }
                         },

@@ -21,27 +21,26 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
-import com.example.raionapp.R
-import kotlinx.coroutines.CoroutineScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import com.example.raionapp.firestore.CommentCollection
-import com.example.raionapp.firestore.ThreadCollection
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import com.example.raionapp.R
+import com.example.raionapp.presentation.homePage.model.CommentViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -53,18 +52,18 @@ fun ThreadCommentSub(
     text: String,
     numberOfLike: Int,
     modifier: Modifier = Modifier,
-    commentId: String
+    commentId: String,
+    isLiked: Boolean
 ) {
-    val commentCollection = CommentCollection()
+    // Ambil instance CommentViewModel sehingga kita bisa menggunakan fungsi increase/decrease like
+    val commentViewModel: CommentViewModel = viewModel()
     val coroutineScope = rememberCoroutineScope()
 
-//    Perihal like
-    var isLiked by remember { mutableStateOf(false) }
+    // State untuk status like dan jumlah like
+    var isLiked by remember { mutableStateOf(isLiked) }
     var likeCount by remember { mutableIntStateOf(numberOfLike) }
 
-    Box(
-        Modifier.fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         Box(
             modifier = Modifier
                 .wrapContentHeight()
@@ -79,17 +78,8 @@ fun ThreadCommentSub(
                     .fillMaxHeight()
                     .padding(top = 30.dp)
             ) {
-                Row(
-                    modifier = Modifier.offset(x = -60.dp)
-                ) {
-                    //                Icon(
-                    //                    painter = painterResource(id = R.drawable.heading_small_circle),
-                    //                    contentDescription = null,
-                    //                    modifier = Modifier
-                    //                        .size(50.dp)
-                    //                )
-
-                    //                User Profile Picture
+                Row(modifier = Modifier.offset(x = -60.dp)) {
+                    // Menampilkan foto profil
                     Image(
                         painter = rememberAsyncImagePainter(
                             model = profilePicture,
@@ -101,26 +91,19 @@ fun ThreadCommentSub(
                             .size(50.dp)
                             .clip(CircleShape)
                     )
-
-                    Column(
-                        modifier = Modifier
-                            .padding(10.dp, 0.dp)
-                    ) {
+                    Column(modifier = Modifier.padding(10.dp, 0.dp)) {
                         Text(
                             text = fullname,
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black
                         )
-
                         Text(
                             text = "@$username",
                             color = Color(0xFFA7A7A7)
                         )
                     }
-
                 }
-
                 Text(
                     text = text,
                     modifier = Modifier
@@ -129,97 +112,71 @@ fun ThreadCommentSub(
                     fontSize = 18.sp,
                     color = Color.Black
                 )
-
-                /*Card(
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-                        .height(200.dp)
-                        .fillMaxWidth()
-                        .padding(vertical = 20.dp)
-                ) {
-
-                }*/
-
-                Row(
-                    modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
-                ) {
+                Row(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
+                    // Box untuk like; saat diklik, fungsi di CommentViewModel akan dipanggil.
                     Box(
                         modifier = Modifier
                             .size(80.dp, 30.dp)
                             .clip(RoundedCornerShape(20.dp))
-                            .background(Color.Transparent) // Background color to match button
+                            .background(Color.Transparent)
                             .clickable {
                                 coroutineScope.launch {
-//                                    if (isLiked == false) {
-//                                        likeCount++
-//                                    } else {
-//                                        likeCount--
-//                                    }
-//                                    isLiked = !isLiked
-//
-//                                    val updateThread = mapOf("numberOfLike" to likeCount)
-//                                    commentCollection.updateComment(
-//                                        threadId = threadId,
-//                                        commentId = commentId,
-//                                        updateData = updateThread
-//                                    )
+                                    if (isLiked == false) {
+                                        commentViewModel.increaseCommentLike(threadId, commentId)
+                                        likeCount++
+                                    } else {
+                                        commentViewModel.decreaseCommentLike(threadId, commentId)
+                                        likeCount--
+                                    }
+                                    isLiked = !isLiked
                                 }
                             },
-                        contentAlignment = Alignment.CenterEnd // Align text to the right
+                        contentAlignment = Alignment.CenterEnd
                     ) {
                         Text(
-                            text = numberOfLike.toString(),
+                            text = likeCount.toString(),
                             fontSize = 12.sp,
-                            color = Color.Black, // Text color for contrast
-                            modifier = Modifier.padding(end = 10.dp) // Adjust padding if needed
+                            color = Color.Black,
+                            modifier = Modifier.padding(end = 10.dp)
                         )
-
                         Icon(
                             painter = painterResource(id = R.drawable.heart_icon),
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.CenterStart)
                                 .padding(start = 8.dp),
-                            tint = Color.Black
+                            tint = if(isLiked) Color.Red else Color.Black
                         )
                     }
-
                     Spacer(modifier = Modifier.padding(5.dp))
-
+                    // Box untuk bookmark
                     Box(
                         modifier = Modifier
                             .size(34.dp, 30.dp)
                             .clip(RoundedCornerShape(20.dp))
-                            .background(Color.Transparent) // Background color to match button
-                            .clickable { /* Handle Click Here */ },
-                        contentAlignment = Alignment.CenterEnd // Align text to the right
+                            .background(Color.Transparent)
+                            .clickable { /* Handle Bookmark Click Here */ },
+                        contentAlignment = Alignment.Center
                     ) {
-
                         Icon(
                             painter = painterResource(id = R.drawable.bookmark_icon),
                             contentDescription = null,
-                            modifier = Modifier
-                                .align(Alignment.Center),
                             tint = Color.Black
                         )
-
                     }
-
                     Spacer(modifier = Modifier.padding(5.dp))
-
+                    // Box untuk share
                     Box(
                         modifier = Modifier
                             .size(34.dp, 30.dp)
                             .clip(RoundedCornerShape(20.dp))
-                            .background(Color.Transparent) // Background color to match button
-                            .clickable { /* Handle Click Here */ },
-                        contentAlignment = Alignment.CenterEnd // Align text to the right
+                            .background(Color.Transparent)
+                            .clickable { /* Handle Share Click Here */ },
+                        contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.share_icon),
                             contentDescription = null,
-                            modifier = Modifier
-                                .align(Alignment.Center),
                             tint = Color.Black
                         )
                     }
