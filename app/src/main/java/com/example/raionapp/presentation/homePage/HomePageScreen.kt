@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,7 +52,7 @@ fun HomePageScreen(
 ) {
 
     val threadViewModel: ThreadViewModel = viewModel()
-    val thread = threadViewModel.threadsState.observeAsState()
+    val thread = threadViewModel.threadsState.collectAsState()
 
     Scaffold(
         floatingActionButton = {
@@ -163,15 +164,16 @@ fun HomePageScreen(
                         .background(color = Color.White, shape = RoundedCornerShape(10.dp))
                         .verticalScroll(rememberScrollState()),
                 ) {
-                    thread.value?.forEach { (threadId, threadData) ->
-                        Thread(
-                            threadId = threadId,
+                    thread.value.forEach { (threadId, threadData) ->
+                        ThreadContent(
                             fullname = threadData.fullname,
                             username = threadData.username,
                             profilePicture = threadData.authorProfilePicture,
                             text = threadData.threadText,
                             numberOfComment = threadData.numberOfComment,
                             numberOfLike = threadData.numberOfLike,
+                            threadId = threadId,
+                            isLiked = threadData.isLiked,
                             navController = navController
                         )
                     }

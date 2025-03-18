@@ -10,6 +10,14 @@ import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Vertices
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.R
+import com.example.raionapp.presentation.homePage.model.CommentViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.raionapp.firestore.CommentCollection
 import kotlinx.coroutines.launch
 import androidx.navigation.NavHostController
@@ -33,21 +44,22 @@ import com.example.raionapp.common.montserratFont
 @Composable
 fun ThreadCommentSub(
     threadId: String,
-    commentId: String,
     fullname: String,
     username: String,
     profilePicture: String?,
     text: String,
     numberOfLike: Int,
     modifier: Modifier = Modifier,
-    navController: NavHostController?,
+    commentId: String,
+    isLiked: Boolean
 ) {
-    val commentCollection = CommentCollection()
+    // Ambil instance CommentViewModel sehingga kita bisa menggunakan fungsi increase/decrease like
+    val commentViewModel: CommentViewModel = viewModel()
     val coroutineScope = rememberCoroutineScope()
 
-    var isLiked by remember { mutableStateOf(false) }
-    var likeCount by remember { mutableStateOf(numberOfLike) }
-    var isSaved by remember { mutableStateOf(false) }
+    // State untuk status like dan jumlah like
+    var isLiked by remember { mutableStateOf(isLiked) }
+    var likeCount by remember { mutableIntStateOf(numberOfLike) }
 
     Box(modifier = Modifier
         .wrapContentHeight()
@@ -126,20 +138,17 @@ fun ThreadCommentSub(
                             .wrapContentWidth()
                             .wrapContentHeight()
                             .clip(RoundedCornerShape(20.dp))
+                            .background(Color.Transparent)
                             .clickable {
                                 coroutineScope.launch {
-                                    if (!isLiked) {
+                                    if (isLiked == false) {
+                                        commentViewModel.increaseCommentLike(threadId, commentId)
                                         likeCount++
                                     } else {
+                                        commentViewModel.decreaseCommentLike(threadId, commentId)
                                         likeCount--
                                     }
                                     isLiked = !isLiked
-                                    val updateComment = mapOf("numberOfLike" to likeCount)
-                                    commentCollection.updateComment(
-                                        threadId = threadId,
-                                        commentId = commentId,
-                                        updateData = updateComment
-                                    )
                                 }
                             },
                         verticalAlignment = Alignment.CenterVertically
