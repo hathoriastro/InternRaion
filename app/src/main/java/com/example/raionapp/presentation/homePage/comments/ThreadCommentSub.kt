@@ -63,9 +63,11 @@ fun ThreadCommentSub(
     var likeCount by remember { mutableIntStateOf(numberOfLike) }
     var isSaved by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier
+    Box(
+        modifier = Modifier
         .wrapContentHeight()
-        .fillMaxWidth()) {
+        .fillMaxWidth()
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
@@ -108,7 +110,7 @@ fun ThreadCommentSub(
                             )
                         )
                         Text(
-                            text = "@" + username,
+                            text = "@$username",
                             style = TextStyle(
                                 fontSize = 11.sp,
                                 fontFamily = montserratFont,
