@@ -51,7 +51,7 @@ fun LearningContent(
             .background(color = Color.White, shape = RoundedCornerShape(size = 5.dp))
             .border(1.dp, color = Color(0xFF1A5294), RoundedCornerShape(5.dp))
             .clickable {
-                navController.navigate("lessonpage")
+                navController.navigate("lessonpageunlocked")
             }
     ) {
         Image(
