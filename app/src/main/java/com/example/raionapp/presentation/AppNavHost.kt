@@ -19,6 +19,8 @@ import com.example.raionapp.presentation.homePage.comments.ThreadComment
 import com.example.raionapp.presentation.homePage.comments.ThreadCommentAdd
 import com.example.raionapp.presentation.homePage.bankPage.BankPageHome
 import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
+import com.example.raionapp.presentation.homePage.semesterSelect.SemesterSelectPage
+import com.example.raionapp.presentation.homePage.subjectSelect.SubjectSelectPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.AboutPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.LessonPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPage
@@ -85,6 +87,12 @@ fun AppNavHost(
         }
         composable("aboutpage") {
             AboutPage(modifier,navController, authViewModel)
+        }
+        composable("subjectselectpage") {
+            SubjectSelectPage(modifier,navController, authViewModel)
+        }
+        composable("semesterselectpage") {
+            SemesterSelectPage(modifier,navController, authViewModel)
         }
     }
 }

@@ -32,7 +32,7 @@ import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.NavBar
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import com.example.raionapp.presentation.homePage.model.CommentViewModel
-import com.example.raionapp.presentation.homePage.threads.ThreadContent
+import com.example.raionapp.presentation.homePage.threads.Thread
 import kotlin.concurrent.thread
 import com.example.raionapp.R
 import com.example.raionapp.presentation.homePage.model.ThreadViewModel
@@ -103,7 +103,7 @@ fun ThreadComment(
                 ) {
                     selectedThread?.let { (threadId, threadData) ->
                         // Tampilkan detail thread yang dipilih
-                        ThreadContent(
+                        Thread(
                             threadId = threadId,
                             fullname = threadData.fullname,
                             username = threadData.username,
@@ -123,8 +123,9 @@ fun ThreadComment(
                             profilePicture = commentData.profilePicture,
                             text = commentData.text,
                             numberOfLike = commentData.numberOfLike,
-                            commentId = commentId
-                        )
+                            commentId = commentId,
+                            navController = navController
+                            )
                     }
                 }
             }

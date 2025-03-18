@@ -60,7 +60,7 @@ fun LessonPage(
             contentDescription = null,
             modifier = Modifier
                 .zIndex(2f)
-                .offset(y = 20.dp, x = 20.dp)
+                .offset(y = 60.dp, x = 30.dp)
                 .clickable {
                     navController.navigate("learningpage")
                 }

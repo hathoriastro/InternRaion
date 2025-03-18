@@ -435,19 +435,3 @@ fun LoginScreen(
 
     }
 }
-
-@Preview
-@Composable
-fun LoginScreenPreview(
-    modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null,
-    context: Context
-) {
-    LoginScreen(
-        modifier = modifier,
-        navController = navController,
-        authViewModel = authViewModel,
-        context = context
-    )
-}

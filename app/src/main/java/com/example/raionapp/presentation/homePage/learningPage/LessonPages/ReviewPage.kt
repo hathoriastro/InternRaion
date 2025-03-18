@@ -54,7 +54,6 @@ fun ReviewPage(
 ) {
     var search by remember { mutableStateOf("") }
     val commentcount = 10
-    val likecount = 0
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -64,7 +63,7 @@ fun ReviewPage(
                 contentDescription = null,
                 modifier = Modifier
                     .zIndex(2f)
-                    .offset(y = 20.dp, x = 20.dp)
+                    .offset(y = 60.dp, x = 30.dp)
                     .clickable {
                         navController.navigate("learningpage")
                     }
