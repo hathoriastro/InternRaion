@@ -1,20 +1,17 @@
 package com.example.raionapp.presentation.homePage.threads
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,7 +35,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.raionapp.presentation.homePage.model.ThreadViewModel
+import com.example.raionapp.presentation.homePage.model.HomeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -54,7 +51,7 @@ fun ThreadContent(
     modifier: Modifier = Modifier,
     navController: NavHostController?
 ) {
-    val threadViewModel: ThreadViewModel = viewModel()
+    val homeViewModel: HomeViewModel = viewModel()
     val threadCollection = ThreadCollection()
     val coroutineScope = rememberCoroutineScope()
 

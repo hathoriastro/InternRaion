@@ -24,7 +24,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthViewModel
-import com.example.raionapp.presentation.homePage.model.ThreadViewModel
+import com.example.raionapp.presentation.homePage.model.HomeViewModel
 import com.example.raionapp.presentation.homePage.threads.ThreadContent
 
 @Composable
@@ -51,8 +50,8 @@ fun HomePageScreen(
     authViewModel: AuthViewModel?,
 ) {
 
-    val threadViewModel: ThreadViewModel = viewModel()
-    val thread = threadViewModel.threadsState.collectAsState()
+    val homeViewModel: HomeViewModel = viewModel()
+    val thread = homeViewModel.threadsState.collectAsState()
 
     Scaffold(
         floatingActionButton = {

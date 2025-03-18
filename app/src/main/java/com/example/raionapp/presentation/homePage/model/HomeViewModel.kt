@@ -1,24 +1,16 @@
 package com.example.raionapp.presentation.homePage.model
 
 import androidx.lifecycle.ViewModel
-import com.example.raionapp.firestore.CommentCollection
-import com.example.raionapp.firestore.ProfileCollection
-import com.example.raionapp.firestore.ThreadCollection
-import com.example.raionapp.firestore.model.CommentDataClass
-import com.example.raionapp.firestore.model.ProfileDataClass
 import com.example.raionapp.firestore.model.ThreadDataClass
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
-class ThreadViewModel : ViewModel() {
+class HomeViewModel : ViewModel() {
     private val db: FirebaseFirestore = Firebase.firestore
 
     // Gunakan MutableStateFlow untuk menyimpan daftar thread,

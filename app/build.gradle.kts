@@ -85,7 +85,7 @@ dependencies {
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
 
     // Coil Dependency for Image Loading
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation(libs.coil.compose.v222)
     // Text Fonts
     implementation("androidx.compose.ui:ui-text-google-fonts:1.0.0")
 
