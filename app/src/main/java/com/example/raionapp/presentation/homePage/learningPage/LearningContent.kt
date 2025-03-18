@@ -2,6 +2,7 @@ package com.example.raionapp.presentation.homePage.learningPage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,10 @@ import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
 fun LearningContent(
+    subjectName : String,
+    subSubjectName: String,
+    mentorName : String,
+    likeCount : Int,
     modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel?
@@ -43,7 +48,8 @@ fun LearningContent(
         Modifier
             .width(242.dp)
             .height(213.dp)
-            .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(size = 5.dp))
+            .background(color = Color.White, shape = RoundedCornerShape(size = 5.dp))
+            .border(1.dp, color = Color(0xFF1A5294), RoundedCornerShape(5.dp))
             .clickable {
                 navController.navigate("lessonpage")
             }
@@ -61,13 +67,13 @@ fun LearningContent(
         )
 
         Text(
-            text = "Kedokteran",
+            text = subjectName,
             style = TextStyle(
                 fontSize = 9.sp,
                 lineHeight = 13.5.sp,
                 fontFamily = montserratFont,
                 fontWeight = FontWeight(400),
-                color = Color(0xFFECECEC),
+                color = Color.Black,
                 letterSpacing = 0.05.em,
             ),
             modifier = Modifier
@@ -75,13 +81,13 @@ fun LearningContent(
         )
 
         Text(
-            text = "Anatomi",
+            text = subSubjectName,
             style = TextStyle(
                 fontSize = 14.sp,
                 lineHeight = 21.sp,
                 fontFamily = montserratFont,
                 fontWeight = FontWeight(500),
-                color = Color(0xFFFFFFFF),
+                color = Color.Black,
                 letterSpacing = 0.05.em,
             ),
             modifier = Modifier
@@ -109,24 +115,24 @@ fun LearningContent(
                     .padding(start = 9.dp)
             ){
                 Text(
-                    text = "Niken Fardani",
+                    text = mentorName,
                     style = TextStyle(
                         fontSize = 9.sp,
                         lineHeight = 13.5.sp,
                         fontFamily = montserratFont,
                         fontWeight = FontWeight(500),
-                        color = Color(0xFFFFFFFF),
+                        color = Color.Black,
                         letterSpacing = 0.05.em,
                     )
                 )
                 Text(
-                    text = "1234 Likes",
+                    text = likeCount.toString(),
                     style = TextStyle(
                         fontSize = 6.sp,
                         lineHeight = 9.sp,
                         fontFamily = montserratFont,
                         fontWeight = FontWeight(400),
-                        color = Color(0xFFECECEC),
+                        color = Color(0xFF757575),
                     )
                 )
             }
@@ -163,6 +169,10 @@ private fun LearningContentPreview(
     authViewModel: AuthViewModel? = null
 ) {
     LearningContent(
+        "Kedokteran",
+        "Anatomi",
+        "Niken Fardani",
+        1000,
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel

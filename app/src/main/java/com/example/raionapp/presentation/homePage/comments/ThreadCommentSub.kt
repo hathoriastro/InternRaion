@@ -61,6 +61,7 @@ fun ThreadCommentSub(
     // State untuk status like dan jumlah like
     var isLiked by remember { mutableStateOf(isLiked) }
     var likeCount by remember { mutableIntStateOf(numberOfLike) }
+    var isSaved by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier
         .wrapContentHeight()

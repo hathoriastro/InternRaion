@@ -24,6 +24,7 @@ import com.example.raionapp.presentation.homePage.subjectSelect.SubjectSelectPag
 import com.example.raionapp.presentation.learningPage.learningPageHome.AboutPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.LessonPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPage
+import com.example.raionapp.presentation.profile.AboutProfilePage
 import com.example.raionapp.presentation.profile.ProfilePage
 
 @Composable
@@ -79,8 +80,8 @@ fun AppNavHost(
         composable("savedanswers") {
             SavedAnswers(modifier,navController, authViewModel)
         }
-        composable("lessonpage") {
-            LessonPage(modifier,navController, authViewModel)
+        composable("lessonpage") { //String diisi dengan nama mentor
+            LessonPage("Contoh", modifier,navController, authViewModel)
         }
         composable("reviewpage") {
             ReviewPage(modifier,navController, authViewModel)
@@ -93,6 +94,9 @@ fun AppNavHost(
         }
         composable("semesterselectpage") {
             SemesterSelectPage(modifier,navController, authViewModel)
+        }
+        composable("aboutprofilepage") {
+            AboutProfilePage(modifier,navController)
         }
     }
 }

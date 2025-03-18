@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -61,20 +63,21 @@ fun SavedAnswers(
             modifier = Modifier
                 .fillMaxSize()
         ){
-            Row(
+            Box(
                 Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
-                    .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(size = 24.dp))
+                    .height(100.dp)
+                    .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(24.dp))
             ){
-                Image(
+                Icon(
                     painter = painterResource(id = R.drawable.left_arrow_icon),
                     contentDescription = "image description",
-                    contentScale = ContentScale.None,
                     modifier = Modifier
-                        .align(Alignment.CenterVertically)
+                        .size(50.dp)
+                        .align(Alignment.CenterStart)
                         .padding(start = 40.dp, top = 20.dp)
                         .clickable { navController.popBackStack() },
+                    tint = Color.White
                 )
 
                 Text(
@@ -87,8 +90,8 @@ fun SavedAnswers(
                         textAlign = TextAlign.Center,
                     ),
                     modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .padding(start = 60.dp, top = 20.dp)
+                        .align(Alignment.Center)
+                        .padding(top = 20.dp)
                 )
             }
             Spacer(modifier = Modifier.padding(vertical = 20.dp))
