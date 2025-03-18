@@ -14,7 +14,7 @@ import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.threads.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
-import com.example.raionapp.presentation.homePage.SavedAnswers
+import com.example.raionapp.presentation.profile.SavedAnswers
 import com.example.raionapp.presentation.homePage.comments.ThreadComment
 import com.example.raionapp.presentation.homePage.comments.ThreadCommentAdd
 import com.example.raionapp.presentation.homePage.bankPage.BankPageHome

@@ -69,7 +69,6 @@ fun ThreadCommentAdd(
 
     val commentViewModel: CommentViewModel = viewModel()
 
-
     Box(
         modifier = Modifier
             .fillMaxSize()

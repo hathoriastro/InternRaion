@@ -67,8 +67,8 @@ dependencies {
     // Firebase dependencies Bom
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
 
-    // ObserveAsState() MVVM
-    implementation("androidx.compose.runtime:runtime-livedata:1.0.5")
+    // ObserveAsState() LiveData
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.8")
 
     // Firebase Native Authentication
     implementation("com.google.firebase:firebase-auth")
@@ -93,6 +93,10 @@ dependencies {
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.material.icons.extended)
+
+    // Okhttp -> Untuk mengungga file
+    implementation(libs.okhttp)
 
     // Dagger-Hilt
     implementation (libs.hilt.android)
