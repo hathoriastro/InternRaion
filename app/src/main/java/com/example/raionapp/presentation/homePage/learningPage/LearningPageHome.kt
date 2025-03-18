@@ -170,6 +170,10 @@ fun LearningPageHome(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
+                            "Kedokteran",
+                            "Biologi",
+                            "Jamal Michael",
+                            1000,
                             navController = navController,
                             authViewModel = authViewModel
                             )
@@ -177,7 +181,7 @@ fun LearningPageHome(
 
                     Row {
                         Text(
-                            text = "Kedokteran",
+                            text = "Ilmu Komputer",
                             style = TextStyle(
                                 fontSize = 20.sp,
                                 lineHeight = 27.sp,
@@ -195,16 +199,28 @@ fun LearningPageHome(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
+                            "Ilmu Komputer",
+                            "Pemrograman Dasar",
+                            "Jamal Michael",
+                            1000,
                             navController = navController,
                             authViewModel = authViewModel
                         )
 
                         LearningContent(
+                            "Ilmu Komputer",
+                            "Algoritma",
+                            "Ambudianto",
+                            1000,
                             navController = navController,
                             authViewModel = authViewModel
                         )
 
                         LearningContent(
+                            "Ilmu Komputer",
+                            "Sistem Digital",
+                            "John Damkar",
+                            1000,
                             navController = navController,
                             authViewModel = authViewModel
                         )
@@ -230,16 +246,28 @@ fun LearningPageHome(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
+                            "Kedokteran",
+                            "Biologi",
+                            "Jamal Michael",
+                            1000,
                             navController = navController,
                             authViewModel = authViewModel
                         )
 
                         LearningContent(
+                            "Kedokteran",
+                            "Biologi",
+                            "Jamal Michael",
+                            1000,
                             navController = navController,
                             authViewModel = authViewModel
                         )
 
                         LearningContent(
+                            "Kedokteran",
+                            "Biologi",
+                            "Jamal Michael",
+                            1000,
                             navController = navController,
                             authViewModel = authViewModel
                         )

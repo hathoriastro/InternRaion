@@ -28,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -44,6 +45,7 @@ import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
 fun LessonPage(
+    mentorname: String,
     modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel?
@@ -73,6 +75,7 @@ fun LessonPage(
                 .align(Alignment.TopCenter)
                 .fillMaxWidth()
                 .fillMaxHeight(0.312f)
+                .clipToBounds()
         )
         Box(
             modifier = Modifier
@@ -215,7 +218,7 @@ fun LessonPage(
                     )
 
                     Text(
-                        text = "By Robert James",
+                        text = mentorname,
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -485,6 +488,7 @@ fun LessonPagePreview(
     authViewModel: AuthViewModel? = null,
 ) {
     LessonPage(
+        mentorname = "Robert James",
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,

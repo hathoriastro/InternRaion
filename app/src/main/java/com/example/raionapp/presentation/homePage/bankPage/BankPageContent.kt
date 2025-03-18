@@ -42,10 +42,11 @@ fun BankContent(
 
     Column(
         Modifier
+            .shadow(8.dp, RoundedCornerShape(15.dp))
+            .background(color = Color.White, shape = RoundedCornerShape(size = 15.dp))
             .width(202.dp)
             .height(119.dp)
             .background(color = Color.White, shape = RoundedCornerShape(size = 15.dp))
-            .shadow(0.05.dp, RoundedCornerShape(1.dp))
             .clickable {
                 context.startActivity(ytIntent)
             }
