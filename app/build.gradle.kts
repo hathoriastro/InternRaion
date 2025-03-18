@@ -5,6 +5,9 @@ plugins {
 
     // Firebase plugin
     id("com.google.gms.google-services") version "4.4.2"
+
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -64,7 +67,7 @@ dependencies {
     // Firebase dependencies Bom
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
 
-    // Firebase ObserveAsState() MVVM
+    // ObserveAsState() MVVM
     implementation("androidx.compose.runtime:runtime-livedata:1.0.5")
 
     // Firebase Native Authentication
@@ -86,5 +89,18 @@ dependencies {
     // Text Fonts
     implementation("androidx.compose.ui:ui-text-google-fonts:1.0.0")
 
+    // Exoplayer
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.exoplayer.dash)
+    implementation(libs.androidx.media3.ui)
 
+    // Dagger-Hilt
+    implementation (libs.hilt.android)
+    kapt (libs.hilt.android.compiler)
+    kapt(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+}
+
+kapt {
+    correctErrorTypes = true
 }

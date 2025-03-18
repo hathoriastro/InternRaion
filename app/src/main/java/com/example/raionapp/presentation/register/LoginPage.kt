@@ -82,7 +82,7 @@ fun LoginScreen(
     val authState = authViewModel?.authState?.collectAsState() // Untuk email dan password biasa
     LaunchedEffect(authState?.value) {
         when(authState?.value) {
-            is AuthState.Authenticated -> navController.navigate("signup")
+            is AuthState.Authenticated -> navController.navigate("home")
             is AuthState.Error -> Toast.makeText(context,
                 (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT).show()
             else -> Unit

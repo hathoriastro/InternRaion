@@ -173,9 +173,9 @@ fun BankPageHome(
                             .padding(bottom = 15.dp),
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
-                        BankContent()
-                        BankContent()
-                        BankContent()
+                        BankContent("https://www.youtube.com")
+                        BankContent("https://drive.google.com/file/d/1XdAPkrlBFz-zwUpCe8e7JFM54bjhZ1oc/view?usp=drive_link")
+                        BankContent("https://github.com/Raion-App-Programmer")
                     }
                     Divider()
 
@@ -199,9 +199,9 @@ fun BankPageHome(
                             .padding(bottom = 15.dp),
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
-                        BankContent()
-                        BankContent()
-                        BankContent()
+                        BankContent("https://www.youtube.com")
+                        BankContent("https://drive.google.com/file/d/1XdAPkrlBFz-zwUpCe8e7JFM54bjhZ1oc/view?usp=drive_link")
+                        BankContent("https://github.com/Raion-App-Programmer")
                     }
                     Divider()
                 }
