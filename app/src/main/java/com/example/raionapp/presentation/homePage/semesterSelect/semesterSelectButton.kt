@@ -41,7 +41,7 @@ fun SemesterSelectButton(
             }
     ){
         Text(
-            text = "Semester " + stringsemester,
+            text = "Semester $stringsemester",
             style = TextStyle(
                 fontSize = 14.sp,
                 lineHeight = 19.6.sp,

@@ -1,6 +1,7 @@
 package com.example.raionapp.presentation.homePage.comments
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -169,13 +170,13 @@ fun ThreadCommentSub(
                     Box(
                         modifier = Modifier
                             .wrapContentSize()
-                            .clickable { isSaved = !isSaved },
+                            .clickable {},
                         contentAlignment = Alignment.CenterEnd
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.bookmark_icon),
                             contentDescription = null,
-                            tint = if (isSaved) Color(0xFF5598CC) else Color.Black
+                            tint = Color.Black
                         )
                     }
                 }

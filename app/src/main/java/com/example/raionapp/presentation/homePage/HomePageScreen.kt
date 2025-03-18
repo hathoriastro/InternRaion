@@ -42,7 +42,7 @@ import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.model.ThreadViewModel
-import com.example.raionapp.presentation.homePage.threads.Thread
+import com.example.raionapp.presentation.homePage.threads.ThreadContent
 
 @Composable
 fun HomePageScreen(
@@ -177,11 +177,6 @@ fun HomePageScreen(
                             navController = navController
                         )
                     }
-//                ContentScreen("Jamal", "udinpetot")
-//
-//                ContentScreen("Joko", "jokoganteng123")
-//
-//                ContentScreen("Tirta", "doktertirta")
                 }
             }
         }
