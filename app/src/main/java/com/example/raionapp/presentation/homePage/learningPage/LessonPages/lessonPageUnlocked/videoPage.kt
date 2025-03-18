@@ -34,6 +34,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.exoPlayer.Media3PlayerView
 import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import com.example.raionapp.presentation.homePage.threads.ThreadContent
@@ -46,6 +47,7 @@ fun VideoPage(
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
+        .verticalScroll(rememberScrollState())
     ){
         TopBarAndProfile(
             modifier = modifier,
@@ -99,17 +101,12 @@ fun VideoPage(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(30.dp)
                 ) {
-                    Box( //DISINI UNTUK MENARUH VIDEO
-                        modifier = Modifier
-                            .background(Color.Gray, RoundedCornerShape(16.dp))
-                            .fillMaxWidth(0.9f)
-                            .height(229.dp)
-                    ){
 
-                    }
+                    Spacer(modifier = Modifier.height(35.dp))
+                    Media3PlayerView(videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",)
+
                     Column(
                         modifier = Modifier
-                            .verticalScroll(rememberScrollState())
                             .fillMaxSize(0.9f),
                         verticalArrangement = Arrangement.spacedBy(30.dp)
                     ){

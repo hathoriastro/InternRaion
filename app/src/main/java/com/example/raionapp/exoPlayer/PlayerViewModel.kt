@@ -1,4 +1,4 @@
-package com.example.raionapp.exoplayerFix
+package com.example.raionapp.exoPlayer
 
 import android.content.Context
 import android.net.Uri

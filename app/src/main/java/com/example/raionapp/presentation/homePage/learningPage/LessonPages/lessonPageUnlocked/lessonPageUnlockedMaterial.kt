@@ -215,7 +215,7 @@ fun LessonPageUnlockedMaterial(
                 .height(92.dp)
                 .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
                 .clickable {
-
+                    navController.navigate("videopage")
                 }
         ){
             Box(
