@@ -48,7 +48,7 @@ fun ReviewPage(
     authViewModel: AuthViewModel?
 ) {
     var search by remember { mutableStateOf("") }
-    val commentcount = 10
+//    val commentcount = 10
         Box(
             modifier = Modifier
                 .fillMaxSize()
