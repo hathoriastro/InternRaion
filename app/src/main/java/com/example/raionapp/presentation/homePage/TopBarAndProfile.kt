@@ -53,8 +53,8 @@ fun TopBarAndProfile(
         Image(
             painter = rememberAsyncImagePainter(
                 model = userProfileData.value?.profilePicture,
-                placeholder = painterResource(R.drawable.profile_picture),
-                error = painterResource(R.drawable.profile_picture)
+                placeholder = painterResource(R.drawable.profile_icon_unclicked),
+                error = painterResource(R.drawable.profile_icon_unclicked)
             ),
             contentDescription = "Foto Profil",
             modifier = Modifier

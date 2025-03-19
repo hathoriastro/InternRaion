@@ -2,6 +2,7 @@ package com.example.raionapp.presentation.homePage.comments
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Vertices
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.raionapp.firestore.CommentCollection
 import kotlinx.coroutines.launch
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.raionapp.common.montserratFont
 
 @Composable
@@ -52,6 +55,7 @@ fun ThreadCommentSub(
     numberOfLike: Int,
     modifier: Modifier = Modifier,
     commentId: String,
+    imageUrl: String?
 ) {
     // Ambil instance CommentViewModel sehingga kita bisa menggunakan fungsi increase/decrease like
     val commentViewModel: CommentViewModel = viewModel()
@@ -74,9 +78,9 @@ fun ThreadCommentSub(
         ) {
             VerticalDivider(
                 modifier = Modifier
-                    .height(160.dp) // Ensure it fills available height
-                    .width(1.dp),     // Set thickness
-                color = Color.Gray   // Optional: Change color
+                    .height(200.dp)
+                    .width(1.dp),
+                color = Color.Gray
             )
             Column(
                 modifier = Modifier
@@ -89,8 +93,8 @@ fun ThreadCommentSub(
                     Image(
                         painter = rememberAsyncImagePainter(
                             model = profilePicture,
-                            placeholder = painterResource(R.drawable.heading_small_circle),
-                            error = painterResource(R.drawable.heading_small_circle)
+                            placeholder = painterResource(R.drawable.profile_icon_unclicked),
+                            error = painterResource(R.drawable.profile_icon_unclicked)
                         ),
                         contentDescription = "Profile Picture",
                         modifier = modifier
@@ -130,6 +134,25 @@ fun ThreadCommentSub(
                     ),
                     modifier = Modifier.padding(vertical = 10.dp)
                 )
+
+                imageUrl?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = "Thread Image",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                            .padding(8.dp)
+                            .clip(RoundedCornerShape(16.dp))
+                            .border(
+                                color = Color.LightGray,
+                                width = 1.dp,
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                    )
+                }
+
                 Row(
                     modifier = Modifier
                         .padding(bottom = 20.dp)
@@ -186,7 +209,8 @@ fun ThreadCommentSub(
             HorizontalDivider(
                 Modifier
                     .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
+                    .align(Alignment.BottomCenter),
+                color = Color.Gray
             )
         }
     }

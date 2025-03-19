@@ -48,6 +48,7 @@ import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.model.CommentViewModel
 import com.example.raionapp.presentation.profile.profileData
+import com.example.raionapp.utils.rememberImagePicker
 
 @Composable
 fun ThreadCommentAdd(
@@ -58,13 +59,17 @@ fun ThreadCommentAdd(
 ) {
     var comment by remember { mutableStateOf("") }
 
-//  Kirim Thread ke Firestore
     val authorProfileData = profileData(authViewModel)
     val coroutineScope = rememberCoroutineScope()
     val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
 
     val commentViewModel: CommentViewModel = viewModel()
+
+    var imageUrl: String? by remember { mutableStateOf(null) }
+    val imagePickerHandler = rememberImagePicker(
+        coroutineScope = coroutineScope,
+        onImageUploaded = { url -> imageUrl = url }
+    )
 
     Box(
         modifier = Modifier
@@ -114,19 +119,7 @@ fun ThreadCommentAdd(
                     .border(2.dp, Color(0xFFFDBA21), RoundedCornerShape(16.dp))
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
                     .size(height = 32.dp, width = 111.dp)
-                    .clickable {
-                        try {
-                            commentViewModel.sendComment(
-                                authorProfile = authorProfileData.value,
-                                commentContent = comment,
-                                threadId = threadId
-                            )
-                            Log.w("Thread Comment Add", "Before Navigation ThreadId: $threadId")
-                            navController.navigate("comment/$threadId")
-                        } catch (e: Exception) {
-                            Log.e("AddThreadPage", "Error: ${e.message}")
-                        }
-                    },
+                    .clickable {  },
                 horizontalArrangement = Arrangement.Center
             ){
                 Icon(
@@ -203,13 +196,17 @@ fun ThreadCommentAdd(
             Icon(
                 painter = painterResource(id = R.drawable.camera_icon_add_image),
                 contentDescription = null,
-                modifier = Modifier.clickable {  },
+                modifier = Modifier.clickable {
+                    imagePickerHandler.permissionLauncher.launch(android.Manifest.permission.CAMERA)
+                },
                 tint = Color.White
             )
             Icon(
                 painter = painterResource(id = R.drawable.image_icon_add_image),
                 contentDescription = null,
-                modifier = Modifier.clickable {  },
+                modifier = Modifier.clickable {
+                    imagePickerHandler.galleryLauncher.launch("image/*")
+                },
                 tint = Color.White
             )
             Box(
@@ -244,7 +241,8 @@ fun ThreadCommentAdd(
                         commentViewModel.sendComment(
                             authorProfile = authorProfileData.value,
                             commentContent = comment,
-                            threadId = threadId
+                            threadId = threadId,
+                            imageUrl = imageUrl
                         )
                         navController.navigate("comment/$threadId")
                     } catch (e: Exception) {

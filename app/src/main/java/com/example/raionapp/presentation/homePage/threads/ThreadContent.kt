@@ -1,6 +1,7 @@
 package com.example.raionapp.presentation.homePage.threads
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -34,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -78,8 +81,8 @@ fun ThreadContent(
                 Image(
                     painter = rememberAsyncImagePainter(
                         model = profilePicture,
-                        placeholder = painterResource(R.drawable.profile_picture_example),
-                        error = painterResource(R.drawable.profile_picture_example)
+                        placeholder = painterResource(R.drawable.profile_icon_unclicked),
+                        error = painterResource(R.drawable.profile_icon_unclicked)
                     ),
                     contentDescription = "Profile Picture",
                     modifier = modifier
@@ -108,17 +111,21 @@ fun ThreadContent(
             )
 
             // Jika pengguna ada menambahkan gambar, maka tampilkan gambarnya di bawah text input pengguna (disini)
-
             imageUrl?.let { url ->
                 AsyncImage(
                     model = url,
                     contentDescription = "Thread Image",
-                    placeholder = painterResource(R.drawable.reviewer_example),
-                    error = painterResource(R.drawable.logo_tutoria_header),
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .wrapContentHeight()
                         .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .border(
+                            color = Color.LightGray,
+                            width = 1.dp,
+                            shape = RoundedCornerShape(16.dp)
+                        )
                 )
             }
 

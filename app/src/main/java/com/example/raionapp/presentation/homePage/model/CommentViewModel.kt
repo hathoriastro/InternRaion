@@ -56,7 +56,8 @@ class CommentViewModel : ViewModel() {
     fun sendComment(
         authorProfile: ProfileDataClass?,
         commentContent: String,
-        threadId: String
+        threadId: String,
+        imageUrl: String?
     ) {
         viewModelScope.launch {
             val answerCount = authorProfile?.numberOfAnswer ?: 0
@@ -70,6 +71,7 @@ class CommentViewModel : ViewModel() {
                 profilePicture = authorProfile?.profilePicture,
                 text = commentContent,
                 numberOfLike = 0,
+                imageUrl = imageUrl
                 // timeCreated akan diisi melalui FieldValue.serverTimestamp() di CommentCollection.addCommentToThread
             )
 

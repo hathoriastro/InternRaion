@@ -125,6 +125,7 @@ fun ThreadComment(
                             text = commentData.text,
                             numberOfLike = commentData.numberOfLike,
                             commentId = commentId,
+                            imageUrl = commentData.imageUrl
                         )
                     }
                 }

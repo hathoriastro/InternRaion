@@ -18,6 +18,7 @@ class CommentCollection {
             "text" to comment.text,
             "numberOfLike" to comment.numberOfLike,
             "profilePicture" to comment.profilePicture,
+            "imageUrl" to comment.imageUrl,
             "timeCreated" to FieldValue.serverTimestamp()
         )
         val docomentRef = db.collection("thread")

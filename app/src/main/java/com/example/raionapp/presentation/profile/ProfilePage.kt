@@ -60,6 +60,7 @@ fun ProfilePage(
     context: Context
 ) {
     val authState = authViewModel?.authState?.collectAsState()
+
     LaunchedEffect(authState?.value) {
         when (authState?.value) {
             is AuthState.Unauthenticated -> navController.navigate("register")
@@ -169,8 +170,8 @@ fun ProfilePage(
                     Image(
                         painter = rememberAsyncImagePainter(
                             model = userProfileData.value?.profilePicture,
-                            placeholder = painterResource(R.drawable.profile_picture),
-                            error = painterResource(R.drawable.profile_picture)
+                            placeholder = painterResource(R.drawable.profile_icon_unclicked),
+                            error = painterResource(R.drawable.profile_icon_unclicked)
                         ),
                         contentDescription = "Foto Profil",
                         modifier = Modifier

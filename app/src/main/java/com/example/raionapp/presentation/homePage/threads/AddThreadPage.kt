@@ -1,9 +1,12 @@
 package com.example.raionapp.presentation.homePage.threads
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -21,22 +24,27 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +58,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.homePage.model.HomeViewModel
 import com.example.raionapp.presentation.register.AuthViewModel
@@ -57,6 +66,7 @@ import com.example.raionapp.presentation.profile.profileData
 import kotlinx.coroutines.launch
 import com.example.raionapp.supabase.uploadImageToStorage
 import com.example.raionapp.supabase.uriToFile
+import com.example.raionapp.utils.rememberImagePicker
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -77,47 +87,16 @@ fun AddThreadPage(
 
 //    Untuk kirim foto/gambar
     var imageUrl: String? by remember { mutableStateOf(null) }
-    val context = LocalContext.current
-    var tempImageUri by remember { mutableStateOf<Uri?>(null) }
-
-    val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let {
-            coroutineScope.launch {
-                // Konversi URI ke File
-                val file = uriToFile(it, context)
-                file?.let { f ->
-                    // Unggah file ke Supabase Storage
-                    val url = uploadImageToStorage(f)
-                    Log.d("UploadDebug", "URL dari gallery: $url")
-                    imageUrl = url
-                }
-            }
-        }
-    }
-
-    val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicture()
-    ) { success ->
-        if (success) {
-            // Handle captured image
-            tempImageUri?.let { uri ->
-                coroutineScope.launch {
-                    val file = uriToFile(uri, context)
-                    file?.let { f ->
-                        val url = uploadImageToStorage(f)
-                        imageUrl = url
-                    }
-                }
-            }
-        }
-    }
+    val imagePickerHandler = rememberImagePicker(
+        coroutineScope = coroutineScope,
+        onImageUploaded = { url -> imageUrl = url }
+    )
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
+            .verticalScroll(rememberScrollState())
 
     ){
         Column(
@@ -159,7 +138,7 @@ fun AddThreadPage(
             Row(
                 modifier = Modifier
                     .padding(start = 10.dp)
-                    .border(2.dp ,color = Color(0xFFFDBA21), RoundedCornerShape(16.dp))
+                    .border(2.dp, color = Color(0xFFFDBA21), RoundedCornerShape(16.dp))
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
                     .size(height = 32.dp, width = 111.dp)
                     .clickable {
@@ -203,8 +182,6 @@ fun AddThreadPage(
                 placeholder = {
                     Text(
                         text = "What do you need to know?",
-
-                        // Body Text/Body Small Medium
                         style = TextStyle(
                             fontSize = 16.sp,
                             lineHeight = 19.6.sp,
@@ -226,19 +203,6 @@ fun AddThreadPage(
             )
         }
 
-//        // Tampilkan preview gambar jika URL tidak kosong
-//        if (!imageUrl.isNullOrEmpty()) {
-//            Spacer(modifier = Modifier.height(16.dp))
-//            AsyncImage(
-//                model = imageUrl,
-//                contentDescription = "Preview Image",
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .height(200.dp)
-//            )
-//            Spacer(modifier = Modifier.height(16.dp))
-//        }
-        // Bottom Bar AddThread
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -253,13 +217,7 @@ fun AddThreadPage(
                 contentDescription = null,
                 modifier = Modifier
                     .clickable {
-                        val file = createImageFile(context)
-                        tempImageUri = FileProvider.getUriForFile(
-                            context,
-                            "${context.packageName}.provider",
-                            file
-                        )
-                        cameraLauncher.launch(tempImageUri!!)
+
                     },
                 tint = Color.White
             )
@@ -268,7 +226,7 @@ fun AddThreadPage(
                 contentDescription = null,
                 modifier = Modifier
                     .clickable {
-
+                        imagePickerHandler.permissionLauncher.launch(Manifest.permission.CAMERA)
                     },
                 tint = Color.White
             )
@@ -277,8 +235,7 @@ fun AddThreadPage(
                 contentDescription = null,
                 modifier = Modifier
                     .clickable {
-                        galleryLauncher.launch("image/*")
-                    // Setelah pengguna menekan ini, maka galerinya akan terbuka lalu ia akan memilih gambar untuk dimasukkan ke thread.
+                        imagePickerHandler.galleryLauncher.launch("image/*")
                 },
                 tint = Color.White
             )
@@ -335,7 +292,7 @@ fun createImageFile(context: Context): File {
     return File.createTempFile(
         "JPEG_${timeStamp}_",
         ".jpg",
-        context.externalCacheDir
+        context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) // Simpan di folder Pictures
     )
 }
 

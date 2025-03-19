@@ -11,5 +11,6 @@ data class CommentDataClass(
     val text: String = "",
     val numberOfLike: Int = 0,
     val profilePicture: String? = null,
+    val imageUrl: String? = null,
     @ServerTimestamp val timeCreated: Date? = null
 )
