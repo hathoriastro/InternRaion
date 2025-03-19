@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -91,7 +92,7 @@ fun LessonPageUnlockedMaterial(
                 modifier = Modifier.wrapContentSize()
             )
         }
-        Box(
+        Row(
             Modifier
                 .border(
                     width = 1.dp,
@@ -112,7 +113,7 @@ fun LessonPageUnlockedMaterial(
                     .width(68.dp)
                     .height(63.dp)
                     .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(size = 8.dp))
-                    .align(Alignment.CenterStart)
+                    .align(Alignment.CenterVertically)
             ){
                 Icon(
                     painter = painterResource(R.drawable.file_icon_sublesson),
@@ -122,12 +123,13 @@ fun LessonPageUnlockedMaterial(
                 )
             }
             Column(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
             ) {
                 Text(
                     text = "FILE",
                     style = TextStyle(
-                        fontSize = 14.sp,
+                        fontSize = 13.sp,
                         lineHeight = 21.sp,
                         fontFamily = montserratFont,
                         fontWeight = FontWeight(400),
@@ -137,7 +139,7 @@ fun LessonPageUnlockedMaterial(
                 Text(
                     text = "Introduction To Website Design",
                     style = TextStyle(
-                        fontSize = 14.sp,
+                        fontSize = 13.sp,
                         lineHeight = 21.sp,
                         fontFamily = montserratFont,
                         fontWeight = FontWeight(400),
@@ -147,7 +149,7 @@ fun LessonPageUnlockedMaterial(
             }
         }
 
-        Box(
+        Row(
             Modifier
                 .border(
                     width = 1.dp,
@@ -168,7 +170,7 @@ fun LessonPageUnlockedMaterial(
                     .width(68.dp)
                     .height(63.dp)
                     .background(color = Color(0xFF5598CC), shape = RoundedCornerShape(size = 8.dp))
-                    .align(Alignment.CenterStart)
+                    .align(Alignment.CenterVertically)
             ){
                 Icon(
                     painter = painterResource(R.drawable.video_icon_sublesson),
@@ -178,12 +180,12 @@ fun LessonPageUnlockedMaterial(
                 )
             }
             Column(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.CenterVertically)
             ) {
                 Text(
                     text = "VIDEO",
                     style = TextStyle(
-                        fontSize = 14.sp,
+                        fontSize = 13.sp,
                         lineHeight = 21.sp,
                         fontFamily = montserratFont,
                         fontWeight = FontWeight(400),
@@ -193,7 +195,7 @@ fun LessonPageUnlockedMaterial(
                 Text(
                     text = "Introduction To Website Design",
                     style = TextStyle(
-                        fontSize = 14.sp,
+                        fontSize = 13.sp,
                         lineHeight = 21.sp,
                         fontFamily = montserratFont,
                         fontWeight = FontWeight(400),
@@ -203,7 +205,7 @@ fun LessonPageUnlockedMaterial(
             }
         }
 
-        Box(
+        Row(
             Modifier
                 .border(
                     width = 1.dp,
@@ -224,7 +226,7 @@ fun LessonPageUnlockedMaterial(
                     .width(68.dp)
                     .height(63.dp)
                     .background(color = Color(0xFFFDBA21), shape = RoundedCornerShape(size = 8.dp))
-                    .align(Alignment.CenterStart)
+                    .align(Alignment.CenterVertically)
             ){
                 Icon(
                     painter = painterResource(R.drawable.video_practice_icon_sublesson),
@@ -234,12 +236,12 @@ fun LessonPageUnlockedMaterial(
                 )
             }
             Column(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.CenterVertically)
             ) {
                 Text(
                     text = "VIDEO PRACTICE",
                     style = TextStyle(
-                        fontSize = 14.sp,
+                        fontSize = 13.sp,
                         lineHeight = 21.sp,
                         fontFamily = montserratFont,
                         fontWeight = FontWeight(400),
@@ -249,7 +251,7 @@ fun LessonPageUnlockedMaterial(
                 Text(
                     text = "Introduction To Website Design",
                     style = TextStyle(
-                        fontSize = 14.sp,
+                        fontSize = 13.sp,
                         lineHeight = 21.sp,
                         fontFamily = montserratFont,
                         fontWeight = FontWeight(400),
