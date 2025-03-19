@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -37,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.example.raionapp.presentation.homePage.model.HomeViewModel
 import kotlinx.coroutines.launch
 
@@ -49,6 +51,7 @@ fun ThreadContent(
     text: String,
     numberOfComment: Int,
     numberOfLike: Int,
+    imageUrl: String?,
     modifier: Modifier = Modifier,
     navController: NavHostController?
 ) {
@@ -75,8 +78,8 @@ fun ThreadContent(
                 Image(
                     painter = rememberAsyncImagePainter(
                         model = profilePicture,
-                        placeholder = painterResource(R.drawable.heading_small_circle),
-                        error = painterResource(R.drawable.heading_small_circle)
+                        placeholder = painterResource(R.drawable.profile_picture_example),
+                        error = painterResource(R.drawable.profile_picture_example)
                     ),
                     contentDescription = "Profile Picture",
                     modifier = modifier
@@ -105,6 +108,19 @@ fun ThreadContent(
             )
 
             // Jika pengguna ada menambahkan gambar, maka tampilkan gambarnya di bawah text input pengguna (disini)
+
+            imageUrl?.let { url ->
+                AsyncImage(
+                    model = url,
+                    contentDescription = "Thread Image",
+                    placeholder = painterResource(R.drawable.reviewer_example),
+                    error = painterResource(R.drawable.logo_tutoria_header),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(8.dp)
+                )
+            }
 
             Row(
                 modifier = Modifier
@@ -186,6 +202,7 @@ fun ThreadContentPreview() {
         text = "Saya suka makan nasi yang dicampur dengan sop ayam segar",
         numberOfComment = 5,
         numberOfLike = 10,
+        imageUrl = null,
         navController = rememberNavController()
     )
 

@@ -3,6 +3,7 @@ package com.example.raionapp.pdfRender
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -30,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.plcoding.pdf_renderercompose.PdfPage
 
 @Composable
 fun PdfViewerScreen(
@@ -56,6 +56,7 @@ fun PdfViewerScreen(
 
     LaunchedEffect(pdfUri) {
         pdfUri?.let { uri ->
+            Log.d("PDF_URI", uri.toString())
             renderedPages = pdfBitmapConverter.pdfToBitmaps(uri)
         }
     }
@@ -63,6 +64,7 @@ fun PdfViewerScreen(
     val choosePdfLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) {
+        Log.d("PDF_URI", it.toString())
         pdfUri = it
     }
 

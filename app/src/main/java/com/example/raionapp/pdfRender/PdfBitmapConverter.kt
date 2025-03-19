@@ -20,8 +20,7 @@ class PdfBitmapConverter(
         return withContext(Dispatchers.IO) {
             renderer?.close()
 
-            context
-                .contentResolver
+            context.contentResolver
                 .openFileDescriptor(contentUri, "r")
                 ?.use { descriptor ->
                     with(PdfRenderer(descriptor)) {

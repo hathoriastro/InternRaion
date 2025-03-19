@@ -1,4 +1,4 @@
-package com.plcoding.pdf_renderercompose
+package com.example.raionapp.pdfRender
 
 import android.graphics.Bitmap
 import android.graphics.RectF
@@ -13,7 +13,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.example.raionapp.pdfRender.SearchResults
 
 @Composable
 fun PdfPage(

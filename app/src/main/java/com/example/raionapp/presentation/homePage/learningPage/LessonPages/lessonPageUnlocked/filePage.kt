@@ -37,9 +37,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import com.example.raionapp.presentation.homePage.threads.ThreadContent
+import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun FilePage(
@@ -136,7 +136,9 @@ fun FilePage(
                                 modifier = Modifier
                                     .align(Alignment.CenterEnd)
                                     .offset(x = -20.dp)
-                                    .clickable {  },
+                                    .clickable {
+
+                                    },
                                 tint = Color.White
                             )
                         }

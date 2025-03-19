@@ -1,3 +1,5 @@
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -8,6 +10,8 @@ plugins {
 
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+
+    kotlin("plugin.serialization") version "2.1.0"
 }
 
 android {
@@ -97,12 +101,21 @@ dependencies {
 
     // Okhttp -> Untuk mengungga file
     implementation(libs.okhttp)
+    implementation(libs.okio)
 
     // Dagger-Hilt
     implementation (libs.hilt.android)
     kapt (libs.hilt.android.compiler)
     kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    val ktorVersion = "3.1.1"
+    val supabaseVersion = "3.1.3"
+
+    implementation(libs.postgrest.kt)
+    implementation("io.ktor:ktor-client-android:$ktorVersion")
+    implementation(platform("io.github.jan-tennert.supabase:bom:1.4.1"))
+    implementation("io.github.jan-tennert.supabase:storage-kt")
 }
 
 kapt {

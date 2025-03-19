@@ -172,6 +172,7 @@ fun HomePageScreen(
                             numberOfComment = threadData.numberOfComment,
                             numberOfLike = threadData.numberOfLike,
                             threadId = threadId,
+                            imageUrl = threadData.imageURL,
                             navController = navController,
                         )
                     }

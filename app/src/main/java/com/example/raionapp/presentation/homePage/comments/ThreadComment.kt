@@ -112,6 +112,7 @@ fun ThreadComment(
                             numberOfLike = threadData.numberOfLike,
                             navController = navController,
                             modifier = Modifier,
+                            imageUrl = threadData.imageURL
 
                         )
                     }

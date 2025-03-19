@@ -1,10 +1,10 @@
 package com.example.raionapp.presentation.homePage.threads
 
-import android.graphics.Bitmap
+import android.annotation.SuppressLint
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,7 +38,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -47,20 +46,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.raionapp.R
 import androidx.compose.ui.text.TextStyle
+import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import bitmapToFile
-import coil.compose.AsyncImage
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.homePage.model.CommentViewModel
 import com.example.raionapp.presentation.homePage.model.HomeViewModel
 import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.profile.profileData
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import uploadImageToStorage
-import uriToFile
+import com.example.raionapp.supabase.uploadImageToStorage
+import com.example.raionapp.supabase.uriToFile
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun AddThreadPage(
@@ -77,8 +76,9 @@ fun AddThreadPage(
     val coroutineScope = rememberCoroutineScope()
 
 //    Untuk kirim foto/gambar
-    var imageUrl: String? by remember { mutableStateOf("") }
+    var imageUrl: String? by remember { mutableStateOf(null) }
     val context = LocalContext.current
+    var tempImageUri by remember { mutableStateOf<Uri?>(null) }
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -90,25 +90,29 @@ fun AddThreadPage(
                 file?.let { f ->
                     // Unggah file ke Supabase Storage
                     val url = uploadImageToStorage(f)
+                    Log.d("UploadDebug", "URL dari gallery: $url")
                     imageUrl = url
                 }
             }
         }
     }
 
-//    val cameraLauncher = rememberLauncherForActivityResult(
-//        contract = ActivityResultContracts.TakePicturePreview()
-//    ) { bitmap: Bitmap? ->
-//        bitmap?.let {
-//            coroutineScope.launch {
-//                val file = bitmapToFile(it, context)
-//                file?.let { f ->
-//                    val url = uploadImageToStorage(f)
-//                    imageUrl = url
-//                }
-//            }
-//        }
-//    }
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success) {
+            // Handle captured image
+            tempImageUri?.let { uri ->
+                coroutineScope.launch {
+                    val file = uriToFile(uri, context)
+                    file?.let { f ->
+                        val url = uploadImageToStorage(f)
+                        imageUrl = url
+                    }
+                }
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -222,18 +226,18 @@ fun AddThreadPage(
             )
         }
 
-        // Tampilkan preview gambar jika URL tidak kosong
-        if (!imageUrl.isNullOrEmpty()) {
-            Spacer(modifier = Modifier.height(16.dp))
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "Preview Image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-        }
+//        // Tampilkan preview gambar jika URL tidak kosong
+//        if (!imageUrl.isNullOrEmpty()) {
+//            Spacer(modifier = Modifier.height(16.dp))
+//            AsyncImage(
+//                model = imageUrl,
+//                contentDescription = "Preview Image",
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(200.dp)
+//            )
+//            Spacer(modifier = Modifier.height(16.dp))
+//        }
         // Bottom Bar AddThread
         Row(
             modifier = Modifier
@@ -249,7 +253,13 @@ fun AddThreadPage(
                 contentDescription = null,
                 modifier = Modifier
                     .clickable {
-                        // untuk ini seharusnya pengguna dapat menambahkan seluruh file, tapi saya tidak tau caranya bagaimana
+                        val file = createImageFile(context)
+                        tempImageUri = FileProvider.getUriForFile(
+                            context,
+                            "${context.packageName}.provider",
+                            file
+                        )
+                        cameraLauncher.launch(tempImageUri!!)
                     },
                 tint = Color.White
             )
@@ -258,7 +268,7 @@ fun AddThreadPage(
                 contentDescription = null,
                 modifier = Modifier
                     .clickable {
-                        galleryLauncher.launch("image/*")
+
                     },
                 tint = Color.White
             )
@@ -267,9 +277,7 @@ fun AddThreadPage(
                 contentDescription = null,
                 modifier = Modifier
                     .clickable {
-//                        coroutineScope.launch {
-//                            cameraLauncher.launch()
-//                        }
+                        galleryLauncher.launch("image/*")
                     // Setelah pengguna menekan ini, maka galerinya akan terbuka lalu ia akan memilih gambar untuk dimasukkan ke thread.
                 },
                 tint = Color.White
@@ -318,6 +326,17 @@ fun AddThreadPage(
             )
         }
     }
+}
+
+// Fungsi pembuat file
+@SuppressLint("SimpleDateFormat")
+fun createImageFile(context: Context): File {
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    return File.createTempFile(
+        "JPEG_${timeStamp}_",
+        ".jpg",
+        context.externalCacheDir
+    )
 }
 
 @Preview

@@ -1,5 +1,6 @@
+package com.example.raionapp.supabase
+
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
@@ -8,7 +9,6 @@ import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.io.FileOutputStream
 
 // Fungsi untuk mengonversi URI ke File (file sementara di cache)
 fun uriToFile(uri: Uri, context: Context): File? {
@@ -25,40 +25,30 @@ fun uriToFile(uri: Uri, context: Context): File? {
     }
 }
 
-// Fungsi untuk menyimpan Bitmap ke File
-fun bitmapToFile(bitmap: Bitmap, context: Context): File? {
-    return try {
-        val tempFile = File.createTempFile("camera_upload", ".jpg", context.cacheDir)
-        val out = FileOutputStream(tempFile)
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
-        out.flush()
-        out.close()
-        tempFile
-    } catch (e: Exception) {
-        e.printStackTrace()
-        null
-    }
-}
+suspend fun uploadImageToStorage(imageFile: File, bucket: String = "images"): String? = withContext(Dispatchers.IO) {
+    val supabaseUrl = "https://alttsnvqrvubfyznbmji.supabase.co"
+    val supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdHRzbnZxcnZ1YmZ5em5ibWppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIyOTEzNzgsImV4cCI6MjA1Nzg2NzM3OH0.dFQVX797frNfOcIOsCCR7C7N7w27j7PSaWFN35E_53A" // Pastikan key benar
 
-// Fungsi untuk mengunggah gambar ke Supabase Storage dan mengembalikan URL
-suspend fun uploadImageToStorage(imageFile: File, bucket: String = "images"): String?  = withContext(Dispatchers.IO) {
-    val supabaseUrl = "https://alttsnvqrvubfyznbmji.supabase.co" // Ganti dengan URL Supabase proyek Anda
-    // URL endpoint untuk mengunggah file ke bucket "images"
-    val uploadUrl = "$supabaseUrl/storage/v1/object/public/$bucket/${imageFile.name}"
+    // Gunakan endpoint upload yang benar
+    val uploadUrl = "$supabaseUrl/storage/v1/object/$bucket/${imageFile.name}"
+
     val client = OkHttpClient()
-    val mediaType = "image/jpeg".toMediaTypeOrNull() // Sesuaikan jika file berupa PNG misalnya
+    val mediaType = "image/*".toMediaTypeOrNull()
     val requestBody = imageFile.asRequestBody(mediaType)
 
     val request = Request.Builder()
         .url(uploadUrl)
-        .put(requestBody)
+        .addHeader("Authorization", "Bearer $supabaseKey") // Wajib!
+        .addHeader("Content-Type", "image/*")
+        .post(requestBody) // Supabase menggunakan POST untuk upload
         .build()
 
     client.newCall(request).execute().use { response ->
         if (response.isSuccessful) {
-            Log.d("UploadImageToStorage", "Upload berhasil: $uploadUrl")
-            uploadUrl // URL file yang dapat diakses
+            // Return public URL yang benar
+            "$supabaseUrl/storage/v1/object/public/$bucket/${imageFile.name}"
         } else {
+            Log.e("UploadError", "Gagal upload: ${response.body?.string()}")
             null
         }
     }

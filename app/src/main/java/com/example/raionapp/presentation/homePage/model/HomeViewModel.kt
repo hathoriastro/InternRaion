@@ -56,7 +56,7 @@ class HomeViewModel : ViewModel() {
                 authorProfilePicture = authorProfile?.profilePicture.orEmpty(),
                 numberOfLike = 0,
                 numberOfComment = 0,
-                imageURL = imageUrl.orEmpty() // Jika pengguna ada menambahkan gambar, maka masukkan url gambarnya disini
+                imageURL = imageUrl // Jika pengguna ada menambahkan gambar, maka masukkan url gambarnya disini
             )
             ThreadCollection().addThreadToFirestore(thread)
 
