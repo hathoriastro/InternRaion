@@ -23,3 +23,15 @@ val montserratFont = FontFamily(
         weight = FontWeight.Normal,
     )
     )
+
+val nunitoFont = FontFamily(
+    Font(
+        googleFont = GoogleFont("Nunito"),
+        fontProvider = GoogleFont.Provider(
+            providerAuthority = "com.google.android.gms.fonts",
+            providerPackage = "com.google.android.gms",
+            certificates = emptyList()
+        ),
+        weight = FontWeight.Normal
+    )
+)

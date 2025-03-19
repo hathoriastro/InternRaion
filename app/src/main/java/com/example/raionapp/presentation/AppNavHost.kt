@@ -19,6 +19,8 @@ import com.example.raionapp.presentation.homePage.comments.ThreadComment
 import com.example.raionapp.presentation.homePage.comments.ThreadCommentAdd
 import com.example.raionapp.presentation.homePage.bankPage.BankPageHome
 import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ChatPage
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.FilePage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.LessonPageUnlocked
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPage
 import com.example.raionapp.presentation.homePage.semesterSelect.SemesterSelectPage
@@ -104,7 +106,13 @@ fun AppNavHost(
             LessonPageUnlocked("Contoh Budi", modifier,navController, authViewModel)
         }
         composable("videopage") {
-            VideoPage(modifier,navController, authViewModel)
+            VideoPage(modifier, navController, authViewModel)
+        }
+        composable("filepage") {
+            FilePage(modifier, navController, authViewModel)
+        }
+        composable("chatpage") {
+            ChatPage(modifier, navController, authViewModel)
         }
     }
 }

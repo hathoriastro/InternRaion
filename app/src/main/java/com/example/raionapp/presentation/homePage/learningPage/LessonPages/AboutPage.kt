@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -303,6 +304,102 @@ fun AboutPage(
                             shape = RoundedCornerShape(size = 16.dp)
                         )
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 30.dp, top = 15.dp, bottom = 15.dp, end = 40.dp)
+                            .fillMaxSize()
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.book_icon_aboutpage),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "60 Lessons",
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    lineHeight = 18.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFFF5F6F9),
+                                )
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier.align(Alignment.BottomStart),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.time_icon_aboutpage),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "20 hr 45 min",
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    lineHeight = 18.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFFF5F6F9),
+                                )
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier.align(Alignment.BottomEnd),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.certificate_icon_aboutpage),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "Certificate",
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    lineHeight = 18.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFFF5F6F9),
+                                )
+                            )
+                        }
+
+                        Row(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .fillMaxWidth(0.38f),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.language_icon_aboutpage),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = "English",
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    lineHeight = 18.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFFF5F6F9),
+                                )
+                            )
+                        }
+
+
+                    }
 
                 }
                 Box(

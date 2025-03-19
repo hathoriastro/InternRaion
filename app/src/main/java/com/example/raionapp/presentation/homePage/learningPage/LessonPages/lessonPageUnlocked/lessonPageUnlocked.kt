@@ -268,21 +268,21 @@ fun LessonPageUnlocked(
                         .padding(vertical = 20.dp, horizontal = 10.dp)
                         .wrapContentHeight()
                         .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        7.dp,
-                        Alignment.CenterHorizontally
-                    ),
+                    horizontalArrangement = Arrangement.SpaceAround,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
                         modifier = Modifier
                             .height(32.dp)
-                            .width(88.dp)
+                            .width(75.dp)
                             .border(1.dp, Color(0xFFFDCB1A), RoundedCornerShape(16.dp))
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
+                            .clickable {
+                                navController.navigate("filepage")
+                            }
                     ) {
                         Text(
                             text = "Modul",
@@ -302,7 +302,7 @@ fun LessonPageUnlocked(
                     Box(
                         modifier = Modifier
                             .height(32.dp)
-                            .width(88.dp)
+                            .width(75.dp)
                             .border(1.dp, Color(0xFFFDCB1A), RoundedCornerShape(16.dp))
                             .background(
                                 color = Color.White,
@@ -328,7 +328,7 @@ fun LessonPageUnlocked(
                     Box(
                         modifier = Modifier
                             .height(32.dp)
-                            .width(88.dp)
+                            .width(75.dp)
                             .border(1.dp, Color(0xFFFDCB1A), RoundedCornerShape(16.dp))
                             .background(
                                 color = Color.White,
@@ -353,12 +353,15 @@ fun LessonPageUnlocked(
                     Box(
                         modifier = Modifier
                             .height(32.dp)
-                            .width(88.dp)
+                            .width(75.dp)
                             .border(1.dp, Color(0xFFFDCB1A), RoundedCornerShape(16.dp))
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
+                            .clickable {
+                                navController.navigate("chatpage")
+                            }
                     ) {
                         Text(
                             text = "Diskusi",
