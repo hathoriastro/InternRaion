@@ -1,7 +1,6 @@
 package com.example.raionapp.presentation.homePage.comments
 
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,18 +44,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.firestore.model.ProfileDataClass
-import com.example.raionapp.firestore.ProfileCollection
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.firestore.CommentCollection
-import com.example.raionapp.firestore.ThreadCollection
-import com.example.raionapp.firestore.model.CommentDataClass
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.model.CommentViewModel
 import com.example.raionapp.presentation.profile.profileData
-import com.google.firebase.firestore.FieldValue
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun ThreadCommentAdd(

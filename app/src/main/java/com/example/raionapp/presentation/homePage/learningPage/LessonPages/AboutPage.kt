@@ -41,7 +41,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun AboutPage(

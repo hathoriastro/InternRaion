@@ -19,7 +19,7 @@ class ThreadCollection {
                 "authorProfilePicture" to thread.authorProfilePicture,
                 "numberOfLike" to thread.numberOfLike,
                 "numberOfComment" to thread.numberOfComment,
-                "isLiked" to false,
+                "imageURL" to thread.imageURL,
                 "timeCreated" to FieldValue.serverTimestamp()
             )
     //        Membuat document terlebih dahulu, lalu mengambil id nya untuk dijadikan threadId

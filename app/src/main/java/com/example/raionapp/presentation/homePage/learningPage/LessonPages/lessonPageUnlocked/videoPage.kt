@@ -28,16 +28,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.exoPlayer.Media3PlayerView
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
-import com.example.raionapp.presentation.homePage.threads.ThreadContent
 
 @Composable
 fun VideoPage(

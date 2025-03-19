@@ -52,14 +52,13 @@ fun ThreadCommentSub(
     numberOfLike: Int,
     modifier: Modifier = Modifier,
     commentId: String,
-    isLiked: Boolean
 ) {
     // Ambil instance CommentViewModel sehingga kita bisa menggunakan fungsi increase/decrease like
     val commentViewModel: CommentViewModel = viewModel()
     val coroutineScope = rememberCoroutineScope()
 
     // State untuk status like dan jumlah like
-    var isLiked by remember { mutableStateOf(isLiked) }
+    var isLiked by remember { mutableStateOf(false) }
     var likeCount by remember { mutableIntStateOf(numberOfLike) }
     var isSaved by remember { mutableStateOf(false) }
 

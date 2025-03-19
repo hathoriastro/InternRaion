@@ -1,7 +1,6 @@
 package com.example.raionapp.presentation.learningPage.learningPageHome
 
 import androidx.compose.foundation.Image
-import com.example.raionapp.presentation.homePage.NavBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,13 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,7 +38,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.ReviewPageBox
 
 @Composable

@@ -1,7 +1,11 @@
 package com.example.raionapp.presentation.homePage.threads
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Log
-import androidx.compose.foundation.Image
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,7 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,18 +47,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.raionapp.R
 import androidx.compose.ui.text.TextStyle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.firestore.model.ProfileDataClass
-import com.example.raionapp.firestore.model.ThreadDataClass
-import com.example.raionapp.firestore.ProfileCollection
-import com.example.raionapp.firestore.ThreadCollection
+import bitmapToFile
+import coil.compose.AsyncImage
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.homePage.model.CommentViewModel
+import com.example.raionapp.presentation.homePage.model.HomeViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.profile.profileData
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-
+import uploadImageToStorage
+import uriToFile
 
 @Composable
 fun AddThreadPage(
@@ -62,13 +68,48 @@ fun AddThreadPage(
     navController: NavHostController,
     authViewModel: AuthViewModel?
 ) {
+    val homeViewModel: HomeViewModel = viewModel()
     var thread by remember { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
 
 //  Kirim Thread ke Firestore
     val authorProfileData = profileData(authViewModel)
     val coroutineScope = rememberCoroutineScope()
+
+//    Untuk kirim foto/gambar
+    var imageUrl: String? by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            coroutineScope.launch {
+                // Konversi URI ke File
+                val file = uriToFile(it, context)
+                file?.let { f ->
+                    // Unggah file ke Supabase Storage
+                    val url = uploadImageToStorage(f)
+                    imageUrl = url
+                }
+            }
+        }
+    }
+
+//    val cameraLauncher = rememberLauncherForActivityResult(
+//        contract = ActivityResultContracts.TakePicturePreview()
+//    ) { bitmap: Bitmap? ->
+//        bitmap?.let {
+//            coroutineScope.launch {
+//                val file = bitmapToFile(it, context)
+//                file?.let { f ->
+//                    val url = uploadImageToStorage(f)
+//                    imageUrl = url
+//                }
+//            }
+//        }
+//    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -118,16 +159,8 @@ fun AddThreadPage(
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
                     .size(height = 32.dp, width = 111.dp)
                     .clickable {
-                        try {
-                            sendThread(
-                                authorProfile = authorProfileData.value,
-                                threadContent = thread,
-                                coroutineScope = coroutineScope
-                            )
-                            navController.navigate("home")
-                        } catch (e: Exception) {
-                            Log.e("AddThreadPage", "Error: ${e.message}")
-                        }
+                        // Ketika pengguna menekan ini, maka ia akan diarahkan ke halaman subjectselectpage untuk memilih jenis mata pelajaran apa yang terkait dengan thread
+                        navController.navigate("subjectselectpage")
                     },
                 horizontalArrangement = Arrangement.Center
             ){
@@ -189,6 +222,18 @@ fun AddThreadPage(
             )
         }
 
+        // Tampilkan preview gambar jika URL tidak kosong
+        if (!imageUrl.isNullOrEmpty()) {
+            Spacer(modifier = Modifier.height(16.dp))
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = "Preview Image",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         // Bottom Bar AddThread
         Row(
             modifier = Modifier
@@ -202,19 +247,31 @@ fun AddThreadPage(
             Icon(
                 painter = painterResource(id = R.drawable.plus_icon_add),
                 contentDescription = null,
-                modifier = Modifier.clickable {  },
+                modifier = Modifier
+                    .clickable {
+                        // untuk ini seharusnya pengguna dapat menambahkan seluruh file, tapi saya tidak tau caranya bagaimana
+                    },
                 tint = Color.White
             )
             Icon(
                 painter = painterResource(id = R.drawable.camera_icon_add_image),
                 contentDescription = null,
-                modifier = Modifier.clickable {  },
+                modifier = Modifier
+                    .clickable {
+                        galleryLauncher.launch("image/*")
+                    },
                 tint = Color.White
             )
             Icon(
                 painter = painterResource(id = R.drawable.image_icon_add_image),
                 contentDescription = null,
-                modifier = Modifier.clickable {  },
+                modifier = Modifier
+                    .clickable {
+//                        coroutineScope.launch {
+//                            cameraLauncher.launch()
+//                        }
+                    // Setelah pengguna menekan ini, maka galerinya akan terbuka lalu ia akan memilih gambar untuk dimasukkan ke thread.
+                },
                 tint = Color.White
             )
             Box(
@@ -246,10 +303,11 @@ fun AddThreadPage(
                 contentDescription = null,
                 modifier = Modifier.clickable {
                     try {
-                        sendThread(
+                        homeViewModel.sendThread(
                             authorProfile = authorProfileData.value,
                             threadContent = thread,
-                            coroutineScope = coroutineScope
+                            coroutineScope = coroutineScope,
+                            imageUrl = imageUrl
                         )
                         navController.navigate("home")
                     } catch (e: Exception) {
@@ -259,32 +317,6 @@ fun AddThreadPage(
                 tint = Color.White
             )
         }
-    }
-}
-
-private fun sendThread(
-    authorProfile: ProfileDataClass?,
-    threadContent: String = "",
-    coroutineScope: CoroutineScope
-) {
-    var questionCount = authorProfile?.numberOfQuestion
-    coroutineScope.launch {
-        val thread = ThreadDataClass(
-            userId = authorProfile?.userId.orEmpty(),
-            fullname = authorProfile?.fullname.orEmpty(),
-            username = authorProfile?.username.orEmpty(),
-            threadText = threadContent,
-            authorProfilePicture = authorProfile?.profilePicture.orEmpty(),
-            numberOfLike = 0,
-            numberOfComment = 0,
-        )
-        ThreadCollection().addThreadToFirestore(thread)
-
-        val updateNumberOfQuestion = mapOf("numberOfQuestion" to (questionCount?.plus(1)))
-        ProfileCollection().updateProfileInFirestore(
-            authorProfile?.userId.toString(),
-            updateNumberOfQuestion
-        )
     }
 }
 

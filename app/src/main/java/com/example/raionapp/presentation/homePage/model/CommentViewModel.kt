@@ -99,8 +99,7 @@ class CommentViewModel : ViewModel() {
                     threadId = threadId,
                     commentId = commentId,
                     updateData = mapOf(
-                        "numberOfLike" to FieldValue.increment(1),
-                        "isLiked" to true
+                        "numberOfLike" to FieldValue.increment(1)
                     )
                 )
             } catch (e: Exception) {
@@ -117,8 +116,7 @@ class CommentViewModel : ViewModel() {
                     threadId = threadId,
                     commentId = commentId,
                     updateData = mapOf(
-                        "numberOfLike" to FieldValue.increment(-1),
-                        "isLiked" to false
+                        "numberOfLike" to FieldValue.increment(-1)
                     )
                 )
             } catch (e: Exception) {

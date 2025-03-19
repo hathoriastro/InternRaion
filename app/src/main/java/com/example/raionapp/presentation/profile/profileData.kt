@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.example.raionapp.firestore.model.ProfileDataClass
 import com.example.raionapp.firestore.ProfileCollection
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun profileData(authViewModel: AuthViewModel?): State<ProfileDataClass?> {

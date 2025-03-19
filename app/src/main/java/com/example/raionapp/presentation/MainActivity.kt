@@ -10,7 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.pdfRender.PdfViewerScreen
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.ui.theme.RaionappTheme
 import com.google.firebase.FirebaseApp
 
@@ -32,6 +33,9 @@ class MainActivity : ComponentActivity() {
                         authViewModel = authViewModel,
                         context = this
                     )
+//                    PdfViewerScreen(
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
                 }
             }
         }

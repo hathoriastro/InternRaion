@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.authentication
+package com.example.raionapp.presentation.register
 
 /**
  * Sealed class AuthState -> digunakan untuk menyimpan status autentikasi pengguna

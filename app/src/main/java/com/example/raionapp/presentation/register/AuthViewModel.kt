@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.authentication
+package com.example.raionapp.presentation.register
 
 import android.app.Application
 import android.content.Context
@@ -153,7 +153,7 @@ class AuthViewModel(
                 val result = buildCredentialRequest(activityContext)
                 if (handleSignInGoogle(result) == true) {
                     _authState.value = AuthState.Authenticated
-                    saveUserProfileFromGoogle()
+                    saveUserProfileToGoogle()
                 } else {
                     _authState.value = AuthState.Unauthenticated
                 }
@@ -214,7 +214,7 @@ class AuthViewModel(
             )
     }
 
-    private fun saveUserProfileFromGoogle() {
+    private fun saveUserProfileToGoogle() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             viewModelScope.launch {
@@ -222,12 +222,6 @@ class AuthViewModel(
                     if (profileCollection.checkProfileExists(currentUser.uid)) {
                         loadUserProfile()
                     } else {
-//                    val existingProfile = profileCollection.getProfileFromFirestore(currentUser.uid)
-                        val role = "student"
-//                    if (existingProfile != null && existingProfile.role == "mentor") {
-//                        role = "trese"
-//                    }
-//                    println(role)
                         val profile = ProfileDataClass(
                             userId = currentUser.uid,
                             username = currentUser.displayName ?: "",
@@ -236,7 +230,7 @@ class AuthViewModel(
                             numberOfAnswer = 0,
                             numberOfQuestion = 0,
                             profilePicture = currentUser.photoUrl?.toString(),
-                            role = role
+                            role = "student"
                         )
                         profileCollection.addProfileToFirestore(profile)
                         Log.d("AuthViewModel", "Profile saved: ${profile.userId}")

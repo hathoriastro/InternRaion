@@ -11,7 +11,7 @@ import com.example.raionapp.presentation.register.SignUpScreen
 import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
 
 // Import Backend AuthViewModel
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.threads.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
 import com.example.raionapp.presentation.profile.SavedAnswers

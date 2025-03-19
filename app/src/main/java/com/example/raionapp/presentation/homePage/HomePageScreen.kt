@@ -39,7 +39,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.model.HomeViewModel
 import com.example.raionapp.presentation.homePage.threads.ThreadContent
 
@@ -81,6 +81,7 @@ fun HomePageScreen(
         Box(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
+            .verticalScroll(rememberScrollState()) // Ku pindahin scroll nya biar sesuai ama figma
         ){
             TopBarAndProfile(
                 modifier = modifier,
@@ -127,7 +128,7 @@ fun HomePageScreen(
                         )
                     }
 
-                    Row(
+                    Row( // UNTUK MEMILIH SEMESTER
                         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
@@ -161,7 +162,6 @@ fun HomePageScreen(
                         .zIndex(2f)
                         .fillMaxSize()
                         .background(color = Color.White, shape = RoundedCornerShape(10.dp))
-                        .verticalScroll(rememberScrollState()),
                 ) {
                     thread.value.forEach { (threadId, threadData) ->
                         ThreadContent(
@@ -172,8 +172,7 @@ fun HomePageScreen(
                             numberOfComment = threadData.numberOfComment,
                             numberOfLike = threadData.numberOfLike,
                             threadId = threadId,
-                            isLiked = threadData.isLiked,
-                            navController = navController
+                            navController = navController,
                         )
                     }
                 }

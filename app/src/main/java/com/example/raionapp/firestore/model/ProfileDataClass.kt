@@ -8,7 +8,7 @@ data class ProfileDataClass(
     val numberOfQuestion: Int = 0,
     val numberOfAnswer: Int = 0,
     val profilePicture: String? = null,
-    val role: String? = null
+    val role: String? = "student"
 )
 
 

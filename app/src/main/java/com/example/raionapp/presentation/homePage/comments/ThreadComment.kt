@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.NavBar
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import com.example.raionapp.presentation.homePage.model.CommentViewModel
@@ -51,6 +51,7 @@ fun ThreadComment(
     val commentModel = commentViewModel.commentState.collectAsState()
     val thread = homeViewModel.threadsState.collectAsState()
     val selectedThread = thread.value.firstOrNull { it.first == threadId }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -111,7 +112,7 @@ fun ThreadComment(
                             numberOfLike = threadData.numberOfLike,
                             navController = navController,
                             modifier = Modifier,
-                            isLiked = threadData.isLiked
+
                         )
                     }
                     commentModel.value.forEach { (_, commentId, commentData) ->
@@ -123,9 +124,7 @@ fun ThreadComment(
                             text = commentData.text,
                             numberOfLike = commentData.numberOfLike,
                             commentId = commentId,
-                            isLiked = commentData.isLiked
                         )
-                        Log.d("ThreadCommentSubwad213124124", "isLiked ${commentData.isLiked}")
                     }
                 }
             }
