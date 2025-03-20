@@ -370,6 +370,7 @@ fun LessonPage(
                         .fillMaxHeight(),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
+
                     subLesson.value.forEach { subLessonData ->
                         SubLessonLocked(
                             subLessonName = subLessonData.sublessonName

@@ -130,11 +130,13 @@ fun AppNavHost(
         composable("videolistpage") {
             VideoListPage(modifier, navController, authViewModel)
         }
-        composable("mentorregistration") {
-            MentorRegistrationPage(modifier,navController)
+        composable("mentorregistration/{userId}") {backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            MentorRegistrationPage(modifier,navController, userId)
         }
-        composable("becomeamentorpage") {
-            BecomeAMentorPage(modifier,navController)
+        composable("becomeamentorpage/{userId}") { backStackEntry ->
+            val userId = backStackEntry.arguments?.getString("userId") ?: ""
+            BecomeAMentorPage(modifier,navController, userId)
         }
         composable("mycourse") {
             MyCoursePage(modifier, navController, authViewModel)

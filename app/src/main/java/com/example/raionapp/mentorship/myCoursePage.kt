@@ -2,9 +2,6 @@ package com.example.raionapp.mentorship
 
 import androidx.compose.foundation.Image
 import com.example.raionapp.presentation.homePage.learningPage.LearningContent
-
-import com.example.raionapp.presentation.homePage.NavBar
-import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -55,8 +52,8 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
-import com.example.raionapp.presentation.profile.profileData
+import com.example.raionapp.presentation.homePage.model.profileData
+import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun MyCoursePage(
@@ -209,12 +206,13 @@ fun MyCoursePage(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Kedokteran",
+                            subSubjectName = "Biologi",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
                     }
 
@@ -238,30 +236,33 @@ fun MyCoursePage(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
-                            "Ilmu Komputer",
-                            "Pemrograman Dasar",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Kedokteran",
+                            subSubjectName = "Biologi",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
 
                         LearningContent(
-                            "Ilmu Komputer",
-                            "Algoritma",
-                            "Ambudianto",
-                            1000,
+                            subjectName = "Kedokteran",
+                            subSubjectName = "Biologi",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
 
                         LearningContent(
-                            "Ilmu Komputer",
-                            "Sistem Digital",
-                            "John Damkar",
-                            1000,
+                            subjectName = "Kedokteran",
+                            subSubjectName = "Biologi",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
                     }
 
@@ -285,30 +286,33 @@ fun MyCoursePage(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Kedokteran",
+                            subSubjectName = "Biologi",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
 
                         LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Kedokteran",
+                            subSubjectName = "Biologi",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
 
                         LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Kedokteran",
+                            subSubjectName = "Biologi",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
                     }
                     Spacer(modifier = Modifier.height(30.dp))

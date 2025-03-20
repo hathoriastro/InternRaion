@@ -43,6 +43,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
@@ -51,6 +52,7 @@ import com.example.raionapp.R
 import com.example.raionapp.presentation.register.AuthState
 import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.NavBar
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 import com.example.raionapp.presentation.homePage.model.profileData
 
 @Composable
@@ -291,7 +293,11 @@ fun ProfilePage(
                                 .fillMaxWidth()
                                 .wrapContentHeight()
                                 .clickable {
-                                    navController.navigate("becomeamentorpage")
+                                    if (userProfileData.value?.role.equals("mentor")) {
+                                        navController.navigate("mycourse")
+                                    } else {
+                                        navController.navigate("becomeamentorpage/${userProfileData.value?.userId}")
+                                    }
                                 },
                         ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))

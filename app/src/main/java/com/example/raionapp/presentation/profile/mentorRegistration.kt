@@ -27,16 +27,20 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.firestore.ProfileCollection
+import kotlinx.coroutines.launch
 
 @Composable
 fun MentorRegistrationPage(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
+    userId: String
 ) {
     var fullName by remember { mutableStateOf("") }
     var fieldOfExpertise by remember { mutableStateOf("") }
     var teachingExperience by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) } // State to track dialog visibility
+    val coroutineScope = rememberCoroutineScope()
 
     Box(
         modifier = Modifier
@@ -381,7 +385,13 @@ fun MentorRegistrationPage(
                             .fillMaxWidth(0.7f)
                             .height(40.dp)
                             .background(Color(0xFF1A5294), shape = RoundedCornerShape(10.dp))
-                            .clickable { navController.navigate("mycourse") }, // Close pop-up
+                            .clickable {
+                                coroutineScope.launch {
+                                    val updateUserRole = mapOf("role" to "mentor")
+                                    ProfileCollection().updateProfileInFirestore(userId, updateUserRole)
+                                    navController.navigate("mycourse")
+                                }
+                            },
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
@@ -400,7 +410,9 @@ fun MentorRegistrationPage(
                             .fillMaxWidth(0.7f)
                             .height(40.dp)
                             .background(Color(0xFF1A5294), shape = RoundedCornerShape(10.dp))
-                            .clickable { navController.navigate("profile") }, // Close pop-up
+                            .clickable {
+                                navController.navigate("profile")
+                            },
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
@@ -422,6 +434,7 @@ fun MentorRegistrationPage(
 @Composable
 fun MentorRegistrationPreview() {
     MentorRegistrationPage(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        userId = ""
     )
 }

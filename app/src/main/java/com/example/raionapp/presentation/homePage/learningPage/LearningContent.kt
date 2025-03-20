@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,7 +54,7 @@ fun LearningContent(
             .background(color = Color.White, shape = RoundedCornerShape(size = 5.dp))
             .border(1.dp, color = Color(0xFF1A5294), RoundedCornerShape(5.dp))
             .clickable {
-                navController.navigate("aboutprofilepage/$lessonId")
+                navController.navigate("aboutpage/$lessonId")
             }
     ) {
         Image(
@@ -108,6 +109,7 @@ fun LearningContent(
                     .width(22.dp)
                     .height(21.dp)
                     .align(Alignment.CenterVertically)
+                    .clip(CircleShape)
             )
 
             Column(
