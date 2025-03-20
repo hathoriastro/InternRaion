@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -622,13 +623,223 @@ fun CreateNewClassPage(
                 }
 
                 Spacer(modifier = modifier.height(30.dp))
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                ) {
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Text(
+                        text = "Upload File",
+
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Box(
+                        Modifier
+                            .shadow(
+                                elevation = 2.dp,
+                                spotColor = Color(0x3DE4E5E7),
+                                ambientColor = Color(0x3DE4E5E7)
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = Color.Transparent,
+                                shape = RoundedCornerShape(size = 10.dp)
+                            )
+                            .width(100.dp)
+                            .height(46.dp)
+                            .background(
+                                color = Color(0xFFF0F1F5),
+                                shape = RoundedCornerShape(size = 10.dp)
+                            )
+                            .clickable {
+
+                            }
+
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.upload_file_icon),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .offset(x = 5.dp)
+                        )
+                        Text(
+                            text = "Upload",
+
+                            // Body Text/Body Small Medium
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                lineHeight = 19.6.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF757575),
+                            ),
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .offset(10.dp)
+                        )
+
+                    }
+                }
+
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                ) {
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Text(
+                        text = "Upload Video",
+
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Box(
+                        Modifier
+                            .shadow(
+                                elevation = 2.dp,
+                                spotColor = Color(0x3DE4E5E7),
+                                ambientColor = Color(0x3DE4E5E7)
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = Color.Transparent,
+                                shape = RoundedCornerShape(size = 10.dp)
+                            )
+                            .width(100.dp)
+                            .height(46.dp)
+                            .background(
+                                color = Color(0xFFF0F1F5),
+                                shape = RoundedCornerShape(size = 10.dp)
+                            )
+                            .clickable {
+
+                            }
+
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.upload_file_icon),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .offset(x = 5.dp)
+                        )
+                        Text(
+                            text = "Upload",
+
+                            // Body Text/Body Small Medium
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                lineHeight = 19.6.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF757575),
+                            ),
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .offset(10.dp)
+                        )
+
+                    }
+                }
+
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                ) {
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Text(
+                        text = "Upload Video Practice",
+
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Box(
+                        Modifier
+                            .shadow(
+                                elevation = 2.dp,
+                                spotColor = Color(0x3DE4E5E7),
+                                ambientColor = Color(0x3DE4E5E7)
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = Color.Transparent,
+                                shape = RoundedCornerShape(size = 10.dp)
+                            )
+                            .width(100.dp)
+                            .height(46.dp)
+                            .background(
+                                color = Color(0xFFF0F1F5),
+                                shape = RoundedCornerShape(size = 10.dp)
+                            )
+                            .clickable {
+
+                            }
+
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.upload_file_icon),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .offset(x = 5.dp)
+                        )
+                        Text(
+                            text = "Upload",
+
+                            // Body Text/Body Small Medium
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                lineHeight = 19.6.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF757575),
+                            ),
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .offset(10.dp)
+                        )
+
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(30.dp))
                 Box(
-                    modifier = modifier
-                        .shadow(elevation = 2.dp, spotColor = Color(0x3DE4E5E7), ambientColor = Color(0x3DE4E5E7))
-                        .border(width = 1.dp, color = Color.Transparent, shape = RoundedCornerShape(size = 10.dp))
+                    Modifier
+                        .shadow(
+                            elevation = 2.dp,
+                            spotColor = Color(0x3DE4E5E7),
+                            ambientColor = Color(0x3DE4E5E7)
+                        )
+                        .border(
+                            width = 1.dp,
+                            color = Color.Transparent,
+                            shape = RoundedCornerShape(size = 10.dp)
+                        )
                         .width(332.dp)
                         .height(46.dp)
-                        .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(size = 10.dp))
+                        .background(
+                            color = Color(0xFF1A5294),
+                            shape = RoundedCornerShape(size = 10.dp)
+                        )
                         .clickable {
                             learningPageViewModel.sendLesson(
                                 authorProfile = authorProfileData.value,
