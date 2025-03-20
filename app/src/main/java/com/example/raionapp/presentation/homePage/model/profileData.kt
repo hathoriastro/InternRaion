@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.profile
+package com.example.raionapp.presentation.homePage.model
 
 import android.util.Log
 import androidx.compose.runtime.Composable

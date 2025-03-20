@@ -31,7 +31,7 @@ class HomeViewModel : ViewModel() {
     private fun loadThreads() {
         db.collection("thread")
             .orderBy("timeCreated", Query.Direction.DESCENDING)
-            .addSnapshotListener { querySnapshot, error ->
+            .addSnapshotListener { querySnapshot, _ ->
                 _threadsState.value = querySnapshot?.documents?.mapNotNull { document ->
                     document.toObject(ThreadDataClass::class.java)?.let { thread ->
                         Pair(document.id, thread)

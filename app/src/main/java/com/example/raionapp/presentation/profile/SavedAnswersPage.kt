@@ -33,6 +33,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.homePage.model.profileData
 import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable

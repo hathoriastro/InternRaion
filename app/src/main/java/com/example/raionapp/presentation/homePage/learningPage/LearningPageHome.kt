@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -26,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,10 +42,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import com.example.raionapp.presentation.homePage.model.profileData
 import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
@@ -53,9 +58,32 @@ fun LearningPageHome(
     authViewModel: AuthViewModel?
 ) {
     var search by remember { mutableStateOf("") }
-    val commentcount = 10
-    val likecount = 0
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val userProfileData = profileData(authViewModel = authViewModel)
+    val userRole = userProfileData.value?.role
+
+    LaunchedEffect(userRole) {
+        learningPageViewModel.loadLesson(userRole)
+    }
+
     Scaffold(
+        floatingActionButton = {
+            if (userRole == "mentor"){
+                FloatingActionButton(
+                    onClick = { navController.navigate("addthread") },
+                    containerColor = Color(0xFF1A5294),
+                    shape = RoundedCornerShape(30.dp),
+                    contentColor = Color.White,
+                    modifier = Modifier.offset(y = -10.dp)
+                ) {
+
+                    Icon(
+                        painter = painterResource(id = R.drawable.plus),
+                        contentDescription = null,
+                    )
+                }
+            }
+        },
         bottomBar = {
             Surface(
                 color = Color.White,
@@ -273,9 +301,7 @@ fun LearningPageHome(
                         )
                     }
                 }
-
             }
-
         }
     }
 }

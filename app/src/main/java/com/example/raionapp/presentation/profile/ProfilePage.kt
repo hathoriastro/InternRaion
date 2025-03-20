@@ -51,6 +51,7 @@ import com.example.raionapp.R
 import com.example.raionapp.presentation.register.AuthState
 import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.NavBar
+import com.example.raionapp.presentation.homePage.model.profileData
 
 @Composable
 fun ProfilePage(

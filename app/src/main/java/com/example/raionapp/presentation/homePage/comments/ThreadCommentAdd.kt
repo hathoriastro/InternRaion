@@ -32,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -47,7 +46,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.model.CommentViewModel
-import com.example.raionapp.presentation.profile.profileData
+import com.example.raionapp.presentation.homePage.model.profileData
 import com.example.raionapp.utils.rememberImagePicker
 
 @Composable

@@ -26,7 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.R
 import com.example.raionapp.presentation.register.AuthViewModel
-import com.example.raionapp.presentation.profile.profileData
+import com.example.raionapp.presentation.homePage.model.profileData
 
 @Composable
 fun TopBarAndProfile(
