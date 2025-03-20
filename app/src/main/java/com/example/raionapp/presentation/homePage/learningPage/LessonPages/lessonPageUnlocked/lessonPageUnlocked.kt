@@ -308,7 +308,7 @@ fun LessonPageUnlocked(
                                 color = Color.White,
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
-                            .clickable { navController.navigate("videopage") }
+                            .clickable { navController.navigate("videolistpage") }
                     ) {
                         Text(
                             text = "Video",
