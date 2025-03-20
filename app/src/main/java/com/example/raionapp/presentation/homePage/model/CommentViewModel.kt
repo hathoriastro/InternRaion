@@ -39,7 +39,6 @@ class CommentViewModel : ViewModel() {
                 }
                 _commentsState.value = querySnapshot?.documents?.mapNotNull { document ->
                     document.toObject(CommentDataClass::class.java)?.let { comment ->
-                        // Membuat Triple: (document.id, comment.commentId, comment)
                         Triple(document.id, comment.commentId, comment)
                     }
                 } ?: emptyList()

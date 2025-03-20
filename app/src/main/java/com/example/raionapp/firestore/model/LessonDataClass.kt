@@ -16,20 +16,7 @@ data class LessonDataClass(
     val duration: String = "",
     val language: String = "",
     val numberOfSublesson: Int = 0,
-    @ServerTimestamp val timeCreated: Date? = null
-
-)
-
-data class SublessonDataClass(
-    val subLessonId: String= "",
-    val sublessonName: String = "",
-    val pokokBahasan: String = "",
-    val fileUrl: String = "",
-    val fileSummary: String = "",
-    val videoUrl: String = "",
-    val videoSummary: String = "",
-    val videoPracticeUrl: String = "",
-    val videoPracticeSummary: String = "",
-    @ServerTimestamp val timeCreated: Date? = null
+    @ServerTimestamp val timeCreated: Date? = null,
+    val classMember: List<String> = emptyList()
 )
 

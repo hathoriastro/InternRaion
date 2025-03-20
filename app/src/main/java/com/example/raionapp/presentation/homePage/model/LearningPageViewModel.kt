@@ -7,7 +7,6 @@ import com.example.raionapp.firestore.model.LessonDataClass
 import com.example.raionapp.firestore.model.ProfileDataClass
 import com.example.raionapp.firestore.model.SublessonDataClass
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
@@ -22,14 +21,19 @@ class LearningPageViewModel: ViewModel() {
     private val _learningState = MutableStateFlow<List<Pair<String, LessonDataClass>>>(emptyList())
     val learningState: StateFlow<List<Pair<String, LessonDataClass>>> = _learningState.asStateFlow()
 
-    fun loadLesson(mentorId: String?) {
-        var query = db.collection("lesson")
+    private val _lessonDetailsState = MutableStateFlow<LessonDataClass?>(null)
+    val lessonDetailsState: StateFlow<LessonDataClass?> = _lessonDetailsState.asStateFlow()
 
-        if (mentorId.isNullOrEmpty()) {
-            query = query.whereEqualTo("mentorId", mentorId) as CollectionReference
-        }
+    private val _subLessonState = MutableStateFlow<List<SublessonDataClass>>(emptyList())
+    val subLessonState: StateFlow<List<SublessonDataClass>> = _subLessonState.asStateFlow()
 
-        query.orderBy("timeCreated", Query.Direction.DESCENDING)
+    init {
+        loadLesson()
+    }
+
+    private fun loadLesson() {
+        db.collection("lesson")
+        .orderBy("timeCreated", Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, _ ->
                 _learningState.value = querySnapshot?.documents?.mapNotNull { document ->
                     document.toObject(LessonDataClass::class.java)?.let { lesson ->
@@ -37,6 +41,32 @@ class LearningPageViewModel: ViewModel() {
                     }
                 } ?: emptyList()
             }
+    }
+
+    fun loadLessonDetails(lessonId: String) {
+        db.collection("lesson")
+            .document(lessonId)
+            .addSnapshotListener { documentSnapshot, _ ->
+                _lessonDetailsState.value = documentSnapshot?.toObject(LessonDataClass::class.java)
+            }
+    }
+
+    fun loadSubLesson(lessonId: String) {
+        db.collection("lesson")
+            .document(lessonId)
+            .collection("sublesson")
+            .orderBy("timeCreated", Query.Direction.DESCENDING)
+            .addSnapshotListener { querySnapshot, _ ->
+                _learningState.value = querySnapshot?.documents?.mapNotNull { document ->
+                    document.toObject(LessonDataClass::class.java)?.let { lesson ->
+                        Pair(document.id, lesson)
+                    }
+                } ?: emptyList()
+            }
+    }
+
+    fun checkClassMembership(userId: String?): Boolean {
+        return _lessonDetailsState.value?.classMember?.contains(userId) == true
     }
 
     fun sendLesson(

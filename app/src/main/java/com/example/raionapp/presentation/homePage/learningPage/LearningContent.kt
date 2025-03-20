@@ -28,13 +28,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun LearningContent(
+    lessonId: String,
     subjectName : String,
     subSubjectName: String,
     mentorName : String,
@@ -50,7 +53,7 @@ fun LearningContent(
             .background(color = Color.White, shape = RoundedCornerShape(size = 5.dp))
             .border(1.dp, color = Color(0xFF1A5294), RoundedCornerShape(5.dp))
             .clickable {
-                navController.navigate("lessonpageunlocked")
+                navController.navigate("aboutprofilepage/$lessonId")
             }
     ) {
         Image(
@@ -156,7 +159,6 @@ fun LearningContent(
                 )
             }
         }
-
     }
 }
 
@@ -168,10 +170,12 @@ private fun LearningContentPreview(
     authViewModel: AuthViewModel? = null
 ) {
     LearningContent(
-        "Kedokteran",
-        "Anatomi",
-        "Niken Fardani",
-        1000,
+        lessonId = "",
+        subjectName = "Kedokteran",
+        subSubjectName = "Anatomi",
+        mentorName = "Niken Fardani",
+        likeCount = 1000,
+
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel

@@ -101,7 +101,6 @@ fun ThreadComment(
                         .verticalScroll(rememberScrollState()),
                 ) {
                     selectedThread?.let { (threadId, threadData) ->
-                        // Tampilkan detail thread yang dipilih
                         ThreadContent(
                             threadId = threadId,
                             fullname = threadData.fullname,
@@ -113,7 +112,6 @@ fun ThreadComment(
                             navController = navController,
                             modifier = Modifier,
                             imageUrl = threadData.imageURL
-
                         )
                     }
                     commentModel.value.forEach { (_, commentId, commentData) ->

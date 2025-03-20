@@ -45,7 +45,8 @@ import com.example.raionapp.presentation.homePage.learningPage.LessonPages.Revie
 fun ReviewPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
 //    val commentcount = 10
@@ -110,7 +111,7 @@ fun ReviewPage(
                             .fillMaxWidth(0.34f)
                             .fillMaxHeight()
                             .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
-                            .clickable { navController.navigate("aboutpage") }
+                            .clickable { navController.navigate("aboutpage/$lessonId") }
                     ) {
                         Text(
                             text = "ABOUT",
@@ -136,7 +137,7 @@ fun ReviewPage(
                             )
                             .fillMaxWidth(0.5f)
                             .fillMaxHeight()
-                            .clickable { navController.navigate("lessonpage") }
+                            .clickable { navController.navigate("lessonpage/$lessonId") }
                     ) {
                         Text(
                             text = "LESSONS",
@@ -232,5 +233,6 @@ fun ReviewPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 }

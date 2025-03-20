@@ -58,32 +58,34 @@ fun LearningPageHome(
     authViewModel: AuthViewModel?
 ) {
     var search by remember { mutableStateOf("") }
-    val learningPageViewModel: LearningPageViewModel = viewModel()
-    val userProfileData = profileData(authViewModel = authViewModel)
-    val userRole = userProfileData.value?.role
+//    val learningPageViewModel: LearningPageViewModel = viewModel()
+//    val userProfileData = profileData(authViewModel = authViewModel)
 
-    LaunchedEffect(userRole) {
-        learningPageViewModel.loadLesson(userRole)
-    }
+//    val userRole = userProfileData.value?.role
+//    val userId = userProfileData.value?.userId
+
+//    LaunchedEffect {
+//        learningPageViewModel.loadLesson()
+//    }
 
     Scaffold(
-        floatingActionButton = {
-            if (userRole == "mentor"){
-                FloatingActionButton(
-                    onClick = { navController.navigate("addthread") },
-                    containerColor = Color(0xFF1A5294),
-                    shape = RoundedCornerShape(30.dp),
-                    contentColor = Color.White,
-                    modifier = Modifier.offset(y = -10.dp)
-                ) {
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.plus),
-                        contentDescription = null,
-                    )
-                }
-            }
-        },
+//        floatingActionButton = {
+//            if (userRole == "mentor"){
+//                FloatingActionButton(
+//                    onClick = { navController.navigate("addthread") },
+//                    containerColor = Color(0xFF1A5294),
+//                    shape = RoundedCornerShape(30.dp),
+//                    contentColor = Color.White,
+//                    modifier = Modifier.offset(y = -10.dp)
+//                ) {
+//
+//                    Icon(
+//                        painter = painterResource(id = R.drawable.plus),
+//                        contentDescription = null,
+//                    )
+//                }
+//            }
+//        },
         bottomBar = {
             Surface(
                 color = Color.White,
@@ -198,13 +200,14 @@ fun LearningPageHome(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Ilmu Komputer",
+                            subSubjectName = "Pemrograman Dasar",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
-                            )
+                            authViewModel = authViewModel,
+                            lessonId = ""
+                        )
                     }
 
                     Row {
@@ -227,30 +230,33 @@ fun LearningPageHome(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
-                            "Ilmu Komputer",
-                            "Pemrograman Dasar",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Ilmu Komputer",
+                            subSubjectName = "Pemrograman Dasar",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
 
                         LearningContent(
-                            "Ilmu Komputer",
-                            "Algoritma",
-                            "Ambudianto",
-                            1000,
+                            subjectName = "Ilmu Komputer",
+                            subSubjectName = "Pemrograman Dasar",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
 
                         LearningContent(
-                            "Ilmu Komputer",
-                            "Sistem Digital",
-                            "John Damkar",
-                            1000,
+                            subjectName = "Ilmu Komputer",
+                            subSubjectName = "Pemrograman Dasar",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
                     }
 
@@ -274,30 +280,33 @@ fun LearningPageHome(
                         horizontalArrangement = Arrangement.spacedBy(20.dp)
                     ){
                         LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Ilmu Komputer",
+                            subSubjectName = "Pemrograman Dasar",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
 
                         LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Ilmu Komputer",
+                            subSubjectName = "Pemrograman Dasar",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
 
                         LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
+                            subjectName = "Ilmu Komputer",
+                            subSubjectName = "Pemrograman Dasar",
+                            mentorName = "Jamal Michael",
+                            likeCount = 1000,
                             navController = navController,
-                            authViewModel = authViewModel
+                            authViewModel = authViewModel,
+                            lessonId = ""
                         )
                     }
                 }

@@ -22,6 +22,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,22 +39,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.SubLessonLocked
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun LessonPage(
-    mentorname: String,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
     val commentcount = 10
     val likecount = 0
+
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lessonDetail = learningPageViewModel.lessonDetailsState.collectAsState()
+    val subLesson = learningPageViewModel.subLessonState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadLessonDetails(lessonId)
+        learningPageViewModel.loadSubLesson(lessonId)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -118,7 +133,7 @@ fun LessonPage(
                         .fillMaxWidth(0.34f)
                         .fillMaxHeight()
                         .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
-                        .clickable { navController.navigate("aboutpage") }
+                        .clickable { navController.navigate("aboutpage/$lessonId") }
                 ) {
                     Text(
                         text = "ABOUT",
@@ -175,7 +190,7 @@ fun LessonPage(
                         .fillMaxHeight()
                         .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
                         .clickable {
-                            navController.navigate("reviewpage")
+                            navController.navigate("reviewpage/$lessonId")
                         }
                 ) {
                     Text(
@@ -218,7 +233,7 @@ fun LessonPage(
                     )
 
                     Text(
-                        text = mentorname,
+                        text = lessonDetail.value?.mentorName.toString(),
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -235,7 +250,7 @@ fun LessonPage(
                     )
 
                     Text(
-                        text = "60 Lessons",
+                        text = "${lessonDetail.value?.numberOfSublesson} Lessons",
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -252,7 +267,7 @@ fun LessonPage(
                     )
 
                     Text(
-                        text = "20hrs 45mins",
+                        text = lessonDetail.value?.duration.toString(),
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -355,121 +370,126 @@ fun LessonPage(
                         .fillMaxHeight(),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(36.dp)
-                            .background(
-                                color = Color(0xFF5598CC),
-                                shape = RoundedCornerShape(size = 10.dp)
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Text(
-                            text = "1. Introduction to Website Design?",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                lineHeight = 21.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(400),
-                                color = Color(0xFFFFFFFF),
-                            )
-                        )
-
-                        Icon(
-                            painter = painterResource(R.drawable.lock_icon_lesson),
-                            contentDescription = null,
-                            tint = Color.White
+                    subLesson.value.forEach { subLessonData ->
+                        SubLessonLocked(
+                            subLessonName = subLessonData.sublessonName
                         )
                     }
-
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(36.dp)
-                            .background(
-                                color = Color(0xFF5598CC),
-                                shape = RoundedCornerShape(size = 10.dp)
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Text(
-                            text = "2. Fundamentals of Website Design",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                lineHeight = 21.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(400),
-                                color = Color(0xFFFFFFFF),
-                            )
-                        )
-
-                        Icon(
-                            painter = painterResource(R.drawable.lock_icon_lesson),
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(36.dp)
-                            .background(
-                                color = Color(0xFF5598CC),
-                                shape = RoundedCornerShape(size = 10.dp)
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Text(
-                            text = "3. What is Responsive Design?",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                lineHeight = 21.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(400),
-                                color = Color(0xFFFFFFFF),
-                            )
-                        )
-
-                        Icon(
-                            painter = painterResource(R.drawable.lock_icon_lesson),
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
-
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(36.dp)
-                            .background(
-                                color = Color(0xFF5598CC),
-                                shape = RoundedCornerShape(size = 10.dp)
-                            ),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Text(
-                            text = "4. Columns and Content",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                lineHeight = 21.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(400),
-                                color = Color(0xFFFFFFFF),
-                            )
-                        )
-
-                        Icon(
-                            painter = painterResource(R.drawable.lock_icon_lesson),
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
+//                    Row(
+//                        Modifier
+//                            .fillMaxWidth()
+//                            .height(36.dp)
+//                            .background(
+//                                color = Color(0xFF5598CC),
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            ),
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        horizontalArrangement = Arrangement.SpaceAround
+//                    ) {
+//                        Text(
+//                            text = "1. Introduction to Website Design?",
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                lineHeight = 21.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(400),
+//                                color = Color(0xFFFFFFFF),
+//                            )
+//                        )
+//
+//                        Icon(
+//                            painter = painterResource(R.drawable.lock_icon_lesson),
+//                            contentDescription = null,
+//                            tint = Color.White
+//                        )
+//                    }
+//
+//                    Row(
+//                        Modifier
+//                            .fillMaxWidth()
+//                            .height(36.dp)
+//                            .background(
+//                                color = Color(0xFF5598CC),
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            ),
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        horizontalArrangement = Arrangement.SpaceAround
+//                    ) {
+//                        Text(
+//                            text = "2. Fundamentals of Website Design",
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                lineHeight = 21.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(400),
+//                                color = Color(0xFFFFFFFF),
+//                            )
+//                        )
+//
+//                        Icon(
+//                            painter = painterResource(R.drawable.lock_icon_lesson),
+//                            contentDescription = null,
+//                            tint = Color.White
+//                        )
+//                    }
+//
+//                    Row(
+//                        Modifier
+//                            .fillMaxWidth()
+//                            .height(36.dp)
+//                            .background(
+//                                color = Color(0xFF5598CC),
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            ),
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        horizontalArrangement = Arrangement.SpaceAround
+//                    ) {
+//                        Text(
+//                            text = "3. What is Responsive Design?",
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                lineHeight = 21.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(400),
+//                                color = Color(0xFFFFFFFF),
+//                            )
+//                        )
+//
+//                        Icon(
+//                            painter = painterResource(R.drawable.lock_icon_lesson),
+//                            contentDescription = null,
+//                            tint = Color.White
+//                        )
+//                    }
+//
+//                    Row(
+//                        Modifier
+//                            .fillMaxWidth()
+//                            .height(36.dp)
+//                            .background(
+//                                color = Color(0xFF5598CC),
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            ),
+//                        verticalAlignment = Alignment.CenterVertically,
+//                        horizontalArrangement = Arrangement.SpaceAround
+//                    ) {
+//                        Text(
+//                            text = "4. Columns and Content",
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                lineHeight = 21.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(400),
+//                                color = Color(0xFFFFFFFF),
+//                            )
+//                        )
+//
+//                        Icon(
+//                            painter = painterResource(R.drawable.lock_icon_lesson),
+//                            contentDescription = null,
+//                            tint = Color.White
+//                        )
+//                    }
 
                 }
             }
@@ -479,7 +499,6 @@ fun LessonPage(
     }
 }
 
-
 @Preview
 @Composable
 fun LessonPagePreview(
@@ -488,9 +507,9 @@ fun LessonPagePreview(
     authViewModel: AuthViewModel? = null,
 ) {
     LessonPage(
-        mentorname = "Robert James",
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 }

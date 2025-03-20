@@ -41,7 +41,8 @@ import com.example.raionapp.presentation.homePage.TopBarAndProfile
 fun VideoPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
@@ -192,6 +193,7 @@ private fun VideoPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 
 }

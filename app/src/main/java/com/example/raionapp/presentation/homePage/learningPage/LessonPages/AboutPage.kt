@@ -24,6 +24,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,21 +40,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun AboutPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
-    val commentcount = 10
-    val likecount = 0
+
+    //  Memeriksa keanggotaan pengguna
+    val userId = authViewModel?.auth?.currentUser?.uid
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lessonDetail by learningPageViewModel.lessonDetailsState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadLessonDetails(lessonId)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -146,7 +159,14 @@ fun AboutPage(
                         )
                         .fillMaxWidth(0.5f)
                         .fillMaxHeight()
-                        .clickable { navController.navigate("lessonpage") }
+                        .clickable {
+                            val destination = if (learningPageViewModel.checkClassMembership(userId)) {
+                                "lessonpageunlocked/$lessonId"
+                            } else {
+                                "lessonpage/$lessonId"
+                            }
+                            navController.navigate(destination)
+                        }
                 ) {
                     Text(
                         text = "LESSONS",
@@ -174,7 +194,7 @@ fun AboutPage(
                         .fillMaxHeight()
                         .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
                         .clickable {
-                            navController.navigate("reviewpage")
+                            navController.navigate("reviewpage/$lessonId")
                         }
                 ) {
                     Text(
@@ -244,7 +264,7 @@ fun AboutPage(
                         verticalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Text(
-                            text = "Website Design",
+                            text = lessonDetail?.lessonName.toString(),
                             style = TextStyle(
                                 fontSize = 20.sp,
                                 lineHeight = 30.sp,
@@ -271,7 +291,7 @@ fun AboutPage(
 
                             ) {
                                 Text(
-                                    text = "By Robert James",
+                                    text = "By ${lessonDetail?.mentorName.toString()}",
                                     style = TextStyle(
                                         fontSize = 12.sp,
                                         lineHeight = 18.sp,
@@ -283,7 +303,7 @@ fun AboutPage(
                             }
                         }
                         Text(
-                            text = "Lorem ipsum dolor sit amet consectetur. Urna integer volutpat ullamcorper in. Sed interdum ultricies mi habitant sagittis mauris. Venenatis libero malesuada viverra cras ullamcorper. Lacus dignissim semper ultrices ornare a. Read More",
+                            text = lessonDetail?.about.toString(),
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 lineHeight = 18.6.sp,
@@ -319,7 +339,7 @@ fun AboutPage(
                             )
                             Spacer(Modifier.width(10.dp))
                             Text(
-                                text = "60 Lessons",
+                                text = "${lessonDetail?.numberOfSublesson.toString()} Lessons",
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     lineHeight = 18.sp,
@@ -341,7 +361,7 @@ fun AboutPage(
                             )
                             Spacer(Modifier.width(10.dp))
                             Text(
-                                text = "20 hr 45 min",
+                                text = lessonDetail?.duration.toString(),
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     lineHeight = 18.sp,
@@ -387,7 +407,7 @@ fun AboutPage(
                             )
                             Spacer(Modifier.width(10.dp))
                             Text(
-                                text = "English",
+                                text = lessonDetail?.language.toString(),
                                 style = TextStyle(
                                     fontSize = 12.sp,
                                     lineHeight = 18.sp,
@@ -454,5 +474,6 @@ fun AboutPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 }

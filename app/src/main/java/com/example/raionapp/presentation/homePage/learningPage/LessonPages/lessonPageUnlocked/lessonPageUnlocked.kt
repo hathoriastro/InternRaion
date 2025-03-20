@@ -45,10 +45,10 @@ import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun LessonPageUnlocked(
-    mentorname: String,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String,
 ) {
     var search by remember { mutableStateOf("") }
     val commentcount = 10
@@ -218,7 +218,7 @@ fun LessonPageUnlocked(
                     )
 
                     Text(
-                        text = mentorname,
+                        text = "Contoh Budi",
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -412,9 +412,9 @@ fun LessonPagePreview(
     authViewModel: AuthViewModel? = null,
 ) {
     LessonPageUnlocked(
-        mentorname = "Robert James",
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 }

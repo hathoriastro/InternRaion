@@ -53,6 +53,7 @@ fun ChatPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     val keyboardHeight = WindowInsets.ime.asPaddingValues().calculateBottomPadding() // Detect keyboard height
     var comment by remember { mutableStateOf("") }
@@ -215,5 +216,6 @@ private fun ChatPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 }
