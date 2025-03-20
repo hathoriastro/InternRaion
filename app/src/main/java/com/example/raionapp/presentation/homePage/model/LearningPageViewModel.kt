@@ -28,10 +28,10 @@ class LearningPageViewModel: ViewModel() {
     val subLessonState: StateFlow<List<SublessonDataClass>> = _subLessonState.asStateFlow()
 
     init {
-        loadLesson()
+        loadLessonHome()
     }
 
-    private fun loadLesson() {
+    private fun loadLessonHome() {
         db.collection("lesson")
         .orderBy("timeCreated", Query.Direction.DESCENDING)
             .addSnapshotListener { querySnapshot, _ ->

@@ -46,9 +46,7 @@ fun VideoListPageContent(
     link: String,
     navController: NavController
 ) {
-    val context = LocalContext.current
-    val ytIntent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link)) }
-
+    
     Column(
         Modifier
             .shadow(8.dp, RoundedCornerShape(15.dp))
@@ -61,7 +59,7 @@ fun VideoListPageContent(
             Modifier
                 .height(100.dp)
                 .clickable {
-                    context.startActivity(ytIntent)
+
                 }
         ) {
             Image(

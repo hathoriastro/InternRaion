@@ -16,6 +16,7 @@ class LessonCollection {
             "lessonId" to lesson.lessonId,
             "lessonName" to lesson.lessonName,
             "about" to lesson.about,
+            "numberOfMaterial" to lesson.numberOfMaterial,
             "price" to lesson.price,
             "subject" to lesson.subject,
             "mentorName" to lesson.mentorName,
@@ -25,7 +26,8 @@ class LessonCollection {
             "likeCount" to lesson.likeCount,
             "duration" to lesson.duration,
             "numberOfSublesson" to lesson.numberOfSublesson,
-            "timeCreated" to FieldValue.serverTimestamp()
+            "timeCreated" to FieldValue.serverTimestamp(),
+            "classMember" to lesson.classMember
         )
 
         val documentId = db.collection("lesson").add(lessonHashMap).await()
@@ -52,6 +54,7 @@ class LessonCollection {
             "videoSummary" to subLesson.videoSummary,
             "videoPracticeUrl" to subLesson.videoPracticeUrl,
             "videoPracticeSummary" to subLesson.videoPracticeSummary,
+
             "timeCreated" to FieldValue.serverTimestamp()
         )
 

@@ -7,6 +7,7 @@ data class LessonDataClass(
     val lessonId: String = "",
     val lessonName: String = "",
     val about: String = "",
+    val numberOfMaterial: String = "",
     val price: String = "",
     val subject: String = "",
     val mentorName: String = "",
@@ -19,4 +20,3 @@ data class LessonDataClass(
     @ServerTimestamp val timeCreated: Date? = null,
     val classMember: List<String> = emptyList()
 )
-

@@ -53,7 +53,7 @@ import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.homePage.model.HomeViewModel
 import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.model.profileData
-import com.example.raionapp.utils.rememberImagePicker
+import com.example.raionapp.presentation.homePage.model.rememberImagePicker
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -220,9 +220,8 @@ fun AddThreadPage(
             Icon(
                 painter = painterResource(id = R.drawable.image_icon_add_image),
                 contentDescription = null,
-                modifier = Modifier
-                    .clickable {
-                        imagePickerHandler.galleryLauncher.launch("image/*")
+                modifier = Modifier.clickable {
+                    imagePickerHandler.galleryLauncher.launch("image/*")
                 },
                 tint = Color.White
             )

@@ -53,7 +53,8 @@ import com.example.raionapp.presentation.register.AuthViewModel
 fun VideoPracticeListPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
     Box(modifier = Modifier
@@ -216,6 +217,7 @@ private fun VideoPracticeListPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 
 }

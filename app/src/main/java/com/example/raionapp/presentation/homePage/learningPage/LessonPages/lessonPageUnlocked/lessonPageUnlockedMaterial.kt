@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,16 +28,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 
 @Composable
 fun LessonPageUnlockedMaterial(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
+    lessonId: String,
+    subLessonName: String,
+    subLessonDescription: String,
+    subLessonFile: String,
+    subLessonVideo: String,
+    subLessonPracticeVideo: String
 ) {
+
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lessonDetail = learningPageViewModel.lessonDetailsState.collectAsState()
+    val subLesson = learningPageViewModel.subLessonState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadLessonDetails(lessonId)
+        learningPageViewModel.loadSubLesson(lessonId)
+    }
+
     Column(
         modifier = Modifier
             .background(color = Color.White),
@@ -52,7 +72,7 @@ fun LessonPageUnlockedMaterial(
                 )
         ) {
             Text(
-                text = "Introduction To Website Design",
+                text = lessonDetail.value?.lessonName.toString(),
                 style = TextStyle(
                     fontSize = 12.sp,
                     lineHeight = 18.sp,
@@ -104,7 +124,7 @@ fun LessonPageUnlockedMaterial(
                 .height(92.dp)
                 .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
                 .clickable {
-
+                    navController.navigate("filepage/$subLessonFile")
                 }
         ){
             Box(
@@ -137,7 +157,7 @@ fun LessonPageUnlockedMaterial(
                     )
                 )
                 Text(
-                    text = "Introduction To Website Design",
+                    text = subLessonName,
                     style = TextStyle(
                         fontSize = 13.sp,
                         lineHeight = 21.sp,
@@ -161,7 +181,7 @@ fun LessonPageUnlockedMaterial(
                 .height(92.dp)
                 .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
                 .clickable {
-                    navController.navigate("videopage")
+                    navController.navigate("videopage/$subLessonVideo")
                 }
         ){
             Box(
@@ -193,7 +213,7 @@ fun LessonPageUnlockedMaterial(
                     )
                 )
                 Text(
-                    text = "Introduction To Website Design",
+                    text = subLessonName,
                     style = TextStyle(
                         fontSize = 13.sp,
                         lineHeight = 21.sp,
@@ -217,7 +237,7 @@ fun LessonPageUnlockedMaterial(
                 .height(92.dp)
                 .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
                 .clickable {
-                    navController.navigate("videopage")
+//                    navController.navigate("videopage")
                 }
         ){
             Box(
@@ -249,7 +269,7 @@ fun LessonPageUnlockedMaterial(
                     )
                 )
                 Text(
-                    text = "Introduction To Website Design",
+                    text = subLessonName,
                     style = TextStyle(
                         fontSize = 13.sp,
                         lineHeight = 21.sp,
@@ -267,6 +287,12 @@ fun LessonPageUnlockedMaterial(
 @Composable
 private fun LessonPageMaterialPreview() {
     LessonPageUnlockedMaterial(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        lessonId = "",
+        subLessonName = "",
+        subLessonDescription = "",
+        subLessonFile = "",
+        subLessonVideo = "",
+        subLessonPracticeVideo = ""
     )
 }

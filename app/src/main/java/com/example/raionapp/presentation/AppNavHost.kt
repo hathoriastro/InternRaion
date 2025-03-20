@@ -28,7 +28,8 @@ import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lesso
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPage
 import com.example.raionapp.presentation.homePage.semesterSelect.SemesterSelectPage
 import com.example.raionapp.presentation.homePage.subjectSelect.SubjectSelectPage
-import com.example.raionapp.presentation.learningPage.learningPageHome.AboutPage
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.AboutPage
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPracticeListPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.LessonPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPage
 import com.example.raionapp.presentation.profile.AboutProfilePage
@@ -115,20 +116,25 @@ fun AppNavHost(
             val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
             LessonPageUnlocked(modifier,navController, authViewModel, lessonId)
         }
-        composable("videopage/{lessonId}") {backStackEntry ->
-            val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
-            VideoPage(modifier, navController, authViewModel, lessonId)
+        composable("videopage/{subLessonVideo}") {backStackEntry ->
+            val subLessonVideo = backStackEntry.arguments?.getString("subLessonVideo") ?: ""
+            VideoPage(modifier, navController, authViewModel, subLessonVideo)
         }
-        composable("filepage/{lessonId}") {backStackEntry ->
-            val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
-            FilePage(modifier, navController, authViewModel, lessonId)
+        composable("filepage/{subLessonFile}") {backStackEntry ->
+            val subLessonFile = backStackEntry.arguments?.getString("subLessonFile") ?: ""
+            FilePage(modifier, navController, authViewModel, subLessonFile)
         }
         composable("chatpage/{lessonId}") {backStackEntry ->
             val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
             ChatPage(modifier, navController, authViewModel, lessonId)
         }
-        composable("videolistpage") {
-            VideoListPage(modifier, navController, authViewModel)
+        composable("videolistpage/{lessonId}") {backStackEntry ->
+            val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
+            VideoListPage(modifier, navController, authViewModel, lessonId)
+        }
+        composable("videopracticelistpage/{lessonId}") {backStackEntry ->
+            val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
+            VideoPracticeListPage(modifier, navController, authViewModel, lessonId)
         }
         composable("mentorregistration/{userId}") {backStackEntry ->
             val userId = backStackEntry.arguments?.getString("userId") ?: ""
@@ -142,7 +148,7 @@ fun AppNavHost(
             MyCoursePage(modifier, navController, authViewModel)
         }
         composable("addnewclass") {
-            CreateNewClassPage(modifier, navController)
+            CreateNewClassPage(modifier, navController, authViewModel)
         }
     }
 }

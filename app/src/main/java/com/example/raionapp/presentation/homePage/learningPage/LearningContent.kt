@@ -29,26 +29,24 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
-import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun LearningContent(
     lessonId: String,
     subjectName : String,
-    subSubjectName: String,
+    lessonName: String,
     mentorName : String,
+    mentorProfilePicture: String?,
     likeCount : Int,
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
 ) {
     Column(
-        Modifier
+        modifier = modifier
             .width(242.dp)
             .height(213.dp)
             .background(color = Color.White, shape = RoundedCornerShape(size = 5.dp))
@@ -61,7 +59,7 @@ fun LearningContent(
             painter = painterResource(id = R.drawable.image_example_kedokteran_1),
             contentDescription = "image description",
             contentScale = ContentScale.FillBounds,
-            modifier = Modifier
+            modifier = modifier
                 .width(224.dp)
                 .height(126.dp)
                 .align(Alignment.CenterHorizontally)
@@ -79,12 +77,12 @@ fun LearningContent(
                 color = Color.Black,
                 letterSpacing = 0.05.em,
             ),
-            modifier = Modifier
+            modifier = modifier
                 .padding(start = 9.dp, top = 9.dp)
         )
 
         Text(
-            text = subSubjectName,
+            text = lessonName,
             style = TextStyle(
                 fontSize = 14.sp,
                 lineHeight = 21.sp,
@@ -93,19 +91,24 @@ fun LearningContent(
                 color = Color.Black,
                 letterSpacing = 0.05.em,
             ),
-            modifier = Modifier
+            modifier = modifier
                 .padding(start = 9.dp, top = 3.dp)
         )
         Row(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .height(30.dp)
                 .padding(start = 9.dp, top = 6.dp)
         ){
             Image(
-                painter = painterResource(id = R.drawable.image_example_mentor),
+                painter = rememberAsyncImagePainter(
+                    model = mentorProfilePicture,
+                    placeholder = painterResource(R.drawable.profile_icon_unclicked),
+                    error = painterResource(R.drawable.profile_icon_unclicked)
+                ),
+
                 contentDescription = null,
-                modifier = Modifier
+                modifier = modifier
                     .width(22.dp)
                     .height(21.dp)
                     .align(Alignment.CenterVertically)
@@ -113,7 +116,7 @@ fun LearningContent(
             )
 
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxHeight()
                     .width(75.dp)
                     .padding(start = 9.dp)
@@ -141,7 +144,7 @@ fun LearningContent(
                 )
             }
             Box(
-                modifier = Modifier
+                modifier = modifier
                     .padding(start = 80.dp, top = 3.dp, end = 6.dp, bottom = 3.dp)
                     .height(18.dp)
                     .align(Alignment.CenterVertically)
@@ -157,7 +160,7 @@ fun LearningContent(
                         fontWeight = FontWeight(500),
                         color = Color(0xFFFFFFFF),
                     ),
-                    modifier = Modifier.align(Alignment.Center)
+                    modifier = modifier.align(Alignment.Center)
                 )
             }
         }
@@ -167,19 +170,15 @@ fun LearningContent(
 @Preview
 @Composable
 private fun LearningContentPreview(
-    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    authViewModel: AuthViewModel? = null
 ) {
     LearningContent(
         lessonId = "",
         subjectName = "Kedokteran",
-        subSubjectName = "Anatomi",
+        lessonName = "Anatomi",
         mentorName = "Niken Fardani",
         likeCount = 1000,
-
-        modifier = modifier,
+        mentorProfilePicture = "",
         navController = navController,
-        authViewModel = authViewModel
     )
 }

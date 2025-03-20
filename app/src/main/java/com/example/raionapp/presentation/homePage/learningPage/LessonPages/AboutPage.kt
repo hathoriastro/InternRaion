@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.learningPage.learningPageHome
+package com.example.raionapp.presentation.homePage.learningPage.LessonPages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

@@ -35,16 +35,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.firestore.model.LessonDataClass
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import com.example.raionapp.presentation.homePage.model.profileData
+import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun CreateNewClassPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    authViewModel: AuthViewModel
 ) {
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val authorProfileData = profileData(authViewModel)
+
     var courseName by remember { mutableStateOf("") }
     var about by remember { mutableStateOf("") }
     var numberOfMaterials by remember { mutableStateOf("") }
@@ -54,15 +63,16 @@ fun CreateNewClassPage(
     var numberOfSubsection by remember { mutableStateOf("") }
     var tittleOfSubsection by remember { mutableStateOf("") }
     var subsectionDescription by remember { mutableStateOf("") }
+    var subject by remember { mutableStateOf("") }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Color.White),
     ){
         Column {
             Box(
-                Modifier
+                modifier
                     .fillMaxWidth()
                     .height(100.dp)
                     .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(24.dp))
@@ -70,7 +80,7 @@ fun CreateNewClassPage(
                 Icon(
                     painter = painterResource(id = R.drawable.left_arrow_icon),
                     contentDescription = "image description",
-                    modifier = Modifier
+                    modifier = modifier
                         .size(50.dp)
                         .align(Alignment.CenterStart)
                         .padding(start = 40.dp, top = 20.dp)
@@ -87,7 +97,7 @@ fun CreateNewClassPage(
                         color = Color(0xFFFFFFFF),
                         textAlign = TextAlign.Center,
                     ),
-                    modifier = Modifier
+                    modifier = modifier
                         .align(Alignment.Center)
                         .padding(top = 20.dp)
                 )
@@ -95,16 +105,16 @@ fun CreateNewClassPage(
 
 
             Column(
-                Modifier
+                modifier
                     .fillMaxWidth(0.9f)
                     .align(Alignment.CenterHorizontally)
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Course Name",
 
@@ -116,10 +126,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = courseName,
@@ -153,9 +163,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "About",
 
@@ -167,10 +177,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = about,
@@ -204,9 +214,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Number of Materials",
 
@@ -218,10 +228,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = numberOfMaterials,
@@ -255,9 +265,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Price",
 
@@ -269,10 +279,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = price,
@@ -306,9 +316,60 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+                    Text(
+                        text = "Subject",
+
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    )
+
+                    Spacer(modifier = modifier.height(10.dp))
+
+                    TextField(
+                        modifier = modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(500.dp),
+                        value = subject,
+                        onValueChange = {
+                            subject = it
+                        },
+                        placeholder = {
+                            Text(
+                                text = "Enter course subject",
+                                // Body Text/Body Small Medium
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    lineHeight = 19.6.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFF757575),
+                                )
+                            )
+                        },
+                        shape = RoundedCornerShape(10.dp),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color(0xFFF0F1F5),
+                            focusedContainerColor = Color(0xFFF0F1F5),
+                            focusedPlaceholderColor = Color.LightGray,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black
+                        )
+                    )
+                }
+
+                Column(
+                    modifier.fillMaxWidth(),
+                ) {
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Course Duration",
 
@@ -320,10 +381,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = courseDuration,
@@ -357,9 +418,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Language",
 
@@ -371,15 +432,15 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
-                        value = numberOfSubsection,
+                        value = language,
                         onValueChange = {
-                            numberOfSubsection = it
+                            language = it
                         },
                         placeholder = {
                             Text(
@@ -408,9 +469,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Number of Subsection",
 
@@ -422,15 +483,15 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
-                        value = courseName,
+                        value = numberOfSubsection,
                         onValueChange = {
-                            courseName = it
+                            numberOfSubsection = it
                         },
                         placeholder = {
                             Text(
@@ -459,9 +520,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Tittle of subsection",
 
@@ -473,10 +534,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = tittleOfSubsection,
@@ -510,9 +571,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    Modifier.fillMaxWidth(),
+                    modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Subsection Description",
 
@@ -524,10 +585,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = modifier.height(10.dp))
 
                     TextField(
-                        modifier = Modifier
+                        modifier = modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = subsectionDescription,
@@ -560,16 +621,25 @@ fun CreateNewClassPage(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = modifier.height(30.dp))
                 Box(
-                    Modifier
+                    modifier = modifier
                         .shadow(elevation = 2.dp, spotColor = Color(0x3DE4E5E7), ambientColor = Color(0x3DE4E5E7))
                         .border(width = 1.dp, color = Color.Transparent, shape = RoundedCornerShape(size = 10.dp))
                         .width(332.dp)
                         .height(46.dp)
                         .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(size = 10.dp))
                         .clickable {
-                            //Create New Class
+                            learningPageViewModel.sendLesson(
+                                authorProfile = authorProfileData.value,
+                                lessonName = courseName,
+                                about = about,
+                                price = price,
+                                subject = subject,
+                                duration = courseDuration,
+                                language = language,
+                                numberOfSublesson = numberOfSubsection.toInt()
+                            )
                         },
                 ){
                     Text(
@@ -581,19 +651,11 @@ fun CreateNewClassPage(
                             fontWeight = FontWeight(700),
                             color = Color(0xFFFFFFFF),
                         ),
-                        modifier = Modifier.align(Alignment.Center)
+                        modifier = modifier.align(Alignment.Center)
                     )
                 }
-                Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = modifier.height(30.dp))
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun AddClassPagePreview() {
-    CreateNewClassPage(
-        navController = rememberNavController()
-    )
 }

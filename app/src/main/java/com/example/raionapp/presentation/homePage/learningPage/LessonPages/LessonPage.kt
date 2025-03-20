@@ -55,10 +55,6 @@ fun LessonPage(
     authViewModel: AuthViewModel?,
     lessonId: String
 ) {
-    var search by remember { mutableStateOf("") }
-    val commentcount = 10
-    val likecount = 0
-
     val learningPageViewModel: LearningPageViewModel = viewModel()
     val lessonDetail = learningPageViewModel.lessonDetailsState.collectAsState()
     val subLesson = learningPageViewModel.subLessonState.collectAsState()

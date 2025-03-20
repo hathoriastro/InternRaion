@@ -20,6 +20,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,12 +36,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.ReviewPageBox
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 
 @Composable
 fun ReviewPage(
@@ -49,6 +53,15 @@ fun ReviewPage(
     lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
+
+    val userId = authViewModel?.auth?.currentUser?.uid
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lessonDetail by learningPageViewModel.lessonDetailsState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadLessonDetails(lessonId)
+    }
+
 //    val commentcount = 10
         Box(
             modifier = Modifier
@@ -137,7 +150,13 @@ fun ReviewPage(
                             )
                             .fillMaxWidth(0.5f)
                             .fillMaxHeight()
-                            .clickable { navController.navigate("lessonpage/$lessonId") }
+                            .clickable {
+                                val destination = if (learningPageViewModel.checkClassMembership(userId)) {
+                                "lessonpageunlocked/$lessonId"
+                            } else {
+                                "lessonpage/$lessonId"
+                            }
+                                navController.navigate(destination) }
                     ) {
                         Text(
                             text = "LESSONS",

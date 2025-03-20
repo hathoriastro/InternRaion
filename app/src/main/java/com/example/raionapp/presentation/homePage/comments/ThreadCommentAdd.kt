@@ -1,5 +1,6 @@
 package com.example.raionapp.presentation.homePage.comments
 
+import android.Manifest
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -47,7 +48,7 @@ import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.model.CommentViewModel
 import com.example.raionapp.presentation.homePage.model.profileData
-import com.example.raionapp.utils.rememberImagePicker
+import com.example.raionapp.presentation.homePage.model.rememberImagePicker
 
 @Composable
 fun ThreadCommentAdd(
@@ -196,7 +197,7 @@ fun ThreadCommentAdd(
                 painter = painterResource(id = R.drawable.camera_icon_add_image),
                 contentDescription = null,
                 modifier = Modifier.clickable {
-                    imagePickerHandler.permissionLauncher.launch(android.Manifest.permission.CAMERA)
+                    imagePickerHandler.permissionLauncher.launch(Manifest.permission.CAMERA)
                 },
                 tint = Color.White
             )

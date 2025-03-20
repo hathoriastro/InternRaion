@@ -1,4 +1,4 @@
-package com.example.raionapp.utils
+package com.example.raionapp.presentation.homePage.model
 
 import android.annotation.SuppressLint
 import android.content.Context

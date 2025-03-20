@@ -28,6 +28,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,7 +49,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
-import com.example.raionapp.presentation.homePage.model.profileData
 import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
@@ -58,34 +58,14 @@ fun LearningPageHome(
     authViewModel: AuthViewModel?
 ) {
     var search by remember { mutableStateOf("") }
-//    val learningPageViewModel: LearningPageViewModel = viewModel()
-//    val userProfileData = profileData(authViewModel = authViewModel)
 
-//    val userRole = userProfileData.value?.role
-//    val userId = userProfileData.value?.userId
-
-//    LaunchedEffect {
-//        learningPageViewModel.loadLesson()
-//    }
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lesson = learningPageViewModel.learningState.collectAsState()
+    val groupedLesson = lesson.value.groupBy {
+        it.second.subject
+    }
 
     Scaffold(
-//        floatingActionButton = {
-//            if (userRole == "mentor"){
-//                FloatingActionButton(
-//                    onClick = { navController.navigate("addthread") },
-//                    containerColor = Color(0xFF1A5294),
-//                    shape = RoundedCornerShape(30.dp),
-//                    contentColor = Color.White,
-//                    modifier = Modifier.offset(y = -10.dp)
-//                ) {
-//
-//                    Icon(
-//                        painter = painterResource(id = R.drawable.plus),
-//                        contentDescription = null,
-//                    )
-//                }
-//            }
-//        },
         bottomBar = {
             Surface(
                 color = Color.White,
@@ -180,23 +160,14 @@ fun LearningPageHome(
                         .zIndex(0f)
                         .verticalScroll(rememberScrollState()),
                 ) {
-                    LearningContentRow(
-                        subjectName = "Kedokteran",
-                        navController = navController,
-                        authViewModel = authViewModel
-                    )
-
-                    LearningContentRow(
-                        subjectName = "Ilmu Komputer",
-                        navController = navController,
-                        authViewModel = authViewModel
-                    )
-
-                    LearningContentRow(
-                        subjectName = "Ilmu Politik",
-                        navController = navController,
-                        authViewModel = authViewModel
-                    )
+                    // Tampilkan disini dengan loop berdasarkan jumlah subject yang tersedia
+                    groupedLesson.forEach {(subjectName, lessonsData) ->
+                        LearningContentRow(
+                            subjectName = subjectName,
+                            lessonData = lessonsData,
+                            navController = navController
+                        )
+                    }
 
                 }
             }

@@ -42,7 +42,7 @@ fun VideoPage(
     modifier: Modifier = Modifier,
     navController: NavController,
     authViewModel: AuthViewModel?,
-    lessonId: String
+    subLessonVideo: String
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
@@ -102,7 +102,9 @@ fun VideoPage(
                 ) {
 
                     Spacer(modifier = Modifier.height(35.dp))
-                    Media3PlayerView(videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",)
+                    Media3PlayerView(
+                        videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    )
 
                     Column(
                         modifier = Modifier
@@ -193,7 +195,7 @@ private fun VideoPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
-        lessonId = ""
+        subLessonVideo = ""
     )
 
 }

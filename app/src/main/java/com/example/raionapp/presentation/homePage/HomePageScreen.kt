@@ -53,8 +53,6 @@ fun HomePageScreen(
     val thread = homeViewModel.threadsState.collectAsState()
 
     Scaffold(
-//        modifier = modifier
-//            .verticalScroll(rememberScrollState()),
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate("addthread") },

@@ -22,6 +22,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,10 +39,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.SubLessonLocked
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
@@ -51,8 +56,16 @@ fun LessonPageUnlocked(
     lessonId: String,
 ) {
     var search by remember { mutableStateOf("") }
-    val commentcount = 10
-    val likecount = 0
+
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lessonDetail = learningPageViewModel.lessonDetailsState.collectAsState()
+    val subLesson = learningPageViewModel.subLessonState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadLessonDetails(lessonId)
+        learningPageViewModel.loadSubLesson(lessonId)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -118,7 +131,7 @@ fun LessonPageUnlocked(
                         .fillMaxWidth(0.34f)
                         .fillMaxHeight()
                         .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
-                        .clickable { navController.navigate("aboutpage") }
+                        .clickable { navController.navigate("aboutpage/$lessonId") }
                 ) {
                     Text(
                         text = "ABOUT",
@@ -175,7 +188,7 @@ fun LessonPageUnlocked(
                         .fillMaxHeight()
                         .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
                         .clickable {
-                            navController.navigate("reviewpage")
+                            navController.navigate("reviewpage/$lessonId")
                         }
                 ) {
                     Text(
@@ -218,7 +231,7 @@ fun LessonPageUnlocked(
                     )
 
                     Text(
-                        text = "Contoh Budi",
+                        text = lessonDetail.value?.mentorName.toString(),
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -235,7 +248,7 @@ fun LessonPageUnlocked(
                     )
 
                     Text(
-                        text = "60 Lessons",
+                        text = "${lessonDetail.value?.numberOfSublesson} Lessons",
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -252,7 +265,7 @@ fun LessonPageUnlocked(
                     )
 
                     Text(
-                        text = "20hrs 45mins",
+                        text = lessonDetail.value?.duration.toString(),
                         style = TextStyle(
                             fontSize = 12.sp,
                             lineHeight = 18.sp,
@@ -281,7 +294,7 @@ fun LessonPageUnlocked(
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
                             .clickable {
-                                navController.navigate("filepage")
+//                                navController.navigate("filepage/$lessonId")
                             }
                     ) {
                         Text(
@@ -308,7 +321,7 @@ fun LessonPageUnlocked(
                                 color = Color.White,
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
-                            .clickable { navController.navigate("videolistpage") }
+                            .clickable { navController.navigate("videolistpage/$lessonId") }
                     ) {
                         Text(
                             text = "Video",
@@ -334,6 +347,7 @@ fun LessonPageUnlocked(
                                 color = Color.White,
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
+
                     ) {
                         Text(
                             text = "Praktik",
@@ -360,7 +374,7 @@ fun LessonPageUnlocked(
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
                             .clickable {
-                                navController.navigate("chatpage")
+                                navController.navigate("chatpage/$lessonId")
                             }
                     ) {
                         Text(
@@ -390,9 +404,20 @@ fun LessonPageUnlocked(
                             .fillMaxHeight(),
                         verticalArrangement = Arrangement.spacedBy(30.dp),
                     ) {
-                        LessonPageUnlockedMaterial(navController = navController)
-                        LessonPageUnlockedMaterial(navController = navController)
-                        LessonPageUnlockedMaterial(navController = navController)
+                        subLesson.value.forEach { subLessonData ->
+                            LessonPageUnlockedMaterial(
+                                navController = navController,
+                                lessonId = lessonId,
+                                subLessonName = subLessonData.sublessonName,
+                                subLessonDescription = subLessonData.pokokBahasan,
+                                subLessonFile = subLessonData.fileUrl,
+                                subLessonVideo = subLessonData.videoUrl,
+                                subLessonPracticeVideo = subLessonData.videoPracticeUrl
+                            )
+                        }
+//                        LessonPageUnlockedMaterial(navController = navController, lessonId = lessonId)
+//                        LessonPageUnlockedMaterial(navController = navController, lessonId = lessonId)
+//                        LessonPageUnlockedMaterial(navController = navController, lessonId = lessonId)
 
                     }
                 }

@@ -46,7 +46,7 @@ fun FilePage(
     modifier: Modifier = Modifier,
     navController: NavController,
     authViewModel: AuthViewModel?,
-    lessonId: String
+    subLessonFile: String
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
@@ -253,7 +253,7 @@ private fun FilePagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
-        lessonId = ""
+        subLessonFile = ""
     )
 
 }
