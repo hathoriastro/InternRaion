@@ -50,7 +50,7 @@ import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import com.example.raionapp.presentation.homePage.threads.ThreadContent
 
 @Composable
-fun VideoListPage(
+fun VideoPracticeListPage(
     modifier: Modifier = Modifier,
     navController: NavController,
     authViewModel: AuthViewModel?
@@ -169,7 +169,7 @@ fun VideoListPage(
                             )
                         }
                         Text(
-                            text = "Video",
+                            text = "Video Practice",
                             style = TextStyle(
                                 fontSize = 16.sp,
                                 fontFamily = montserratFont,
@@ -194,11 +194,8 @@ fun VideoListPage(
                             verticalArrangement = Arrangement.spacedBy(15.dp)
 
                         ) {
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
+                            //VideoListPageContent("")
+
                         }
                     }
 
@@ -210,12 +207,12 @@ fun VideoListPage(
 
 @Preview
 @Composable
-private fun VideoListPagePreview(
+private fun VideoPracticeListPagePreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     authViewModel: AuthViewModel? = null,
 ) {
-    VideoListPage(
+    VideoPracticeListPage(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,

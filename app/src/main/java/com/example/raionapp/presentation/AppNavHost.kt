@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.raionapp.mentorship.CreateNewClassPage
+import com.example.raionapp.mentorship.MyCoursePage
 import com.example.raionapp.presentation.register.nantiAja.ForgotPasswordScreen
 import com.example.raionapp.presentation.register.LoginScreen
 import com.example.raionapp.presentation.register.SignUpScreen
@@ -22,6 +24,7 @@ import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ChatPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.FilePage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.LessonPageUnlocked
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoListPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPage
 import com.example.raionapp.presentation.homePage.semesterSelect.SemesterSelectPage
 import com.example.raionapp.presentation.homePage.subjectSelect.SubjectSelectPage
@@ -29,6 +32,8 @@ import com.example.raionapp.presentation.learningPage.learningPageHome.AboutPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.LessonPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPage
 import com.example.raionapp.presentation.profile.AboutProfilePage
+import com.example.raionapp.presentation.profile.BecomeAMentorPage
+import com.example.raionapp.presentation.profile.MentorRegistrationPage
 import com.example.raionapp.presentation.profile.ProfilePage
 
 @Composable
@@ -113,6 +118,21 @@ fun AppNavHost(
         }
         composable("chatpage") {
             ChatPage(modifier, navController, authViewModel)
+        }
+        composable("videolistpage") {
+            VideoListPage(modifier, navController, authViewModel)
+        }
+        composable("mentorregistration") {
+            MentorRegistrationPage(modifier,navController)
+        }
+        composable("becomeamentorpage") {
+            BecomeAMentorPage(modifier,navController)
+        }
+        composable("mycourse") {
+            MyCoursePage(modifier, navController, authViewModel)
+        }
+        composable("addnewclass") {
+            CreateNewClassPage(modifier, navController)
         }
     }
 }
