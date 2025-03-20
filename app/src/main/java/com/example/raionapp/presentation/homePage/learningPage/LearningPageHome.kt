@@ -180,135 +180,24 @@ fun LearningPageHome(
                         .zIndex(0f)
                         .verticalScroll(rememberScrollState()),
                 ) {
-                    Row {
-                        Text(
-                            text = "Kedokteran",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Kedokteran",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
 
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            subjectName = "Ilmu Komputer",
-                            subSubjectName = "Pemrograman Dasar",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Ilmu Komputer",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
 
-                    Row {
-                        Text(
-                            text = "Ilmu Komputer",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Ilmu Politik",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
 
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            subjectName = "Ilmu Komputer",
-                            subSubjectName = "Pemrograman Dasar",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-
-                        LearningContent(
-                            subjectName = "Ilmu Komputer",
-                            subSubjectName = "Pemrograman Dasar",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-
-                        LearningContent(
-                            subjectName = "Ilmu Komputer",
-                            subSubjectName = "Pemrograman Dasar",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-                    }
-
-                    Row {
-                        Text(
-                            text = "Kedokteran",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            subjectName = "Ilmu Komputer",
-                            subSubjectName = "Pemrograman Dasar",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-
-                        LearningContent(
-                            subjectName = "Ilmu Komputer",
-                            subSubjectName = "Pemrograman Dasar",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-
-                        LearningContent(
-                            subjectName = "Ilmu Komputer",
-                            subSubjectName = "Pemrograman Dasar",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-                    }
                 }
             }
         }

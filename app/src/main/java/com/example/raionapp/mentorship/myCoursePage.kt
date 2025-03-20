@@ -54,6 +54,9 @@ import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.homePage.model.profileData
 import com.example.raionapp.presentation.register.AuthViewModel
+import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.homePage.learningPage.LearningContentRow
+import com.example.raionapp.presentation.profile.profileData
 
 @Composable
 fun MyCoursePage(
@@ -186,135 +189,23 @@ fun MyCoursePage(
                         .zIndex(0f)
                         .verticalScroll(rememberScrollState()),
                 ) {
-                    Row {
-                        Text(
-                            text = "Kedokteran",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Kedokteran",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
 
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            subjectName = "Kedokteran",
-                            subSubjectName = "Biologi",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Ilmu Hitam",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
 
-                    Row {
-                        Text(
-                            text = "Ilmu Komputer",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            subjectName = "Kedokteran",
-                            subSubjectName = "Biologi",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-
-                        LearningContent(
-                            subjectName = "Kedokteran",
-                            subSubjectName = "Biologi",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-
-                        LearningContent(
-                            subjectName = "Kedokteran",
-                            subSubjectName = "Biologi",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-                    }
-
-                    Row {
-                        Text(
-                            text = "Kedokteran",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            subjectName = "Kedokteran",
-                            subSubjectName = "Biologi",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-
-                        LearningContent(
-                            subjectName = "Kedokteran",
-                            subSubjectName = "Biologi",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-
-                        LearningContent(
-                            subjectName = "Kedokteran",
-                            subSubjectName = "Biologi",
-                            mentorName = "Jamal Michael",
-                            likeCount = 1000,
-                            navController = navController,
-                            authViewModel = authViewModel,
-                            lessonId = ""
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Kedokteran Hewan",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
                     Spacer(modifier = Modifier.height(30.dp))
                 }
 
