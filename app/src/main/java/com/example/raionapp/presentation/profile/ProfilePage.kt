@@ -290,7 +290,9 @@ fun ProfilePage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentHeight()
-                                .clickable { },
+                                .clickable {
+                                    navController.navigate("becomeamentorpage")
+                                },
                         ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(

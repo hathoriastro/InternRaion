@@ -2,6 +2,7 @@ package com.example.raionapp.presentation.homePage.learningPage.LessonPages.less
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +12,14 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -41,11 +45,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
-import com.example.raionapp.presentation.register.AuthViewModel
+import com.example.raionapp.presentation.homePage.threads.ThreadContent
 
 @Composable
-fun VideoListPage(
+fun VideoPracticeListPage(
     modifier: Modifier = Modifier,
     navController: NavController,
     authViewModel: AuthViewModel?
@@ -164,7 +169,7 @@ fun VideoListPage(
                             )
                         }
                         Text(
-                            text = "Video",
+                            text = "Video Practice",
                             style = TextStyle(
                                 fontSize = 16.sp,
                                 fontFamily = montserratFont,
@@ -189,11 +194,8 @@ fun VideoListPage(
                             verticalArrangement = Arrangement.spacedBy(15.dp)
 
                         ) {
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
+                            //VideoListPageContent("")
+
                         }
                     }
 
@@ -205,12 +207,12 @@ fun VideoListPage(
 
 @Preview
 @Composable
-private fun VideoListPagePreview(
+private fun VideoPracticeListPagePreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     authViewModel: AuthViewModel? = null,
 ) {
-    VideoListPage(
+    VideoPracticeListPage(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,

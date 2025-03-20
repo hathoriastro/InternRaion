@@ -1,9 +1,10 @@
-package com.example.raionapp.presentation.homePage.bankPage
+package com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked
 
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,11 +36,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import com.example.raionapp.common.montserratFont
 
 @Composable
 fun VideoListPageContent(
-    link: String
+    link: String,
+    navController: NavController
 ) {
     val context = LocalContext.current
     val ytIntent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link)) }
@@ -51,12 +56,13 @@ fun VideoListPageContent(
             .width(500.dp)
             .wrapContentHeight()
             .background(color = Color.White, shape = RoundedCornerShape(size = 15.dp))
-            .clickable {
-                context.startActivity(ytIntent)
-            }
     ) {
         Box(
-            Modifier.height(50.dp)
+            Modifier
+                .height(100.dp)
+                .clickable {
+                    context.startActivity(ytIntent)
+                }
         ) {
             Image(
                 painter = painterResource(id = R.drawable.bank_page_dummy_png),
@@ -66,7 +72,7 @@ fun VideoListPageContent(
                     .fillMaxWidth()
                     .fillMaxHeight()
                     .align(Alignment.Center)
-                    .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+                    .clip(RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),
             )
             Icon(
                 painter = painterResource(id = R.drawable.play_circle_icon),
@@ -80,39 +86,65 @@ fun VideoListPageContent(
 
         Column(
             modifier = Modifier
+                .padding(bottom = 10.dp)
                 .wrapContentHeight()
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
                 .background(Color.White)
+                .clickable {
+                    navController.navigate("videopage")
+                },
+            horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(
                 text = "UI/UX Design untuk Website: Prinsip, Tools, dan Implementasi",
                 style = TextStyle(
-                    fontSize = 9.sp,
-                    lineHeight = 13.5.sp,
-                    fontFamily = montserratFont,
-                    fontWeight = FontWeight(400),
-                    color = Color.Black,
-                    letterSpacing = 0.05.em,
-                ),
-                modifier = Modifier
-                    .padding(horizontal = 10.dp, vertical = 10.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable._5_selesai_dummy),
-                contentDescription = "Progress,",
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-            Text(
-                text = "35% Selesai",
-                style = TextStyle(
-                    fontSize = 9.sp,
+                    fontSize = 14.sp,
                     fontFamily = montserratFont,
                     fontWeight = FontWeight(600),
-                    color = Color(0xFF757575),
+                    color = Color(0xBF000000),
                 ),
-                modifier = Modifier.padding(start = 10.dp, bottom = 10.dp)
+                modifier = Modifier.padding(10.dp)
             )
+            Column(
+
+            ) {
+                Box(
+                    Modifier
+                        .border(
+                            width = 1.dp,
+                            color = Color(0xFFD1D1D1),
+                            shape = RoundedCornerShape(size = 5.dp)
+                        )
+                        .width(331.dp)
+                        .height(10.dp)
+                        .background(
+                            color = Color(0xFFFFFFFF),
+                            shape = RoundedCornerShape(size = 5.dp)
+                        )
+                ){
+                    Box(
+                        Modifier
+                            .fillMaxWidth(0.35f)
+                            .height(8.dp)
+                            .background(color = Color(0xFFFDBA21), shape = RoundedCornerShape(size = 5.dp))
+                    ){
+
+                    }
+                }
+                Text(
+                    text = "35% Selesai",
+                    style = TextStyle(
+                        fontSize = 9.sp,
+                        fontFamily = montserratFont,
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF757575),
+                    ),
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .align(Alignment.Start)
+                )
+            }
         }
 
     }
@@ -121,5 +153,8 @@ fun VideoListPageContent(
 @Preview
 @Composable
 private fun VideoListPageContentPreview() {
-    VideoListPageContent("")
+    VideoListPageContent(
+        "",
+        navController = rememberNavController()
+        )
 }
