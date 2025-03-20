@@ -56,6 +56,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.homePage.learningPage.LearningContentRow
 import com.example.raionapp.presentation.profile.profileData
 
 @Composable
@@ -189,128 +190,23 @@ fun MyCoursePage(
                         .zIndex(0f)
                         .verticalScroll(rememberScrollState()),
                 ) {
-                    Row {
-                        Text(
-                            text = "Kedokteran",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Kedokteran",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
 
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
-                            navController = navController,
-                            authViewModel = authViewModel
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Ilmu Hitam",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
 
-                    Row {
-                        Text(
-                            text = "Ilmu Komputer",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            "Ilmu Komputer",
-                            "Pemrograman Dasar",
-                            "Jamal Michael",
-                            1000,
-                            navController = navController,
-                            authViewModel = authViewModel
-                        )
-
-                        LearningContent(
-                            "Ilmu Komputer",
-                            "Algoritma",
-                            "Ambudianto",
-                            1000,
-                            navController = navController,
-                            authViewModel = authViewModel
-                        )
-
-                        LearningContent(
-                            "Ilmu Komputer",
-                            "Sistem Digital",
-                            "John Damkar",
-                            1000,
-                            navController = navController,
-                            authViewModel = authViewModel
-                        )
-                    }
-
-                    Row {
-                        Text(
-                            text = "Kedokteran",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                lineHeight = 27.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(600),
-                                color = Color(0xFF212121),
-                            ),
-                            modifier = Modifier.padding(vertical = 20.dp)
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
-                    ){
-                        LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
-                            navController = navController,
-                            authViewModel = authViewModel
-                        )
-
-                        LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
-                            navController = navController,
-                            authViewModel = authViewModel
-                        )
-
-                        LearningContent(
-                            "Kedokteran",
-                            "Biologi",
-                            "Jamal Michael",
-                            1000,
-                            navController = navController,
-                            authViewModel = authViewModel
-                        )
-                    }
+                    LearningContentRow(
+                        subjectName = "Kedokteran Hewan",
+                        navController = navController,
+                        authViewModel = authViewModel
+                    )
                     Spacer(modifier = Modifier.height(30.dp))
                 }
 
