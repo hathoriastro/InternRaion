@@ -1,5 +1,6 @@
 package com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -132,6 +133,76 @@ fun ChatPage(
                 }
             }
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(65.dp)
+                .background(Color(0xFFFDBA21))
+                .align(Alignment.BottomCenter),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.plus_icon_add),
+                contentDescription = null,
+                modifier = Modifier.clickable { },
+                tint = Color.White
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.camera_icon_add_image),
+                contentDescription = null,
+                modifier = Modifier.clickable { },
+                tint = Color.White
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.image_icon_add_image),
+                contentDescription = null,
+                modifier = Modifier.clickable { },
+                tint = Color.White
+            )
+            var text by remember { mutableStateOf("") }
+
+            TextField(
+                value = text,
+                onValueChange = { text = it },
+                placeholder = {
+                    Text(
+                        text = "Write here",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            lineHeight = 19.6.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF6C7278)
+                        )
+                    )
+                },
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color(0xFFDAA200),
+                    focusedContainerColor = Color.White,
+                    focusedPlaceholderColor = Color.LightGray,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
+                ),
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier
+                    .width(223.dp)
+                    .height(47.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            )
+
+            Icon(
+                painter = painterResource(id = R.drawable.send_icon_send_message),
+                contentDescription = null,
+                modifier = Modifier.clickable {
+                },
+                tint = Color.White
+            )
+        }
+
     }
 }
 
