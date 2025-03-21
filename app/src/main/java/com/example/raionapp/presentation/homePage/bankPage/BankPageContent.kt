@@ -31,14 +31,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.common.montserratFont
 
 @Composable
 fun BankContent(
-    link: String
+    contentTitle : String,
+    navController: NavController
 ) {
-    val context = LocalContext.current
-    val ytIntent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link)) }
 
     Column(
         Modifier
@@ -46,9 +47,8 @@ fun BankContent(
             .background(color = Color.White, shape = RoundedCornerShape(size = 15.dp))
             .width(202.dp)
             .height(119.dp)
-            .background(color = Color.White, shape = RoundedCornerShape(size = 15.dp))
             .clickable {
-                context.startActivity(ytIntent)
+                navController.navigate("banklistpage")
             }
     ) {
         Image(
@@ -63,7 +63,7 @@ fun BankContent(
         )
 
         Text(
-            text = "Cryptocurrency",
+            text = contentTitle,
             style = TextStyle(
                 fontSize = 9.sp,
                 lineHeight = 13.5.sp,
@@ -98,5 +98,5 @@ fun BankContent(
 @Preview
 @Composable
 private fun LearningContentPreview() {
-    BankContent("")
+    BankContent("Pemrograman", navController = rememberNavController())
 }

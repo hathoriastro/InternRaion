@@ -20,13 +20,16 @@ import com.example.raionapp.presentation.profile.SavedAnswers
 import com.example.raionapp.presentation.homePage.comments.ThreadComment
 import com.example.raionapp.presentation.homePage.comments.ThreadCommentAdd
 import com.example.raionapp.presentation.homePage.bankPage.BankPageHome
+import com.example.raionapp.presentation.homePage.bankPage.BankPageList
 import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ChatPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.FilePage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.LessonPageUnlocked
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ModulListPage
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.PaymentOverviewPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoListPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPage
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPracticeListPage
 import com.example.raionapp.presentation.homePage.semesterSelect.SemesterSelectPage
 import com.example.raionapp.presentation.homePage.subjectSelect.SubjectSelectPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.AboutPage
@@ -35,6 +38,7 @@ import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPag
 import com.example.raionapp.presentation.profile.AboutProfilePage
 import com.example.raionapp.presentation.profile.BecomeAMentorPage
 import com.example.raionapp.presentation.profile.MentorRegistrationPage
+import com.example.raionapp.presentation.profile.PostedQuestionsPage
 import com.example.raionapp.presentation.profile.ProfilePage
 
 @Composable
@@ -90,6 +94,9 @@ fun AppNavHost(
         composable("savedanswers") {
             SavedAnswers(modifier,navController, authViewModel)
         }
+        composable("postedquestions") {
+            PostedQuestionsPage(modifier,navController)
+        }
         composable("lessonpage") { //String diisi dengan nama mentor
             LessonPage("Contoh", modifier,navController, authViewModel)
         }
@@ -137,6 +144,15 @@ fun AppNavHost(
         }
         composable("modullistpage") {
             ModulListPage(modifier, navController, authViewModel)
+        }
+        composable("videopracticelistpage") {
+            VideoPracticeListPage(modifier, navController, authViewModel)
+        }
+        composable("banklistpage") {
+            BankPageList(modifier, navController)
+        }
+        composable("paymentoverview") {
+            PaymentOverviewPage(modifier, navController, authViewModel)
         }
 
     }

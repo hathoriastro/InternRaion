@@ -45,8 +45,9 @@ android {
     }
 }
 
-dependencies {
 
+dependencies {
+    implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -99,6 +100,7 @@ dependencies {
     kapt (libs.hilt.android.compiler)
     kapt(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
 }
 
 kapt {

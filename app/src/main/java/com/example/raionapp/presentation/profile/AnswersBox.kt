@@ -24,7 +24,7 @@ import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 
 @Composable
-fun SavedAnswerBox(
+fun AnswerBox(
     id : String,
     modifier: Modifier = Modifier
 ) {
@@ -38,8 +38,8 @@ fun SavedAnswerBox(
                     color = Color(0xFFFDCB1A),
                     shape = RoundedCornerShape(size = 16.dp)
                 )
-                .width(191.dp)
-                .height(188.dp)
+                .width(170.dp)
+                .height(170.dp)
                 .background(color = Color(0xFFFFFFFF), shape = RoundedCornerShape(size = 16.dp))
         ) {
             Image(
@@ -68,7 +68,7 @@ fun SavedAnswerBox(
 @Preview
 @Composable
 private fun SavedAnswerBoxPreview() {
-    SavedAnswerBox(
+    AnswerBox(
         "All Answer"
     )
 }
