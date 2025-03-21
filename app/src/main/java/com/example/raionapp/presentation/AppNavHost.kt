@@ -24,6 +24,7 @@ import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ChatPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.FilePage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.LessonPageUnlocked
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ModulListPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoListPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPage
 import com.example.raionapp.presentation.homePage.semesterSelect.SemesterSelectPage
@@ -150,5 +151,9 @@ fun AppNavHost(
         composable("addnewclass") {
             CreateNewClassPage(modifier, navController, authViewModel)
         }
+        composable("modullistpage") {
+            ModulListPage(modifier, navController, authViewModel)
+        }
+
     }
 }

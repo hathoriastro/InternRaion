@@ -45,16 +45,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import com.example.raionapp.presentation.homePage.threads.ThreadContent
-import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
-fun VideoPracticeListPage(
+fun ModulListPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel?,
-    lessonId: String
+    authViewModel: AuthViewModel?
 ) {
     var search by remember { mutableStateOf("") }
     Box(modifier = Modifier
@@ -170,7 +169,7 @@ fun VideoPracticeListPage(
                             )
                         }
                         Text(
-                            text = "Video Practice",
+                            text = "Modul",
                             style = TextStyle(
                                 fontSize = 16.sp,
                                 fontFamily = montserratFont,
@@ -195,17 +194,9 @@ fun VideoPracticeListPage(
                             verticalArrangement = Arrangement.spacedBy(15.dp)
 
                         ) {
-                            VideoPracticeListPageContent(
-                                "Android Studio Introduction",
-                                "",
-                                navController
-                            )
-                            VideoPracticeListPageContent(
-                                "Calculus Introduction",
-                                "",
-                                navController
-                            )
-
+                            ModulListPageContent("UI/UX Website Design", navController)
+                            ModulListPageContent("Front-End Web Design: Menguasai HTML, CSS, dan JavaScript", navController)
+                            ModulListPageContent("Introduction To Website Design", navController)
                         }
                     }
 
@@ -217,16 +208,15 @@ fun VideoPracticeListPage(
 
 @Preview
 @Composable
-private fun VideoPracticeListPagePreview(
+private fun ModulListPagePreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     authViewModel: AuthViewModel? = null,
 ) {
-    VideoPracticeListPage(
+    ModulListPage(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
-        lessonId = ""
     )
 
 }

@@ -16,6 +16,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -27,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -79,13 +84,13 @@ fun CreateNewClassPage(
     var subject by remember { mutableStateOf("") }
 
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .background(Color.White),
     ){
         Column {
             Box(
-                modifier
+                Modifier
                     .fillMaxWidth()
                     .height(100.dp)
                     .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(24.dp))
@@ -93,7 +98,7 @@ fun CreateNewClassPage(
                 Icon(
                     painter = painterResource(id = R.drawable.left_arrow_icon),
                     contentDescription = "image description",
-                    modifier = modifier
+                    modifier = Modifier
                         .size(50.dp)
                         .align(Alignment.CenterStart)
                         .padding(start = 40.dp, top = 20.dp)
@@ -110,7 +115,7 @@ fun CreateNewClassPage(
                         color = Color(0xFFFFFFFF),
                         textAlign = TextAlign.Center,
                     ),
-                    modifier = modifier
+                    modifier = Modifier
                         .align(Alignment.Center)
                         .padding(top = 20.dp)
                 )
@@ -118,16 +123,16 @@ fun CreateNewClassPage(
 
 
             Column(
-                modifier
+                Modifier
                     .fillMaxWidth(0.9f)
                     .align(Alignment.CenterHorizontally)
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Column(
-                    modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Course Name",
 
@@ -139,10 +144,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     TextField(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = courseName,
@@ -176,9 +181,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                     Text(
                         text = "About",
 
@@ -190,10 +195,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     TextField(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = about,
@@ -227,9 +232,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Number of Materials",
 
@@ -241,10 +246,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     TextField(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = numberOfMaterials,
@@ -278,9 +283,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Price",
 
@@ -292,10 +297,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     TextField(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = price,
@@ -329,60 +334,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = modifier.padding(vertical = 10.dp))
-                    Text(
-                        text = "Subject",
-
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = montserratFont,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    )
-
-                    Spacer(modifier = modifier.height(10.dp))
-
-                    TextField(
-                        modifier = modifier
-                            .align(Alignment.CenterHorizontally)
-                            .width(500.dp),
-                        value = subject,
-                        onValueChange = {
-                            subject = it
-                        },
-                        placeholder = {
-                            Text(
-                                text = "Enter course subject",
-                                // Body Text/Body Small Medium
-                                style = TextStyle(
-                                    fontSize = 14.sp,
-                                    lineHeight = 19.6.sp,
-                                    fontFamily = montserratFont,
-                                    fontWeight = FontWeight(500),
-                                    color = Color(0xFF757575),
-                                )
-                            )
-                        },
-                        shape = RoundedCornerShape(10.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color(0xFFF0F1F5),
-                            focusedContainerColor = Color(0xFFF0F1F5),
-                            focusedPlaceholderColor = Color.LightGray,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            focusedTextColor = Color.Black,
-                            unfocusedTextColor = Color.Black
-                        )
-                    )
-                }
-
-                Column(
-                    modifier.fillMaxWidth(),
-                ) {
-                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Course Duration",
 
@@ -394,10 +348,10 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     TextField(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
                         value = courseDuration,
@@ -431,9 +385,9 @@ fun CreateNewClassPage(
                 }
 
                 Column(
-                    modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                 ) {
-                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
                     Text(
                         text = "Language",
 
@@ -445,15 +399,15 @@ fun CreateNewClassPage(
                         )
                     )
 
-                    Spacer(modifier = modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(10.dp))
 
                     TextField(
-                        modifier = modifier
+                        modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
-                        value = language,
+                        value = numberOfSubsection,
                         onValueChange = {
-                            language = it
+                            numberOfSubsection = it
                         },
                         placeholder = {
                             Text(
@@ -479,6 +433,82 @@ fun CreateNewClassPage(
                             unfocusedTextColor = Color.Black
                         )
                     )
+                }
+
+                var expanded by remember { mutableStateOf(false) }
+                var selectedNumber by remember { mutableStateOf("Select the total number") } // Default placeholder
+
+                Column(
+                    modifier.fillMaxWidth(),
+                ) {
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+
+                    Text(
+                        text = "Number of Subsection",
+                        modifier = Modifier
+                            .clickable { expanded = true } // Opens dropdown
+                            .padding(8.dp),
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(500.dp)
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(Color(0xFFF0F1F5))
+                            .clickable { expanded = true }
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Text(
+                            text = selectedNumber,
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(500),
+                                color = if (selectedNumber == "Select the total number") Color(0xFF757575) else Color.Black,
+                            )
+                        )
+
+                        // Dropdown Icon (Positioned to the Right)
+                        Icon(
+                            painter = painterResource(R.drawable.dropdown_button_icon),
+                            contentDescription = "Dropdown Arrow",
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 8.dp),
+                            tint = Color.Black
+                        )
+                    }
+
+                    // Dropdown Menu
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier
+                            .width(200.dp)
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        listOf("1", "2", "3", "4", "5","6", "7", "8", "9", "10", "11", "12").forEach { number ->
+                            DropdownMenuItem(
+                                text = { Text(number) },
+                                onClick = {
+                                    selectedNumber = number
+                                    expanded = false
+                                }
+                            )
+                        }
+                    }
                 }
 
 //                Column(
@@ -874,11 +904,12 @@ fun CreateNewClassPage(
                             fontWeight = FontWeight(700),
                             color = Color(0xFFFFFFFF),
                         ),
-                        modifier = modifier.align(Alignment.Center)
+                        modifier = Modifier.align(Alignment.Center)
                     )
                 }
-                Spacer(modifier = modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(30.dp))
             }
+
         }
     }
 }
