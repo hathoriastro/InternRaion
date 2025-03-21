@@ -22,7 +22,6 @@ class ThreadCollection {
                 "isLiked" to false,
                 "timeCreated" to FieldValue.serverTimestamp()
             )
-    //        Membuat document terlebih dahulu, lalu mengambil id nya untuk dijadikan threadId
             val documentId = db.collection("thread").add(threadHashMap).await()
             val getDocumentId = documentId.id
 
