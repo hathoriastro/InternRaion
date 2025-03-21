@@ -568,15 +568,11 @@ fun AboutPage(
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
                     ) {
-
                     }
                 }
-
             }
-
         }
     }
-}
 
 @Preview
 @Composable
