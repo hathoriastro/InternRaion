@@ -125,7 +125,7 @@ fun LearningPageHome(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Text(
-                        text = "Hello, John!",
+                        text = "Hello, " + userProfileData.value?.fullname ?: "....",
 
                         // Headline/H5 Headline Bold
                         style = TextStyle(

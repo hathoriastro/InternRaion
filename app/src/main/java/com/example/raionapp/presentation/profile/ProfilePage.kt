@@ -255,7 +255,9 @@ fun ProfilePage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .wrapContentHeight()
-                                .clickable { },
+                                .clickable {
+                                    navController.navigate("postedquestions")
+                                },
                         ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
                             Icon(
@@ -265,7 +267,7 @@ fun ProfilePage(
                                 tint = Color.Black
                             )
                             Text(
-                                "Exported Questions",
+                                "Posted Questions",
                                 modifier = Modifier
                                     .align(Alignment.CenterVertically)
                                     .padding(start = 20.dp),

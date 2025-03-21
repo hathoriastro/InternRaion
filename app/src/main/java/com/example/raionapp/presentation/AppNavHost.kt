@@ -26,6 +26,7 @@ import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lesso
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.FilePage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.LessonPageUnlocked
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ModulListPage
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.PaymentOverviewPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoListPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPracticeListPage
@@ -37,6 +38,7 @@ import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPag
 import com.example.raionapp.presentation.profile.AboutProfilePage
 import com.example.raionapp.presentation.profile.BecomeAMentorPage
 import com.example.raionapp.presentation.profile.MentorRegistrationPage
+import com.example.raionapp.presentation.profile.PostedQuestionsPage
 import com.example.raionapp.presentation.profile.ProfilePage
 
 @Composable
@@ -92,6 +94,9 @@ fun AppNavHost(
         composable("savedanswers") {
             SavedAnswers(modifier,navController, authViewModel)
         }
+        composable("postedquestions") {
+            PostedQuestionsPage(modifier,navController)
+        }
         composable("lessonpage") { //String diisi dengan nama mentor
             LessonPage("Contoh", modifier,navController, authViewModel)
         }
@@ -145,6 +150,9 @@ fun AppNavHost(
         }
         composable("banklistpage") {
             BankPageList(modifier, navController)
+        }
+        composable("paymentoverview") {
+            PaymentOverviewPage(modifier, navController, authViewModel)
         }
 
     }

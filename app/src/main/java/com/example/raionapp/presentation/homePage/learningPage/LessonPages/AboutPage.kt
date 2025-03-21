@@ -470,6 +470,9 @@ fun AboutPage(
                                 )
                                 .width(87.dp)
                                 .height(32.dp)
+                                .clickable {
+                                    navController.navigate("paymentoverview")
+                                }
                         ) {
                             Text(
                                 text = "Buy",
@@ -533,6 +536,9 @@ fun AboutPage(
                                 )
                                 .width(87.dp)
                                 .height(32.dp)
+                                .clickable {
+                                    navController.navigate("paymentoverview")
+                                }
                         ) {
                             Text(
                                 text = "Buy",
