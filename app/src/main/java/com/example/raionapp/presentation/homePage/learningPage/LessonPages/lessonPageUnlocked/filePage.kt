@@ -2,7 +2,6 @@ package com.example.raionapp.presentation.homePage.learningPage.LessonPages.less
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.DragInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -31,21 +29,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.pdfRender.PdfScreen
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
-import com.example.raionapp.presentation.homePage.threads.ThreadContent
+import com.example.raionapp.presentation.register.AuthViewModel
+import java.net.URLEncoder
 
 @Composable
 fun FilePage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    subLessonFile: String
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
@@ -136,7 +135,9 @@ fun FilePage(
                                 modifier = Modifier
                                     .align(Alignment.CenterEnd)
                                     .offset(x = -20.dp)
-                                    .clickable {  },
+                                    .clickable {
+                                        navController.navigate("pdfscreen/${URLEncoder.encode(subLessonFile, "UTF-8")}")
+                                    },
                                 tint = Color.White
                             )
                         }
@@ -144,21 +145,12 @@ fun FilePage(
                             Modifier
                                 .padding(10.dp)
                                 .fillMaxWidth()
-                                .wrapContentHeight()
-                                .verticalScroll(rememberScrollState())
                         ) {
-                            Text(
-                                text = "1. Pengertian Website Design\nWebsite design adalah proses merancang tampilan dan pengalaman pengguna (UI/UX) pada sebuah situs web agar fungsional, menarik, dan mudah digunakan.\n2. Elemen Utama Website Design\nLayout: Struktur halaman yang mengatur elemen seperti teks, gambar, dan navigasi.\nWarna: Menentukan identitas dan suasana situs. Pilih palet warna yang sesuai dengan branding.\nTipografi: Gunakan font yang mudah dibaca dan konsisten.\nNavigasi: Buat menu yang jelas dan mudah diakses.\nResponsiveness: Desain harus dapat menyesuaikan tampilan di berbagai perangkat (mobile-friendly).\nVisual & Multimedia: Gunakan gambar dan video\nTren Website Design 2024\nDark Mode: Memberikan pengalaman visual yang lebih nyaman.\nMinimalist Design: Desain sederhana dengan elemen fungsional.\n",
-                                style = TextStyle(
-                                    fontSize = 10.sp,
-                                    lineHeight = 15.5.sp,
-                                    fontFamily = montserratFont,
-                                    fontWeight = FontWeight(500),
-                                    color = Color(0xFF7D7F83),
-                                )
+                            PdfScreen(
+                                modifier = Modifier.fillMaxSize(),
+                                pdfUrl = subLessonFile
                             )
                         }
-
                     }
                     Column(
                         modifier = Modifier
@@ -250,6 +242,7 @@ private fun FilePagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        subLessonFile = ""
     )
 
 }

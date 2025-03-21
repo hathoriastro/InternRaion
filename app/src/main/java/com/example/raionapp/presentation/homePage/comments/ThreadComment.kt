@@ -19,25 +19,20 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.NavBar
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
 import com.example.raionapp.presentation.homePage.model.CommentViewModel
 import com.example.raionapp.presentation.homePage.threads.ThreadContent
-import kotlin.concurrent.thread
 import com.example.raionapp.R
-import com.example.raionapp.presentation.homePage.model.ThreadViewModel
+import com.example.raionapp.presentation.homePage.model.HomeViewModel
 
 @Composable
 fun ThreadComment(
@@ -47,15 +42,16 @@ fun ThreadComment(
     threadId: String
 ) {
     val commentViewModel: CommentViewModel = viewModel()
-    val threadViewModel: ThreadViewModel = viewModel()
+    val homeViewModel: HomeViewModel = viewModel()
 
     LaunchedEffect(threadId) {
         commentViewModel.loadComments(threadId)
     }
 
     val commentModel = commentViewModel.commentState.collectAsState()
-    val thread = threadViewModel.threadsState.collectAsState()
+    val thread = homeViewModel.threadsState.collectAsState()
     val selectedThread = thread.value.firstOrNull { it.first == threadId }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -105,7 +101,6 @@ fun ThreadComment(
                         .verticalScroll(rememberScrollState()),
                 ) {
                     selectedThread?.let { (threadId, threadData) ->
-                        // Tampilkan detail thread yang dipilih
                         ThreadContent(
                             threadId = threadId,
                             fullname = threadData.fullname,
@@ -116,7 +111,7 @@ fun ThreadComment(
                             numberOfLike = threadData.numberOfLike,
                             navController = navController,
                             modifier = Modifier,
-                            isLiked = threadData.isLiked
+                            imageUrl = threadData.imageURL
                         )
                     }
                     commentModel.value.forEach { (_, commentId, commentData) ->
@@ -128,9 +123,8 @@ fun ThreadComment(
                             text = commentData.text,
                             numberOfLike = commentData.numberOfLike,
                             commentId = commentId,
-                            isLiked = commentData.isLiked
+                            imageUrl = commentData.imageUrl
                         )
-                        Log.d("ThreadCommentSubwad213124124", "isLiked ${commentData.isLiked}")
                     }
                 }
             }

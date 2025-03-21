@@ -1,14 +1,14 @@
 package com.example.raionapp.presentation.homePage.threads
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -36,9 +36,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.raionapp.presentation.homePage.model.ThreadViewModel
+import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
+import com.example.raionapp.presentation.homePage.model.HomeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -50,15 +54,14 @@ fun ThreadContent(
     text: String,
     numberOfComment: Int,
     numberOfLike: Int,
-    isLiked: Boolean,
+    imageUrl: String?,
     modifier: Modifier = Modifier,
     navController: NavHostController?
 ) {
-    val threadViewModel: ThreadViewModel = viewModel()
     val threadCollection = ThreadCollection()
     val coroutineScope = rememberCoroutineScope()
 
-    var isLiked by remember { mutableStateOf(isLiked) }
+    var isLiked by remember { mutableStateOf(false) }
     var likeCount by remember { mutableIntStateOf(numberOfLike) }
     var isSaved by remember { mutableStateOf(false) }
 
@@ -78,8 +81,8 @@ fun ThreadContent(
                 Image(
                     painter = rememberAsyncImagePainter(
                         model = profilePicture,
-                        placeholder = painterResource(R.drawable.heading_small_circle),
-                        error = painterResource(R.drawable.heading_small_circle)
+                        placeholder = painterResource(R.drawable.profile_icon_unclicked),
+                        error = painterResource(R.drawable.profile_icon_unclicked)
                     ),
                     contentDescription = "Profile Picture",
                     modifier = modifier
@@ -106,6 +109,26 @@ fun ThreadContent(
                 color = Color.Black,
                 modifier = Modifier.padding(vertical = 10.dp)
             )
+
+            // Jika pengguna ada menambahkan gambar, maka tampilkan gambarnya di bawah text input pengguna (disini)
+            imageUrl?.let { url ->
+                AsyncImage(
+                    model = url,
+                    contentDescription = "Thread Image",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(8.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .border(
+                            color = Color.LightGray,
+                            width = 1.dp,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                )
+            }
+
             Row(
                 modifier = Modifier
                     .padding(bottom = 20.dp)
@@ -132,16 +155,18 @@ fun ThreadContent(
                 }
                 Spacer(modifier = Modifier.width(10.dp))
                 Row(
-                    modifier = Modifier.clickable {
-                        coroutineScope.launch {
-                            likeCount += if (!isLiked) 1 else -1
-                            isLiked = !isLiked
-                            threadCollection.updateThreadFirestore(threadId, mapOf(
-                                "numberOfLike" to likeCount,
-                                "isLiked" to isLiked
-                            ))
+                    modifier = Modifier
+                        .clickable {
+                            coroutineScope.launch {
+                                likeCount += if (!isLiked) 1 else -1
+                                isLiked = !isLiked
+                                threadCollection.updateThreadFirestore(
+                                    threadId, mapOf(
+                                        "numberOfLike" to likeCount,
+                                    )
+                                )
+                            }
                         }
-                    }
                         .wrapContentHeight(),
                         verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -171,4 +196,21 @@ fun ThreadContent(
         }
     }
     Divider()
+}
+
+@Preview
+@Composable
+fun ThreadContentPreview() {
+    ThreadContent(
+        threadId = "123124",
+        fullname = "Madira",
+        username = "madiraUang",
+        profilePicture = null,
+        text = "Saya suka makan nasi yang dicampur dengan sop ayam segar",
+        numberOfComment = 5,
+        numberOfLike = 10,
+        imageUrl = null,
+        navController = rememberNavController()
+    )
+
 }

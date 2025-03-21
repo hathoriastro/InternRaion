@@ -40,10 +40,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.raionapp.common.montserratFont
+import java.net.URLEncoder
 
 @Composable
 fun ModulListPageContent(
     contentTitle : String,
+    fileUrl: String,
     navController: NavController
 ) {
 
@@ -82,7 +84,7 @@ fun ModulListPageContent(
                 .align(Alignment.CenterHorizontally)
                 .background(Color.White)
                 .clickable {
-                    navController.navigate("filepage")
+                    navController.navigate("filepage/${URLEncoder.encode(fileUrl, "UTF-8")}")
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ){
@@ -145,6 +147,7 @@ fun ModulListPageContent(
 private fun ModulListPageContentPreview() {
     ModulListPageContent(
         "UI/UX Design untuk Website: Prinsip, Tools, dan Implementasi",
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        fileUrl = ""
     )
 }

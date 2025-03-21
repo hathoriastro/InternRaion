@@ -41,16 +41,37 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.firestore.model.LessonDataClass
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import com.example.raionapp.presentation.homePage.model.profileData
+import com.example.raionapp.presentation.register.AuthViewModel
+
+@Preview(showBackground = true)
+@Composable
+fun CreateNewClassPagePreview() {
+    val navController = rememberNavController()
+    val authViewModel: AuthViewModel = viewModel()
+
+    CreateNewClassPage(
+        navController = navController,
+        authViewModel = authViewModel
+    )
+}
 
 @Composable
 fun CreateNewClassPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
+    authViewModel: AuthViewModel
 ) {
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val authorProfileData = profileData(authViewModel)
+
     var courseName by remember { mutableStateOf("") }
     var about by remember { mutableStateOf("") }
     var numberOfMaterials by remember { mutableStateOf("") }
@@ -60,6 +81,7 @@ fun CreateNewClassPage(
     var numberOfSubsection by remember { mutableStateOf("") }
     var tittleOfSubsection by remember { mutableStateOf("") }
     var subsectionDescription by remember { mutableStateOf("") }
+    var subject by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -383,9 +405,9 @@ fun CreateNewClassPage(
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
-                        value = numberOfSubsection,
+                        value = language,
                         onValueChange = {
-                            numberOfSubsection = it
+                            language = it
                         },
                         placeholder = {
                             Text(
@@ -413,381 +435,484 @@ fun CreateNewClassPage(
                     )
                 }
 
+                Column(
+                    Modifier.fillMaxWidth(),
+                ) {
+                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+                    Text(
+                        text = "Subject",
+
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF000000),
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    TextField(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(500.dp),
+                        value = subject,
+                        onValueChange = {
+                            subject = it
+                        },
+                        placeholder = {
+                            Text(
+                                text = "Subject of this course",
+                                // Body Text/Body Small Medium
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    lineHeight = 19.6.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFF757575),
+                                )
+                            )
+                        },
+                        shape = RoundedCornerShape(10.dp),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color(0xFFF0F1F5),
+                            focusedContainerColor = Color(0xFFF0F1F5),
+                            focusedPlaceholderColor = Color.LightGray,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black
+                        )
+                    )
+                }
+
                 var expanded by remember { mutableStateOf(false) }
                 var selectedNumber by remember { mutableStateOf("Select the total number") } // Default placeholder
 
-                Column(
-                    Modifier.fillMaxWidth(),
-                ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+//                Column(
+//                    Modifier.fillMaxWidth(),
+//                ) {
+//                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+//
+//                    Text(
+//                        text = "Number of Subsection",
+//                        modifier = Modifier
+//                            .clickable { expanded = true } // Opens dropdown
+//                            .padding(8.dp),
+//                        style = TextStyle(
+//                            fontSize = 14.sp,
+//                            fontFamily = montserratFont,
+//                            fontWeight = FontWeight(600),
+//                            color = Color(0xFF000000),
+//                        )
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(10.dp))
+//
+//
+//                    Box(
+//                        modifier = Modifier
+//                            .align(Alignment.CenterHorizontally)
+//                            .width(500.dp)
+//                            .height(50.dp)
+//                            .clip(RoundedCornerShape(10.dp))
+//                            .background(Color(0xFFF0F1F5))
+//                            .clickable { expanded = true }
+//                            .padding(horizontal = 16.dp, vertical = 14.dp),
+//                        contentAlignment = Alignment.CenterStart
+//                    ) {
+//                        Text(
+//                            text = selectedNumber,
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(500),
+//                                color = if (selectedNumber == "Select the total number") Color(0xFF757575) else Color.Black,
+//                            )
+//                        )
+//
+//                        // Dropdown Icon (Positioned to the Right)
+//                        Icon(
+//                            painter = painterResource(R.drawable.dropdown_button_icon),
+//                            contentDescription = "Dropdown Arrow",
+//                            modifier = Modifier
+//                                .align(Alignment.CenterEnd)
+//                                .padding(end = 8.dp),
+//                            tint = Color.Black
+//                        )
+//                    }
+//
+//                    // Dropdown Menu
+//                    DropdownMenu(
+//                        expanded = expanded,
+//                        onDismissRequest = { expanded = false },
+//                        modifier = Modifier
+//                            .width(200.dp)
+//                            .align(Alignment.CenterHorizontally)
+//                    ) {
+//                        listOf("1", "2", "3", "4", "5","6", "7", "8", "9", "10", "11", "12").forEach { number ->
+//                            DropdownMenuItem(
+//                                text = { Text(number) },
+//                                onClick = {
+//                                    selectedNumber = number
+//                                    expanded = false
+//                                }
+//                            )
+//                        }
+//                    }
+//                }
 
-                    Text(
-                        text = "Number of Subsection",
-                        modifier = Modifier
-                            .clickable { expanded = true } // Opens dropdown
-                            .padding(8.dp),
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = montserratFont,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .width(500.dp)
-                            .height(50.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color(0xFFF0F1F5))
-                            .clickable { expanded = true }
-                            .padding(horizontal = 16.dp, vertical = 14.dp),
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        Text(
-                            text = selectedNumber,
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(500),
-                                color = if (selectedNumber == "Select the total number") Color(0xFF757575) else Color.Black,
-                            )
-                        )
-
-                        // Dropdown Icon (Positioned to the Right)
-                        Icon(
-                            painter = painterResource(R.drawable.dropdown_button_icon),
-                            contentDescription = "Dropdown Arrow",
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .padding(end = 8.dp),
-                            tint = Color.Black
-                        )
-                    }
-
-                    // Dropdown Menu
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier
-                            .width(200.dp)
-                            .align(Alignment.CenterHorizontally)
-                    ) {
-                        listOf("1", "2", "3", "4", "5","6", "7", "8", "9", "10", "11", "12").forEach { number ->
-                            DropdownMenuItem(
-                                text = { Text(number) },
-                                onClick = {
-                                    selectedNumber = number
-                                    expanded = false
-                                }
-                            )
-                        }
-                    }
-                }
-
-                Column(
-                    Modifier.fillMaxWidth(),
-                ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                    Text(
-                        text = "Tittle of subsection",
-
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = montserratFont,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    TextField(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .width(500.dp),
-                        value = tittleOfSubsection,
-                        onValueChange = {
-                            tittleOfSubsection = it
-                        },
-                        placeholder = {
-                            Text(
-                                text = "Enter the title of subsection",
-                                // Body Text/Body Small Medium
-                                style = TextStyle(
-                                    fontSize = 14.sp,
-                                    lineHeight = 19.6.sp,
-                                    fontFamily = montserratFont,
-                                    fontWeight = FontWeight(500),
-                                    color = Color(0xFF757575),
-                                )
-                            )
-                        },
-                        shape = RoundedCornerShape(10.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color(0xFFF0F1F5),
-                            focusedContainerColor = Color(0xFFF0F1F5),
-                            focusedPlaceholderColor = Color.LightGray,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            focusedTextColor = Color.Black,
-                            unfocusedTextColor = Color.Black
-                        )
-                    )
-                }
-
-                Column(
-                    Modifier.fillMaxWidth(),
-                ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                    Text(
-                        text = "Subsection Description",
-
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = montserratFont,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    TextField(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .width(500.dp),
-                        value = subsectionDescription,
-                        onValueChange = {
-                            subsectionDescription = it
-                        },
-                        placeholder = {
-                            Text(
-                                text = "Enter the subsection division",
-                                // Body Text/Body Small Medium
-                                style = TextStyle(
-                                    fontSize = 14.sp,
-                                    lineHeight = 19.6.sp,
-                                    fontFamily = montserratFont,
-                                    fontWeight = FontWeight(500),
-                                    color = Color(0xFF757575),
-                                )
-                            )
-                        },
-                        shape = RoundedCornerShape(10.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color(0xFFF0F1F5),
-                            focusedContainerColor = Color(0xFFF0F1F5),
-                            focusedPlaceholderColor = Color.LightGray,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
-                            focusedTextColor = Color.Black,
-                            unfocusedTextColor = Color.Black
-                        )
-                    )
-                }
-
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                    Text(
-                        text = "Upload File",
-
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = montserratFont,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Box(
-                        Modifier
-                            .shadow(
-                                elevation = 2.dp,
-                                spotColor = Color(0x3DE4E5E7),
-                                ambientColor = Color(0x3DE4E5E7)
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = Color.Transparent,
-                                shape = RoundedCornerShape(size = 10.dp)
-                            )
-                            .width(100.dp)
-                            .height(46.dp)
-                            .background(
-                                color = Color(0xFFF0F1F5),
-                                shape = RoundedCornerShape(size = 10.dp)
-                            )
-                            .clickable {
-
-                            }
-
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.upload_file_icon),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .align(Alignment.CenterStart)
-                                .offset(x = 5.dp)
-                        )
-                        Text(
-                            text = "Upload",
-
-                            // Body Text/Body Small Medium
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                lineHeight = 19.6.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF757575),
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .offset(10.dp)
-                        )
-
-                    }
-                }
-
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                    Text(
-                        text = "Upload Video",
-
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = montserratFont,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Box(
-                        Modifier
-                            .shadow(
-                                elevation = 2.dp,
-                                spotColor = Color(0x3DE4E5E7),
-                                ambientColor = Color(0x3DE4E5E7)
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = Color.Transparent,
-                                shape = RoundedCornerShape(size = 10.dp)
-                            )
-                            .width(100.dp)
-                            .height(46.dp)
-                            .background(
-                                color = Color(0xFFF0F1F5),
-                                shape = RoundedCornerShape(size = 10.dp)
-                            )
-                            .clickable {
-
-                            }
-
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.upload_file_icon),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .align(Alignment.CenterStart)
-                                .offset(x = 5.dp)
-                        )
-                        Text(
-                            text = "Upload",
-
-                            // Body Text/Body Small Medium
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                lineHeight = 19.6.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF757575),
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .offset(10.dp)
-                        )
-
-                    }
-                }
-
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                ) {
-                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
-                    Text(
-                        text = "Upload Video Practice",
-
-                        style = TextStyle(
-                            fontSize = 14.sp,
-                            fontFamily = montserratFont,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF000000),
-                        )
-                    )
-
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Box(
-                        Modifier
-                            .shadow(
-                                elevation = 2.dp,
-                                spotColor = Color(0x3DE4E5E7),
-                                ambientColor = Color(0x3DE4E5E7)
-                            )
-                            .border(
-                                width = 1.dp,
-                                color = Color.Transparent,
-                                shape = RoundedCornerShape(size = 10.dp)
-                            )
-                            .width(100.dp)
-                            .height(46.dp)
-                            .background(
-                                color = Color(0xFFF0F1F5),
-                                shape = RoundedCornerShape(size = 10.dp)
-                            )
-                            .clickable {
-
-                            }
-
-                    ) {
-                        Icon(
-                            painter = painterResource(R.drawable.upload_file_icon),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .align(Alignment.CenterStart)
-                                .offset(x = 5.dp)
-                        )
-                        Text(
-                            text = "Upload",
-
-                            // Body Text/Body Small Medium
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                lineHeight = 19.6.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF757575),
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .offset(10.dp)
-                        )
-
-                    }
-                }
+//                Column(
+//                    modifier.fillMaxWidth(),
+//                ) {
+//                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+//                    Text(
+//                        text = "Number of Subsection",
+//
+//                        style = TextStyle(
+//                            fontSize = 14.sp,
+//                            fontFamily = montserratFont,
+//                            fontWeight = FontWeight(600),
+//                            color = Color(0xFF000000),
+//                        )
+//                    )
+//
+//                    Spacer(modifier = modifier.height(10.dp))
+//
+//                    TextField(
+//                        modifier = modifier
+//                            .align(Alignment.CenterHorizontally)
+//                            .width(500.dp),
+//                        value = numberOfSubsection,
+//                        onValueChange = {
+//                            numberOfSubsection = it
+//                        },
+//                        placeholder = {
+//                            Text(
+//                                text = "Select the total number",
+//                                // Body Text/Body Small Medium
+//                                style = TextStyle(
+//                                    fontSize = 14.sp,
+//                                    lineHeight = 19.6.sp,
+//                                    fontFamily = montserratFont,
+//                                    fontWeight = FontWeight(500),
+//                                    color = Color(0xFF757575),
+//                                )
+//                            )
+//                        },
+//                        shape = RoundedCornerShape(10.dp),
+//                        colors = TextFieldDefaults.colors(
+//                            unfocusedContainerColor = Color(0xFFF0F1F5),
+//                            focusedContainerColor = Color(0xFFF0F1F5),
+//                            focusedPlaceholderColor = Color.LightGray,
+//                            unfocusedIndicatorColor = Color.Transparent,
+//                            focusedIndicatorColor = Color.Transparent,
+//                            focusedTextColor = Color.Black,
+//                            unfocusedTextColor = Color.Black
+//                        )
+//                    )
+//                }
+//
+//                Column(
+//                    modifier.fillMaxWidth(),
+//                ) {
+//                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+//                    Text(
+//                        text = "Tittle of subsection",
+//
+//                        style = TextStyle(
+//                            fontSize = 14.sp,
+//                            fontFamily = montserratFont,
+//                            fontWeight = FontWeight(600),
+//                            color = Color(0xFF000000),
+//                        )
+//                    )
+//
+//                    Spacer(modifier = modifier.height(10.dp))
+//
+//                    TextField(
+//                        modifier = modifier
+//                            .align(Alignment.CenterHorizontally)
+//                            .width(500.dp),
+//                        value = tittleOfSubsection,
+//                        onValueChange = {
+//                            tittleOfSubsection = it
+//                        },
+//                        placeholder = {
+//                            Text(
+//                                text = "Enter the title of subsection",
+//                                // Body Text/Body Small Medium
+//                                style = TextStyle(
+//                                    fontSize = 14.sp,
+//                                    lineHeight = 19.6.sp,
+//                                    fontFamily = montserratFont,
+//                                    fontWeight = FontWeight(500),
+//                                    color = Color(0xFF757575),
+//                                )
+//                            )
+//                        },
+//                        shape = RoundedCornerShape(10.dp),
+//                        colors = TextFieldDefaults.colors(
+//                            unfocusedContainerColor = Color(0xFFF0F1F5),
+//                            focusedContainerColor = Color(0xFFF0F1F5),
+//                            focusedPlaceholderColor = Color.LightGray,
+//                            unfocusedIndicatorColor = Color.Transparent,
+//                            focusedIndicatorColor = Color.Transparent,
+//                            focusedTextColor = Color.Black,
+//                            unfocusedTextColor = Color.Black
+//                        )
+//                    )
+//                }
+//
+//                Column(
+//                    modifier.fillMaxWidth(),
+//                ) {
+//                    Spacer(modifier = modifier.padding(vertical = 10.dp))
+//                    Text(
+//                        text = "Subsection Description",
+//
+//                        style = TextStyle(
+//                            fontSize = 14.sp,
+//                            fontFamily = montserratFont,
+//                            fontWeight = FontWeight(600),
+//                            color = Color(0xFF000000),
+//                        )
+//                    )
+//
+//                    Spacer(modifier = modifier.height(10.dp))
+//
+//                    TextField(
+//                        modifier = modifier
+//                            .align(Alignment.CenterHorizontally)
+//                            .width(500.dp),
+//                        value = subsectionDescription,
+//                        onValueChange = {
+//                            subsectionDescription = it
+//                        },
+//                        placeholder = {
+//                            Text(
+//                                text = "Enter the subsection division",
+//                                // Body Text/Body Small Medium
+//                                style = TextStyle(
+//                                    fontSize = 14.sp,
+//                                    lineHeight = 19.6.sp,
+//                                    fontFamily = montserratFont,
+//                                    fontWeight = FontWeight(500),
+//                                    color = Color(0xFF757575),
+//                                )
+//                            )
+//                        },
+//                        shape = RoundedCornerShape(10.dp),
+//                        colors = TextFieldDefaults.colors(
+//                            unfocusedContainerColor = Color(0xFFF0F1F5),
+//                            focusedContainerColor = Color(0xFFF0F1F5),
+//                            focusedPlaceholderColor = Color.LightGray,
+//                            unfocusedIndicatorColor = Color.Transparent,
+//                            focusedIndicatorColor = Color.Transparent,
+//                            focusedTextColor = Color.Black,
+//                            unfocusedTextColor = Color.Black
+//                        )
+//                    )
+//                }
+//
+//                Spacer(modifier = modifier.height(30.dp))
+//                Column(
+//                    Modifier
+//                        .fillMaxWidth()
+//                ) {
+//                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+//                    Text(
+//                        text = "Upload File",
+//
+//                        style = TextStyle(
+//                            fontSize = 14.sp,
+//                            fontFamily = montserratFont,
+//                            fontWeight = FontWeight(600),
+//                            color = Color(0xFF000000),
+//                        )
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(10.dp))
+//                    Box(
+//                        Modifier
+//                            .shadow(
+//                                elevation = 2.dp,
+//                                spotColor = Color(0x3DE4E5E7),
+//                                ambientColor = Color(0x3DE4E5E7)
+//                            )
+//                            .border(
+//                                width = 1.dp,
+//                                color = Color.Transparent,
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            )
+//                            .width(100.dp)
+//                            .height(46.dp)
+//                            .background(
+//                                color = Color(0xFFF0F1F5),
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            )
+//                            .clickable {
+//
+//                            }
+//
+//                    ) {
+//                        Icon(
+//                            painter = painterResource(R.drawable.upload_file_icon),
+//                            contentDescription = null,
+//                            modifier = Modifier
+//                                .align(Alignment.CenterStart)
+//                                .offset(x = 5.dp)
+//                        )
+//                        Text(
+//                            text = "Upload",
+//
+//                            // Body Text/Body Small Medium
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                lineHeight = 19.6.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(500),
+//                                color = Color(0xFF757575),
+//                            ),
+//                            modifier = Modifier
+//                                .align(Alignment.Center)
+//                                .offset(10.dp)
+//                        )
+//
+//                    }
+//                }
+//
+//                Column(
+//                    Modifier
+//                        .fillMaxWidth()
+//                ) {
+//                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+//                    Text(
+//                        text = "Upload Video",
+//
+//                        style = TextStyle(
+//                            fontSize = 14.sp,
+//                            fontFamily = montserratFont,
+//                            fontWeight = FontWeight(600),
+//                            color = Color(0xFF000000),
+//                        )
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(10.dp))
+//                    Box(
+//                        Modifier
+//                            .shadow(
+//                                elevation = 2.dp,
+//                                spotColor = Color(0x3DE4E5E7),
+//                                ambientColor = Color(0x3DE4E5E7)
+//                            )
+//                            .border(
+//                                width = 1.dp,
+//                                color = Color.Transparent,
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            )
+//                            .width(100.dp)
+//                            .height(46.dp)
+//                            .background(
+//                                color = Color(0xFFF0F1F5),
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            )
+//                            .clickable {
+//
+//                            }
+//
+//                    ) {
+//                        Icon(
+//                            painter = painterResource(R.drawable.upload_file_icon),
+//                            contentDescription = null,
+//                            modifier = Modifier
+//                                .align(Alignment.CenterStart)
+//                                .offset(x = 5.dp)
+//                        )
+//                        Text(
+//                            text = "Upload",
+//
+//                            // Body Text/Body Small Medium
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                lineHeight = 19.6.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(500),
+//                                color = Color(0xFF757575),
+//                            ),
+//                            modifier = Modifier
+//                                .align(Alignment.Center)
+//                                .offset(10.dp)
+//                        )
+//
+//                    }
+//                }
+//
+//                Column(
+//                    Modifier
+//                        .fillMaxWidth()
+//                ) {
+//                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+//                    Text(
+//                        text = "Upload Video Practice",
+//
+//                        style = TextStyle(
+//                            fontSize = 14.sp,
+//                            fontFamily = montserratFont,
+//                            fontWeight = FontWeight(600),
+//                            color = Color(0xFF000000),
+//                        )
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(10.dp))
+//                    Box(
+//                        Modifier
+//                            .shadow(
+//                                elevation = 2.dp,
+//                                spotColor = Color(0x3DE4E5E7),
+//                                ambientColor = Color(0x3DE4E5E7)
+//                            )
+//                            .border(
+//                                width = 1.dp,
+//                                color = Color.Transparent,
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            )
+//                            .width(100.dp)
+//                            .height(46.dp)
+//                            .background(
+//                                color = Color(0xFFF0F1F5),
+//                                shape = RoundedCornerShape(size = 10.dp)
+//                            )
+//                            .clickable {
+//
+//                            }
+//
+//                    ) {
+//                        Icon(
+//                            painter = painterResource(R.drawable.upload_file_icon),
+//                            contentDescription = null,
+//                            modifier = Modifier
+//                                .align(Alignment.CenterStart)
+//                                .offset(x = 5.dp)
+//                        )
+//                        Text(
+//                            text = "Upload",
+//
+//                            // Body Text/Body Small Medium
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                lineHeight = 19.6.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(500),
+//                                color = Color(0xFF757575),
+//                            ),
+//                            modifier = Modifier
+//                                .align(Alignment.Center)
+//                                .offset(10.dp)
+//                        )
+//
+//                    }
+//                }
 
                 Spacer(modifier = Modifier.height(30.dp))
                 Box(
@@ -809,7 +934,16 @@ fun CreateNewClassPage(
                             shape = RoundedCornerShape(size = 10.dp)
                         )
                         .clickable {
-                            //Create New Class
+                            learningPageViewModel.sendLesson(
+                                authorProfile = authorProfileData.value,
+                                lessonName = courseName,
+                                about = about,
+                                price = price,
+                                subject = subject,
+                                duration = courseDuration,
+                                language = language,
+                            )
+                            navController.popBackStack()
                         },
                 ){
                     Text(
@@ -829,13 +963,4 @@ fun CreateNewClassPage(
 
         }
     }
-}
-
-
-@Preview
-@Composable
-private fun AddClassPagePreview() {
-    CreateNewClassPage(
-        navController = rememberNavController()
-    )
 }

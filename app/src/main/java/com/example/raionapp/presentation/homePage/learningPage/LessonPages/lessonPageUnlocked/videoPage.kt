@@ -28,24 +28,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.exoPlayer.Media3PlayerView
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
-import com.example.raionapp.presentation.homePage.threads.ThreadContent
 
 @Composable
 fun VideoPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    videoUrl: String
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
+        .verticalScroll(rememberScrollState())
     ){
         TopBarAndProfile(
             modifier = modifier,
@@ -99,17 +100,14 @@ fun VideoPage(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(30.dp)
                 ) {
-                    Box( //DISINI UNTUK MENARUH VIDEO
-                        modifier = Modifier
-                            .background(Color.Gray, RoundedCornerShape(16.dp))
-                            .fillMaxWidth(0.9f)
-                            .height(229.dp)
-                    ){
 
-                    }
+                    Spacer(modifier = Modifier.height(35.dp))
+                    Media3PlayerView(
+                        videoUrl = videoUrl
+                    )
+
                     Column(
                         modifier = Modifier
-                            .verticalScroll(rememberScrollState())
                             .fillMaxSize(0.9f),
                         verticalArrangement = Arrangement.spacedBy(30.dp)
                     ){
@@ -197,6 +195,7 @@ private fun VideoPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+         ""
     )
 
 }

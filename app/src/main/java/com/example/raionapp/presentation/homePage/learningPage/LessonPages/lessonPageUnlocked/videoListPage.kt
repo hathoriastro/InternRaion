@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -26,6 +25,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,22 +41,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
-import com.example.raionapp.presentation.homePage.threads.ThreadContent
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun VideoListPage(
     modifier: Modifier = Modifier,
     navController: NavController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val subLesson = learningPageViewModel.subLessonState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadFilteredVideoSubLesson(lessonId, false)
+    }
+
     Box(modifier = Modifier
         .fillMaxSize()
     ){
@@ -194,14 +204,15 @@ fun VideoListPage(
                             verticalArrangement = Arrangement.spacedBy(15.dp)
 
                         ) {
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
-                            VideoListPageContent("", navController)
+                            subLesson.value.forEach { subLessonData ->
+                                VideoListPageContent(
+                                    contentTitle = subLessonData.sublessonName,
+                                    link = subLessonData.videoUrl,
+                                    navController = navController
+                                )
+                            }
                         }
                     }
-
                 }
             }
         }
@@ -219,6 +230,7 @@ private fun VideoListPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 
 }

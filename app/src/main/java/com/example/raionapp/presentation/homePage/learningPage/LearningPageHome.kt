@@ -23,6 +23,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -30,6 +31,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,13 +48,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
-import com.example.raionapp.presentation.profile.profileData
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun LearningPageHome(
@@ -60,8 +64,13 @@ fun LearningPageHome(
     authViewModel: AuthViewModel?
 ) {
     var search by remember { mutableStateOf("") }
-    val commentcount = 10
-    val likecount = 0
+
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lesson = learningPageViewModel.learningState.collectAsState()
+    val groupedLesson = lesson.value.groupBy {
+        it.second.subject
+    }
+
     Scaffold(
         bottomBar = {
             Surface(
@@ -239,28 +248,17 @@ fun LearningPageHome(
                         .zIndex(0f)
                         .verticalScroll(rememberScrollState()),
                 ) {
-                    LearningContentRow(
-                        subjectName = "Kedokteran",
-                        navController = navController,
-                        authViewModel = authViewModel
-                    )
-
-                    LearningContentRow(
-                        subjectName = "Ilmu Komputer",
-                        navController = navController,
-                        authViewModel = authViewModel
-                    )
-
-                    LearningContentRow(
-                        subjectName = "Ilmu Politik",
-                        navController = navController,
-                        authViewModel = authViewModel
-                    )
+                    // Tampilkan disini dengan loop berdasarkan jumlah subject yang tersedia
+                    groupedLesson.forEach {(subjectName, lessonsData) ->
+                        LearningContentRow(
+                            subjectName = subjectName,
+                            lessonData = lessonsData,
+                            navController = navController
+                        )
+                    }
 
                 }
-
             }
-
         }
     }
 }

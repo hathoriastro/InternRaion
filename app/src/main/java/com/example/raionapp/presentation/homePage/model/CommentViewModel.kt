@@ -39,7 +39,6 @@ class CommentViewModel : ViewModel() {
                 }
                 _commentsState.value = querySnapshot?.documents?.mapNotNull { document ->
                     document.toObject(CommentDataClass::class.java)?.let { comment ->
-                        // Membuat Triple: (document.id, comment.commentId, comment)
                         Triple(document.id, comment.commentId, comment)
                     }
                 } ?: emptyList()
@@ -56,7 +55,8 @@ class CommentViewModel : ViewModel() {
     fun sendComment(
         authorProfile: ProfileDataClass?,
         commentContent: String,
-        threadId: String
+        threadId: String,
+        imageUrl: String?
     ) {
         viewModelScope.launch {
             val answerCount = authorProfile?.numberOfAnswer ?: 0
@@ -70,6 +70,7 @@ class CommentViewModel : ViewModel() {
                 profilePicture = authorProfile?.profilePicture,
                 text = commentContent,
                 numberOfLike = 0,
+                imageUrl = imageUrl
                 // timeCreated akan diisi melalui FieldValue.serverTimestamp() di CommentCollection.addCommentToThread
             )
 
@@ -99,8 +100,7 @@ class CommentViewModel : ViewModel() {
                     threadId = threadId,
                     commentId = commentId,
                     updateData = mapOf(
-                        "numberOfLike" to FieldValue.increment(1),
-                        "isLiked" to true
+                        "numberOfLike" to FieldValue.increment(1)
                     )
                 )
             } catch (e: Exception) {
@@ -117,8 +117,7 @@ class CommentViewModel : ViewModel() {
                     threadId = threadId,
                     commentId = commentId,
                     updateData = mapOf(
-                        "numberOfLike" to FieldValue.increment(-1),
-                        "isLiked" to false
+                        "numberOfLike" to FieldValue.increment(-1)
                     )
                 )
             } catch (e: Exception) {

@@ -35,11 +35,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
+import com.example.raionapp.firestore.ProfileCollection
+import com.example.raionapp.presentation.homePage.model.profileData
+import kotlinx.coroutines.coroutineScope
 
 @Composable
 fun BecomeAMentorPage(
     modifier: Modifier = Modifier,
-    navController: NavController
+    navController: NavController,
+    userId: String
 ) {
     Box(
         modifier = Modifier
@@ -311,7 +315,7 @@ fun BecomeAMentorPage(
                 .height(46.dp)
                 .background(color = Color(0xFFFDCB1A), shape = RoundedCornerShape(size = 10.dp))
                 .clickable {
-                    navController.navigate("mentorregistration")
+                    navController.navigate("mentorregistration/$userId")
                 },
             contentAlignment = Alignment.Center
         ){
@@ -333,6 +337,7 @@ fun BecomeAMentorPage(
 @Composable
 private fun BecomeAMentorPagePreview() {
     BecomeAMentorPage(
-        navController = rememberNavController()
+        navController = rememberNavController(),
+        userId = ""
     )
 }

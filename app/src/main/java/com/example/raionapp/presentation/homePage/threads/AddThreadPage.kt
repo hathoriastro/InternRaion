@@ -1,7 +1,10 @@
 package com.example.raionapp.presentation.homePage.threads
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Environment
 import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -17,24 +20,24 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -43,18 +46,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.raionapp.R
 import androidx.compose.ui.text.TextStyle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.raionapp.firestore.model.ProfileDataClass
-import com.example.raionapp.firestore.model.ThreadDataClass
-import com.example.raionapp.firestore.ProfileCollection
-import com.example.raionapp.firestore.ThreadCollection
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
-import com.example.raionapp.presentation.profile.profileData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-
+import com.example.raionapp.presentation.homePage.model.HomeViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
+import com.example.raionapp.presentation.homePage.model.profileData
+import com.example.raionapp.presentation.homePage.model.rememberImagePicker
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun AddThreadPage(
@@ -62,17 +64,26 @@ fun AddThreadPage(
     navController: NavHostController,
     authViewModel: AuthViewModel?
 ) {
+    val homeViewModel: HomeViewModel = viewModel()
     var thread by remember { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
-    val focusManager = LocalFocusManager.current
 
 //  Kirim Thread ke Firestore
     val authorProfileData = profileData(authViewModel)
     val coroutineScope = rememberCoroutineScope()
+
+//    Untuk kirim foto/gambar
+    var imageUrl: String? by remember { mutableStateOf(null) }
+    val imagePickerHandler = rememberImagePicker(
+        coroutineScope = coroutineScope,
+        onImageUploaded = { url -> imageUrl = url }
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
+            .verticalScroll(rememberScrollState())
 
     ){
         Column(
@@ -114,20 +125,12 @@ fun AddThreadPage(
             Row(
                 modifier = Modifier
                     .padding(start = 10.dp)
-                    .border(2.dp ,color = Color(0xFFFDBA21), RoundedCornerShape(16.dp))
+                    .border(2.dp, color = Color(0xFFFDBA21), RoundedCornerShape(16.dp))
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
                     .size(height = 32.dp, width = 111.dp)
                     .clickable {
-                        try {
-                            sendThread(
-                                authorProfile = authorProfileData.value,
-                                threadContent = thread,
-                                coroutineScope = coroutineScope
-                            )
-                            navController.navigate("home")
-                        } catch (e: Exception) {
-                            Log.e("AddThreadPage", "Error: ${e.message}")
-                        }
+                        // Ketika pengguna menekan ini, maka ia akan diarahkan ke halaman subjectselectpage untuk memilih jenis mata pelajaran apa yang terkait dengan thread
+                        navController.navigate("subjectselectpage")
                     },
                 horizontalArrangement = Arrangement.Center
             ){
@@ -166,8 +169,6 @@ fun AddThreadPage(
                 placeholder = {
                     Text(
                         text = "What do you need to know?",
-
-                        // Body Text/Body Small Medium
                         style = TextStyle(
                             fontSize = 16.sp,
                             lineHeight = 19.6.sp,
@@ -189,7 +190,6 @@ fun AddThreadPage(
             )
         }
 
-        // Bottom Bar AddThread
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -202,19 +202,27 @@ fun AddThreadPage(
             Icon(
                 painter = painterResource(id = R.drawable.plus_icon_add),
                 contentDescription = null,
-                modifier = Modifier.clickable {  },
+                modifier = Modifier
+                    .clickable {
+
+                    },
                 tint = Color.White
             )
             Icon(
                 painter = painterResource(id = R.drawable.camera_icon_add_image),
                 contentDescription = null,
-                modifier = Modifier.clickable {  },
+                modifier = Modifier
+                    .clickable {
+                        imagePickerHandler.permissionLauncher.launch(Manifest.permission.CAMERA)
+                    },
                 tint = Color.White
             )
             Icon(
                 painter = painterResource(id = R.drawable.image_icon_add_image),
                 contentDescription = null,
-                modifier = Modifier.clickable {  },
+                modifier = Modifier.clickable {
+                    imagePickerHandler.galleryLauncher.launch("image/*")
+                },
                 tint = Color.White
             )
             Box(
@@ -246,10 +254,11 @@ fun AddThreadPage(
                 contentDescription = null,
                 modifier = Modifier.clickable {
                     try {
-                        sendThread(
+                        homeViewModel.sendThread(
                             authorProfile = authorProfileData.value,
                             threadContent = thread,
-                            coroutineScope = coroutineScope
+                            coroutineScope = coroutineScope,
+                            imageUrl = imageUrl
                         )
                         navController.navigate("home")
                     } catch (e: Exception) {
@@ -262,30 +271,15 @@ fun AddThreadPage(
     }
 }
 
-private fun sendThread(
-    authorProfile: ProfileDataClass?,
-    threadContent: String = "",
-    coroutineScope: CoroutineScope
-) {
-    var questionCount = authorProfile?.numberOfQuestion
-    coroutineScope.launch {
-        val thread = ThreadDataClass(
-            userId = authorProfile?.userId.orEmpty(),
-            fullname = authorProfile?.fullname.orEmpty(),
-            username = authorProfile?.username.orEmpty(),
-            threadText = threadContent,
-            authorProfilePicture = authorProfile?.profilePicture.orEmpty(),
-            numberOfLike = 0,
-            numberOfComment = 0,
-        )
-        ThreadCollection().addThreadToFirestore(thread)
-
-        val updateNumberOfQuestion = mapOf("numberOfQuestion" to (questionCount?.plus(1)))
-        ProfileCollection().updateProfileInFirestore(
-            authorProfile?.userId.toString(),
-            updateNumberOfQuestion
-        )
-    }
+// Fungsi pembuat file
+@SuppressLint("SimpleDateFormat")
+fun createImageFile(context: Context): File {
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    return File.createTempFile(
+        "JPEG_${timeStamp}_",
+        ".jpg",
+        context.getExternalFilesDir(Environment.DIRECTORY_PICTURES) // Simpan di folder Pictures
+    )
 }
 
 @Preview

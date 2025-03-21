@@ -45,13 +45,15 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
+
 
 @Composable
 fun ChatPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     val keyboardHeight = WindowInsets.ime.asPaddingValues().calculateBottomPadding() // Detect keyboard height
     var comment by remember { mutableStateOf("") }
@@ -145,5 +147,6 @@ private fun ChatPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 }

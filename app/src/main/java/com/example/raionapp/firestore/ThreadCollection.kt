@@ -19,7 +19,7 @@ class ThreadCollection {
                 "authorProfilePicture" to thread.authorProfilePicture,
                 "numberOfLike" to thread.numberOfLike,
                 "numberOfComment" to thread.numberOfComment,
-                "isLiked" to false,
+                "imageURL" to thread.imageURL,
                 "timeCreated" to FieldValue.serverTimestamp()
             )
             val documentId = db.collection("thread").add(threadHashMap).await()

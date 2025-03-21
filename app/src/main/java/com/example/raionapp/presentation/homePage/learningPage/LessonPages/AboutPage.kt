@@ -1,4 +1,4 @@
-package com.example.raionapp.presentation.learningPage.learningPageHome
+package com.example.raionapp.presentation.homePage.learningPage.LessonPages
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,6 +26,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,53 +43,46 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable
 fun AboutPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
-    val commentcount = 10
-    val likecount = 0
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {  },
-                containerColor = Color(0xFF1A5294),
-                shape = RoundedCornerShape(30.dp),
-                contentColor = Color.White,
-                modifier = Modifier.offset(y = -10.dp)
-            ) {
 
-                Icon(
-                    painter = painterResource(id = R.drawable.about_page_edit),
-                    contentDescription = null,
-                )
-            }
-        },
-    ) { paddingValues ->
-        Box(
+    //  Memeriksa keanggotaan pengguna
+    val userId = authViewModel?.auth?.currentUser?.uid
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lessonDetail by learningPageViewModel.lessonDetailsState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadLessonDetails(lessonId)
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Image(
+            painter = painterResource(R.drawable.arrow_back_button),
+            contentDescription = null,
             modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-        ) {
-            Image(
-                painter = painterResource(R.drawable.arrow_back_button),
-                contentDescription = null,
-                modifier = Modifier
-                    .zIndex(2f)
-                    .offset(y = 60.dp, x = 30.dp)
-                    .clickable {
-                        navController.navigate("learningpage")
-                    }
-            )
+                .zIndex(2f)
+                .offset(y = 60.dp, x = 30.dp)
+                .clickable {
+                    navController.navigate("learningpage")
+                }
+        )
 
             Image(
                 painter = painterResource(R.drawable.heading_background_jpg),
@@ -153,225 +148,232 @@ fun AboutPage(
                         )
                     }
 
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            12.dp,
-                            Alignment.CenterHorizontally
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        12.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(3.dp)
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(size = 6.dp)
+                        )
+                        .fillMaxWidth(0.5f)
+                        .fillMaxHeight()
+                        .clickable {
+                            val destination = if (learningPageViewModel.checkClassMembership(userId) || learningPageViewModel.checkClassMentorship(userId)) {
+                                "lessonpageunlocked/$lessonId"
+                            } else {
+                                "lessonpage/$lessonId"
+                            }
+                            navController.navigate(destination)
+                        }
+                ) {
+                    Text(
+                        text = "LESSONS",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF232447),
                         ),
-                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
-                            .padding(3.dp)
-                            .background(
-                                color = Color.White,
-                                shape = RoundedCornerShape(size = 6.dp)
-                            )
-                            .fillMaxWidth(0.5f)
-                            .fillMaxHeight()
-                            .clickable { navController.navigate("lessonpageunlocked") }
+                            .align(Alignment.CenterVertically)
+                    )
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(
+                        12.dp,
+                        Alignment.CenterHorizontally
+                    ),
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .padding(3.dp)
+                        .background(Color.White, RoundedCornerShape(6.dp))
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
+                        .clickable {
+                            navController.navigate("reviewpage/$lessonId")
+                        }
+                ) {
+                    Text(
+                        text = "REVIEWS",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(500),
+                            color = Color(0xFF232447),
+                        ),
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .background(
+                        color = Color.Transparent,
+                        shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
+                    )
+                    .fillMaxSize()
+                    .align(Alignment.BottomCenter)
+                    .zIndex(0f)
+                    .padding(top = 30.dp)
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.3f)
+                        .background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(size = 10.dp)
+                        ),
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .offset(y = 20.dp, x = -20.dp)
+                            .align(Alignment.TopEnd)
+                            .wrapContentHeight()
+                            .wrapContentWidth()
                     ) {
+                        Image(
+                            painter = painterResource(R.drawable._5_star),
+                            contentDescription = null,
+                            modifier = Modifier.padding(horizontal = 10.dp)
+                        )
                         Text(
-                            text = "LESSONS",
+                            text = "4.9",
                             style = TextStyle(
                                 fontSize = 14.sp,
+                                lineHeight = 15.sp,
                                 fontFamily = montserratFont,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF232447),
+                                fontWeight = FontWeight(700),
+                                color = Color.Gray,
                             ),
                             modifier = Modifier
-                                .align(Alignment.CenterVertically)
                         )
                     }
-
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(
-                            12.dp,
-                            Alignment.CenterHorizontally
-                        ),
-                        verticalAlignment = Alignment.CenterVertically,
+                    Column(
                         modifier = Modifier
-                            .padding(3.dp)
-                            .background(Color.White, RoundedCornerShape(6.dp))
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
-                            .clickable {
-                                navController.navigate("reviewpage")
-                            }
+                            .fillMaxSize()
+                            .padding(horizontal = 20.dp, vertical = 10.dp),
+                        verticalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Text(
-                            text = "REVIEWS",
+                            text = lessonDetail?.lessonName.toString(),
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                lineHeight = 30.sp,
+                                fontFamily = montserratFont,
+                                fontWeight = FontWeight(600),
+                                color = Color(0xFF1E1E1E),
+                            )
+                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceAround
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.mentor_icon_human),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .width(20.dp)
+                                    .height(20.dp)
+                                    .align(Alignment.CenterVertically)
+                                    .padding(5.dp)
+                            )
+
+                            Column(
+
+                            ) {
+                                Text(
+                                    text = "By ${lessonDetail?.mentorName.toString()}",
+                                    style = TextStyle(
+                                        fontSize = 12.sp,
+                                        lineHeight = 18.sp,
+                                        fontFamily = montserratFont,
+                                        fontWeight = FontWeight(400),
+                                        color = Color.Gray,
+                                    )
+                                )
+                            }
+                        }
+                        Text(
+                            text = lessonDetail?.about.toString(),
                             style = TextStyle(
                                 fontSize = 14.sp,
+                                lineHeight = 18.6.sp,
                                 fontFamily = montserratFont,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF232447),
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
+                                fontWeight = FontWeight(400),
+                                color = Color(0xFF000000),
+                            )
                         )
                     }
                 }
-
-                Column(
-                    modifier = Modifier
+                Box(
+                    Modifier
+                        .padding(vertical = 20.dp)
+                        .width(308.dp)
+                        .height(89.dp)
                         .background(
-                            color = Color.Transparent,
-                            shape = RoundedCornerShape(20.dp, 20.dp, 0.dp, 0.dp)
+                            color = Color(0xFF1A5294),
+                            shape = RoundedCornerShape(size = 16.dp)
                         )
-                        .fillMaxSize()
-                        .align(Alignment.BottomCenter)
-                        .zIndex(0f)
-                        .padding(top = 30.dp)
-                        .verticalScroll(rememberScrollState()),
-                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
-                        Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.3f)
-                            .background(
-                                color = Color.White,
-                                shape = RoundedCornerShape(size = 10.dp)
-                            ),
+                        modifier = Modifier
+                            .padding(start = 30.dp, top = 15.dp, bottom = 15.dp, end = 40.dp)
+                            .fillMaxSize()
                     ) {
                         Row(
-                            modifier = Modifier
-                                .offset(y = 20.dp, x = -20.dp)
-                                .align(Alignment.TopEnd)
-                                .wrapContentHeight()
-                                .wrapContentWidth()
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Image(
-                                painter = painterResource(R.drawable._5_star),
+                            Icon(
+                                painter = painterResource(R.drawable.book_icon_aboutpage),
                                 contentDescription = null,
-                                modifier = Modifier.padding(horizontal = 10.dp)
+                                tint = Color.White
                             )
+                            Spacer(Modifier.width(10.dp))
                             Text(
-                                text = "4.9",
+                                text = "${lessonDetail?.numberOfSublesson.toString()} Lessons",
                                 style = TextStyle(
-                                    fontSize = 14.sp,
-                                    lineHeight = 15.sp,
+                                    fontSize = 12.sp,
+                                    lineHeight = 18.sp,
                                     fontFamily = montserratFont,
-                                    fontWeight = FontWeight(700),
-                                    color = Color.Gray,
-                                ),
-                                modifier = Modifier
-                            )
-                        }
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 20.dp, vertical = 10.dp),
-                            verticalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            Text(
-                                text = "Website Design",
-                                style = TextStyle(
-                                    fontSize = 20.sp,
-                                    lineHeight = 30.sp,
-                                    fontFamily = montserratFont,
-                                    fontWeight = FontWeight(600),
-                                    color = Color(0xFF1E1E1E),
-                                )
-                            )
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceAround
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.mentor_icon_human),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .width(20.dp)
-                                        .height(20.dp)
-                                        .align(Alignment.CenterVertically)
-                                        .padding(5.dp)
-                                )
-
-                                Column(
-
-                                ) {
-                                    Text(
-                                        text = "By Robert James",
-                                        style = TextStyle(
-                                            fontSize = 12.sp,
-                                            lineHeight = 18.sp,
-                                            fontFamily = montserratFont,
-                                            fontWeight = FontWeight(400),
-                                            color = Color.Gray,
-                                        )
-                                    )
-                                }
-                            }
-                            Text(
-                                text = "Lorem ipsum dolor sit amet consectetur. Urna integer volutpat ullamcorper in. Sed interdum ultricies mi habitant sagittis mauris. Venenatis libero malesuada viverra cras ullamcorper. Lacus dignissim semper ultrices ornare a. Read More",
-                                style = TextStyle(
-                                    fontSize = 14.sp,
-                                    lineHeight = 18.6.sp,
-                                    fontFamily = montserratFont,
-                                    fontWeight = FontWeight(400),
-                                    color = Color(0xFF000000),
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFFF5F6F9),
                                 )
                             )
                         }
-                    }
-                    Box(
-                        Modifier
-                            .padding(vertical = 20.dp)
-                            .width(308.dp)
-                            .height(89.dp)
-                            .background(
-                                color = Color(0xFF1A5294),
-                                shape = RoundedCornerShape(size = 16.dp)
-                            )
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .padding(start = 30.dp, top = 15.dp, bottom = 15.dp, end = 40.dp)
-                                .fillMaxSize()
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.book_icon_aboutpage),
-                                    contentDescription = null,
-                                    tint = Color.White
-                                )
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = "60 Lessons",
-                                    style = TextStyle(
-                                        fontSize = 12.sp,
-                                        lineHeight = 18.sp,
-                                        fontFamily = montserratFont,
-                                        fontWeight = FontWeight(500),
-                                        color = Color(0xFFF5F6F9),
-                                    )
-                                )
-                            }
 
-                            Row(
-                                modifier = Modifier.align(Alignment.BottomStart),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.time_icon_aboutpage),
-                                    contentDescription = null,
-                                    tint = Color.White
+                        Row(
+                            modifier = Modifier.align(Alignment.BottomStart),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.time_icon_aboutpage),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = lessonDetail?.duration.toString(),
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    lineHeight = 18.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFFF5F6F9),
                                 )
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = "20 hr 45 min",
-                                    style = TextStyle(
-                                        fontSize = 12.sp,
-                                        lineHeight = 18.sp,
-                                        fontFamily = montserratFont,
-                                        fontWeight = FontWeight(500),
-                                        color = Color(0xFFF5F6F9),
-                                    )
-                                )
-                            }
+                            )
+                        }
 
                             Row(
                                 modifier = Modifier.align(Alignment.BottomEnd),
@@ -395,29 +397,29 @@ fun AboutPage(
                                 )
                             }
 
-                            Row(
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .fillMaxWidth(0.38f),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.language_icon_aboutpage),
-                                    contentDescription = null,
-                                    tint = Color.White
+                        Row(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .fillMaxWidth(0.38f),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                painter = painterResource(R.drawable.language_icon_aboutpage),
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                text = lessonDetail?.language.toString(),
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    lineHeight = 18.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFFF5F6F9),
                                 )
-                                Spacer(Modifier.width(10.dp))
-                                Text(
-                                    text = "English",
-                                    style = TextStyle(
-                                        fontSize = 12.sp,
-                                        lineHeight = 18.sp,
-                                        fontFamily = montserratFont,
-                                        fontWeight = FontWeight(500),
-                                        color = Color(0xFFF5F6F9),
-                                    )
-                                )
-                            }
+                            )
+                        }
 
 
                         }
@@ -587,5 +589,6 @@ fun AboutPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 }

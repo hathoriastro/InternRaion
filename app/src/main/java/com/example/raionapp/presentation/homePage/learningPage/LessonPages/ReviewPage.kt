@@ -1,7 +1,6 @@
 package com.example.raionapp.presentation.learningPage.learningPageHome
 
 import androidx.compose.foundation.Image
-import com.example.raionapp.presentation.homePage.NavBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,15 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,21 +36,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.ReviewPageBox
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 
 @Composable
 fun ReviewPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?
+    authViewModel: AuthViewModel?,
+    lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
-    val commentcount = 10
+
+    val userId = authViewModel?.auth?.currentUser?.uid
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val lessonDetail by learningPageViewModel.lessonDetailsState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadLessonDetails(lessonId)
+    }
+
+//    val commentcount = 10
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -115,7 +124,7 @@ fun ReviewPage(
                             .fillMaxWidth(0.34f)
                             .fillMaxHeight()
                             .padding(start = 2.dp, top = 2.dp, end = 2.dp, bottom = 2.dp)
-                            .clickable { navController.navigate("aboutpage") }
+                            .clickable { navController.navigate("aboutpage/$lessonId") }
                     ) {
                         Text(
                             text = "ABOUT",
@@ -141,7 +150,14 @@ fun ReviewPage(
                             )
                             .fillMaxWidth(0.5f)
                             .fillMaxHeight()
-                            .clickable { navController.navigate("lessonpage") }
+                            .clickable {
+                                val destination = if (learningPageViewModel.checkClassMembership(userId) || learningPageViewModel.checkClassMentorship(userId)) {
+                                    "lessonpageunlocked/$lessonId"
+                                } else {
+                                    "lessonpage/$lessonId"
+                                }
+                                navController.navigate(destination)
+                            }
                     ) {
                         Text(
                             text = "LESSONS",
@@ -237,5 +253,6 @@ fun ReviewPagePreview(
         modifier = modifier,
         navController = navController,
         authViewModel = authViewModel,
+        lessonId = ""
     )
 }

@@ -22,7 +22,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -31,7 +30,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -45,14 +43,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.firestore.model.ProfileDataClass
 import com.example.raionapp.R
-import com.example.raionapp.presentation.authentication.AuthState
-import com.example.raionapp.presentation.authentication.AuthViewModel
+import com.example.raionapp.presentation.register.AuthState
+import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.NavBar
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import com.example.raionapp.presentation.homePage.model.profileData
 
 @Composable
 fun ProfilePage(
@@ -62,6 +63,7 @@ fun ProfilePage(
     context: Context
 ) {
     val authState = authViewModel?.authState?.collectAsState()
+
     LaunchedEffect(authState?.value) {
         when (authState?.value) {
             is AuthState.Unauthenticated -> navController.navigate("register")
@@ -171,8 +173,8 @@ fun ProfilePage(
                     Image(
                         painter = rememberAsyncImagePainter(
                             model = userProfileData.value?.profilePicture,
-                            placeholder = painterResource(R.drawable.profile_picture),
-                            error = painterResource(R.drawable.profile_picture)
+                            placeholder = painterResource(R.drawable.profile_icon_unclicked),
+                            error = painterResource(R.drawable.profile_icon_unclicked)
                         ),
                         contentDescription = "Foto Profil",
                         modifier = Modifier
@@ -293,7 +295,11 @@ fun ProfilePage(
                                 .fillMaxWidth()
                                 .wrapContentHeight()
                                 .clickable {
-                                    navController.navigate("becomeamentorpage")
+                                    if (userProfileData.value?.role.equals("mentor")) {
+                                        navController.navigate("mycourse")
+                                    } else {
+                                        navController.navigate("becomeamentorpage/${userProfileData.value?.userId}")
+                                    }
                                 },
                         ) {
                             Spacer(modifier = Modifier.padding(start = 20.dp))
