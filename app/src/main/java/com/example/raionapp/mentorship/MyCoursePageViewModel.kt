@@ -17,9 +17,9 @@ class MyCoursePageViewModel: ViewModel() {
 
     fun loadMentorClass(userId: String) {
         viewModelScope.launch {
-            db.collection("lessons")
+            db.collection("lesson")
                 .whereEqualTo("mentorId", userId)
-                .orderBy("timeCreated", Query.Direction.DESCENDING)
+//                .orderBy("timeCreated", Query.Direction.DESCENDING)
                 .addSnapshotListener { querySnapshot, _ ->
                     _myCourseState.value = querySnapshot?.documents?.mapNotNull {document ->
                         document.toObject(LessonDataClass::class.java)?.let {lesson ->

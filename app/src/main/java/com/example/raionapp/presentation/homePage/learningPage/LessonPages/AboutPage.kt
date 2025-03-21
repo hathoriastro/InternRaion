@@ -160,7 +160,7 @@ fun AboutPage(
                         .fillMaxWidth(0.5f)
                         .fillMaxHeight()
                         .clickable {
-                            val destination = if (learningPageViewModel.checkClassMembership(userId)) {
+                            val destination = if (learningPageViewModel.checkClassMembership(userId) || learningPageViewModel.checkClassMentorship(userId)) {
                                 "lessonpageunlocked/$lessonId"
                             } else {
                                 "lessonpage/$lessonId"

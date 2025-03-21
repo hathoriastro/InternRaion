@@ -26,6 +26,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,12 +42,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.homePage.TopBarAndProfile
+import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
 import com.example.raionapp.presentation.homePage.threads.ThreadContent
 import com.example.raionapp.presentation.register.AuthViewModel
 
@@ -57,6 +61,14 @@ fun VideoPracticeListPage(
     lessonId: String
 ) {
     var search by remember { mutableStateOf("") }
+
+    val learningPageViewModel: LearningPageViewModel = viewModel()
+    val subLesson = learningPageViewModel.subLessonState.collectAsState()
+
+    LaunchedEffect(lessonId) {
+        learningPageViewModel.loadFilteredVideoSubLesson(lessonId, true)
+    }
+
     Box(modifier = Modifier
         .fillMaxSize()
     ){
@@ -195,16 +207,13 @@ fun VideoPracticeListPage(
                             verticalArrangement = Arrangement.spacedBy(15.dp)
 
                         ) {
-                            VideoPracticeListPageContent(
-                                "Android Studio Introduction",
-                                "",
-                                navController
-                            )
-                            VideoPracticeListPageContent(
-                                "Calculus Introduction",
-                                "",
-                                navController
-                            )
+                            subLesson.value.forEach { subLessonData ->
+                                VideoPracticeListPageContent(
+                                    contentTitle = subLessonData.sublessonName,
+                                    link = subLessonData.videoPracticeUrl,
+                                    navController = navController
+                                )
+                            }
 
                         }
                     }

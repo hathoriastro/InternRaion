@@ -85,7 +85,6 @@ fun MyCoursePage(
                 contentColor = Color.White,
                 modifier = Modifier.offset(y = -10.dp)
             ) {
-
                 Icon(
                     painter = painterResource(id = R.drawable.plus),
                     contentDescription = null,

@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.raionapp.common.montserratFont
+import java.net.URLEncoder
 
 @Composable
 fun VideoPracticeListPageContent(
@@ -48,7 +49,6 @@ fun VideoPracticeListPageContent(
     navController: NavController
 ) {
     val context = LocalContext.current
-    val ytIntent = remember { Intent(Intent.ACTION_VIEW, Uri.parse(link)) }
 
     Column(
         Modifier
@@ -62,7 +62,7 @@ fun VideoPracticeListPageContent(
             Modifier
                 .height(100.dp)
                 .clickable {
-                    context.startActivity(ytIntent)
+                    navController.navigate("videopage/${URLEncoder.encode(link, "UTF-8")}")
                 }
         ) {
             Image(

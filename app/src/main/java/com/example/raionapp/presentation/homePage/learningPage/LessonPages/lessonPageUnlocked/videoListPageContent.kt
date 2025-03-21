@@ -40,9 +40,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.raionapp.common.montserratFont
+import java.net.URLEncoder
 
 @Composable
 fun VideoListPageContent(
+    contentTitle: String,
     link: String,
     navController: NavController
 ) {
@@ -90,12 +92,12 @@ fun VideoListPageContent(
                 .align(Alignment.CenterHorizontally)
                 .background(Color.White)
                 .clickable {
-                    navController.navigate("videopage")
+                    navController.navigate("videopage/${URLEncoder.encode(link, "UTF-8")}")
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             Text(
-                text = "UI/UX Design untuk Website: Prinsip, Tools, dan Implementasi",
+                text = contentTitle,
                 style = TextStyle(
                     fontSize = 14.sp,
                     fontFamily = montserratFont,
@@ -152,7 +154,8 @@ fun VideoListPageContent(
 @Composable
 private fun VideoListPageContentPreview() {
     VideoListPageContent(
-        "",
+        contentTitle = "",
+        link = "",
         navController = rememberNavController()
         )
 }

@@ -34,6 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import java.net.URLEncoder
 
 @Composable
 fun LessonPageUnlockedMaterial(
@@ -41,7 +42,7 @@ fun LessonPageUnlockedMaterial(
     navController: NavController,
     lessonId: String,
     subLessonName: String,
-    subLessonDescription: String,
+    subLessonAbout: String,
     subLessonFile: String,
     subLessonVideo: String,
     subLessonPracticeVideo: String
@@ -72,7 +73,7 @@ fun LessonPageUnlockedMaterial(
                 )
         ) {
             Text(
-                text = lessonDetail.value?.lessonName.toString(),
+                text = subLessonName,
                 style = TextStyle(
                     fontSize = 12.sp,
                     lineHeight = 18.sp,
@@ -101,7 +102,7 @@ fun LessonPageUnlockedMaterial(
             )
 
             Text(
-                text = "1. Definisi dan tujuan website \n2. Jenis-jenis website (statis, dinamis, e-commerce, dll.)",
+                text = subLessonAbout,
                 style = TextStyle(
                     fontSize = 12.sp,
                     lineHeight = 13.sp,
@@ -112,172 +113,179 @@ fun LessonPageUnlockedMaterial(
                 modifier = Modifier.wrapContentSize()
             )
         }
-        Row(
-            Modifier
-                .border(
-                    width = 1.dp,
-                    color = Color(0xFF1A5294),
-                    shape = RoundedCornerShape(size = 16.dp)
-                )
-                .padding(1.dp)
-                .fillMaxWidth()
-                .height(92.dp)
-                .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
-                .clickable {
-                    navController.navigate("filepage/$subLessonFile")
-                }
-        ){
-            Box(
+
+        if (subLessonFile.isNotEmpty()) {
+            Row(
                 Modifier
-                    .padding(horizontal = 10.dp)
-                    .width(68.dp)
-                    .height(63.dp)
-                    .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(size = 8.dp))
-                    .align(Alignment.CenterVertically)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0xFF1A5294),
+                        shape = RoundedCornerShape(size = 16.dp)
+                    )
+                    .padding(1.dp)
+                    .fillMaxWidth()
+                    .height(92.dp)
+                    .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
+                    .clickable {
+                        navController.navigate("filepage/${URLEncoder.encode(subLessonFile, "UTF-8")}")
+                    }
             ){
-                Icon(
-                    painter = painterResource(R.drawable.file_icon_sublesson),
-                    contentDescription = null,
-                    modifier = Modifier.align(Alignment.Center),
-                    tint = Color.White
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-            ) {
-                Text(
-                    text = "FILE",
-                    style = TextStyle(
-                        fontSize = 13.sp,
-                        lineHeight = 21.sp,
-                        fontFamily = montserratFont,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF757575),
+                Box(
+                    Modifier
+                        .padding(horizontal = 10.dp)
+                        .width(68.dp)
+                        .height(63.dp)
+                        .background(color = Color(0xFF1A5294), shape = RoundedCornerShape(size = 8.dp))
+                        .align(Alignment.CenterVertically)
+                ){
+                    Icon(
+                        painter = painterResource(R.drawable.file_icon_sublesson),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.Center),
+                        tint = Color.White
                     )
-                )
-                Text(
-                    text = subLessonName,
-                    style = TextStyle(
-                        fontSize = 13.sp,
-                        lineHeight = 21.sp,
-                        fontFamily = montserratFont,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF000000),
+                }
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = "FILE",
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            lineHeight = 21.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF757575),
+                        )
                     )
-                )
+                    Text(
+                        text = subLessonName,
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            lineHeight = 21.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF000000),
+                        )
+                    )
+                }
             }
         }
 
-        Row(
-            Modifier
-                .border(
-                    width = 1.dp,
-                    color = Color(0xFF1A5294),
-                    shape = RoundedCornerShape(size = 16.dp)
-                )
-                .padding(1.dp)
-                .fillMaxWidth()
-                .height(92.dp)
-                .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
-                .clickable {
-                    navController.navigate("videopage/$subLessonVideo")
-                }
-        ){
-            Box(
+        if (subLessonVideo.isNotEmpty()) {
+            Row(
                 Modifier
-                    .padding(horizontal = 10.dp)
-                    .width(68.dp)
-                    .height(63.dp)
-                    .background(color = Color(0xFF5598CC), shape = RoundedCornerShape(size = 8.dp))
-                    .align(Alignment.CenterVertically)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0xFF1A5294),
+                        shape = RoundedCornerShape(size = 16.dp)
+                    )
+                    .padding(1.dp)
+                    .fillMaxWidth()
+                    .height(92.dp)
+                    .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
+                    .clickable {
+                        navController.navigate("videopage/${URLEncoder.encode(subLessonVideo, "UTF-8")}")
+                    }
             ){
-                Icon(
-                    painter = painterResource(R.drawable.video_icon_sublesson),
-                    contentDescription = null,
-                    modifier = Modifier.align(Alignment.Center),
-                    tint = Color.White
-                )
-            }
-            Column(
-                modifier = Modifier.align(Alignment.CenterVertically)
-            ) {
-                Text(
-                    text = "VIDEO",
-                    style = TextStyle(
-                        fontSize = 13.sp,
-                        lineHeight = 21.sp,
-                        fontFamily = montserratFont,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF757575),
+                Box(
+                    Modifier
+                        .padding(horizontal = 10.dp)
+                        .width(68.dp)
+                        .height(63.dp)
+                        .background(color = Color(0xFF5598CC), shape = RoundedCornerShape(size = 8.dp))
+                        .align(Alignment.CenterVertically)
+                ){
+                    Icon(
+                        painter = painterResource(R.drawable.video_icon_sublesson),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.Center),
+                        tint = Color.White
                     )
-                )
-                Text(
-                    text = subLessonName,
-                    style = TextStyle(
-                        fontSize = 13.sp,
-                        lineHeight = 21.sp,
-                        fontFamily = montserratFont,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF000000),
+                }
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = "VIDEO",
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            lineHeight = 21.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF757575),
+                        )
                     )
-                )
+                    Text(
+                        text = subLessonName,
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            lineHeight = 21.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF000000),
+                        )
+                    )
+                }
             }
         }
 
-        Row(
-            Modifier
-                .border(
-                    width = 1.dp,
-                    color = Color(0xFF1A5294),
-                    shape = RoundedCornerShape(size = 16.dp)
-                )
-                .padding(1.dp)
-                .fillMaxWidth()
-                .height(92.dp)
-                .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
-                .clickable {
-//                    navController.navigate("videopage")
-                }
-        ){
-            Box(
+        if (subLessonPracticeVideo.isNotEmpty()) {
+            Row(
                 Modifier
-                    .padding(horizontal = 10.dp)
-                    .width(68.dp)
-                    .height(63.dp)
-                    .background(color = Color(0xFFFDBA21), shape = RoundedCornerShape(size = 8.dp))
-                    .align(Alignment.CenterVertically)
+                    .border(
+                        width = 1.dp,
+                        color = Color(0xFF1A5294),
+                        shape = RoundedCornerShape(size = 16.dp)
+                    )
+                    .padding(1.dp)
+                    .fillMaxWidth()
+                    .height(92.dp)
+                    .background(color = Color(0x00D9D9D9), shape = RoundedCornerShape(size = 16.dp))
+                    .clickable {
+                        navController.navigate("videoPracticePage/${URLEncoder.encode(subLessonPracticeVideo, "UTF-8")}")
+                    }
             ){
-                Icon(
-                    painter = painterResource(R.drawable.video_practice_icon_sublesson),
-                    contentDescription = null,
-                    modifier = Modifier.align(Alignment.Center),
-                    tint = Color.White
-                )
-            }
-            Column(
-                modifier = Modifier.align(Alignment.CenterVertically)
-            ) {
-                Text(
-                    text = "VIDEO PRACTICE",
-                    style = TextStyle(
-                        fontSize = 13.sp,
-                        lineHeight = 21.sp,
-                        fontFamily = montserratFont,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF757575),
+                Box(
+                    Modifier
+                        .padding(horizontal = 10.dp)
+                        .width(68.dp)
+                        .height(63.dp)
+                        .background(color = Color(0xFFFDBA21), shape = RoundedCornerShape(size = 8.dp))
+                        .align(Alignment.CenterVertically)
+                ){
+                    Icon(
+                        painter = painterResource(R.drawable.video_practice_icon_sublesson),
+                        contentDescription = null,
+                        modifier = Modifier.align(Alignment.Center),
+                        tint = Color.White
                     )
-                )
-                Text(
-                    text = subLessonName,
-                    style = TextStyle(
-                        fontSize = 13.sp,
-                        lineHeight = 21.sp,
-                        fontFamily = montserratFont,
-                        fontWeight = FontWeight(400),
-                        color = Color(0xFF000000),
+                }
+                Column(
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                ) {
+                    Text(
+                        text = "VIDEO PRACTICE",
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            lineHeight = 21.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF757575),
+                        )
                     )
-                )
+                    Text(
+                        text = subLessonName,
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            lineHeight = 21.sp,
+                            fontFamily = montserratFont,
+                            fontWeight = FontWeight(400),
+                            color = Color(0xFF000000),
+                        )
+                    )
+                }
             }
         }
     }
@@ -290,9 +298,9 @@ private fun LessonPageMaterialPreview() {
         navController = rememberNavController(),
         lessonId = "",
         subLessonName = "",
-        subLessonDescription = "",
         subLessonFile = "",
         subLessonVideo = "",
-        subLessonPracticeVideo = ""
+        subLessonPracticeVideo = "",
+        subLessonAbout = ""
     )
 }

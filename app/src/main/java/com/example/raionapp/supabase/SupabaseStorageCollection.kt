@@ -60,3 +60,51 @@ suspend fun uploadImageToStorage(imageFile: File, bucket: String = "images"): St
         }
     }
 }
+
+suspend fun uploadVideoToStorage(videoFile: File, bucket: String = "video"): String? = withContext(Dispatchers.IO) {
+    val supabaseUrl = "https://alttsnvqrvubfyznbmji.supabase.co"
+    val supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdHRzbnZxcnZ1YmZ5em5ibWppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIyOTEzNzgsImV4cCI6MjA1Nzg2NzM3OH0.dFQVX797frNfOcIOsCCR7C7N7w27j7PSaWFN35E_53A"
+
+    val requestBody = videoFile.asRequestBody("video/*".toMediaTypeOrNull())
+
+    val request = Request.Builder()
+        .url("$supabaseUrl/storage/v1/object/$bucket/${videoFile.name}")
+        .addHeader("Authorization", "Bearer $supabaseKey")
+        .addHeader("Content-Type", "video/*")
+        .post(requestBody)
+        .build()
+
+    val client = OkHttpClient()
+    client.newCall(request).execute().use { response ->
+        if (response.isSuccessful) {
+            "$supabaseUrl/storage/v1/object/public/$bucket/${videoFile.name}"
+        } else {
+            Log.e("VideoUploadError", "Gagal upload: ${response.body?.string()}")
+            null
+        }
+    }
+}
+
+suspend fun uploadPdfToStorage(pdfFile: File, bucket: String = "pdf"): String? = withContext(Dispatchers.IO) {
+    val supabaseUrl = "https://alttsnvqrvubfyznbmji.supabase.co"
+    val supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFsdHRzbnZxcnZ1YmZ5em5ibWppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIyOTEzNzgsImV4cCI6MjA1Nzg2NzM3OH0.dFQVX797frNfOcIOsCCR7C7N7w27j7PSaWFN35E_53A"
+
+    val requestBody = pdfFile.asRequestBody("application/pdf".toMediaTypeOrNull())
+
+    val request = Request.Builder()
+        .url("$supabaseUrl/storage/v1/object/$bucket/${pdfFile.name}")
+        .addHeader("Authorization", "Bearer $supabaseKey")
+        .addHeader("Content-Type", "application/pdf")
+        .post(requestBody)
+        .build()
+
+    val client = OkHttpClient()
+    client.newCall(request).execute().use { response ->
+        if (response.isSuccessful) {
+            "$supabaseUrl/storage/v1/object/public/$bucket/${pdfFile.name}"
+        } else {
+            Log.e("PDFUploadError", "Gagal upload: ${response.body?.string()}")
+            null
+        }
+    }
+}

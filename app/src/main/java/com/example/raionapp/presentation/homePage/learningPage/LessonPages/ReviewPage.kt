@@ -151,12 +151,13 @@ fun ReviewPage(
                             .fillMaxWidth(0.5f)
                             .fillMaxHeight()
                             .clickable {
-                                val destination = if (learningPageViewModel.checkClassMembership(userId)) {
-                                "lessonpageunlocked/$lessonId"
-                            } else {
-                                "lessonpage/$lessonId"
+                                val destination = if (learningPageViewModel.checkClassMembership(userId) || learningPageViewModel.checkClassMentorship(userId)) {
+                                    "lessonpageunlocked/$lessonId"
+                                } else {
+                                    "lessonpage/$lessonId"
+                                }
+                                navController.navigate(destination)
                             }
-                                navController.navigate(destination) }
                     ) {
                         Text(
                             text = "LESSONS",

@@ -405,9 +405,9 @@ fun CreateNewClassPage(
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .width(500.dp),
-                        value = numberOfSubsection,
+                        value = language,
                         onValueChange = {
-                            numberOfSubsection = it
+                            language = it
                         },
                         placeholder = {
                             Text(
@@ -435,19 +435,13 @@ fun CreateNewClassPage(
                     )
                 }
 
-                var expanded by remember { mutableStateOf(false) }
-                var selectedNumber by remember { mutableStateOf("Select the total number") } // Default placeholder
-
                 Column(
-                    modifier.fillMaxWidth(),
+                    Modifier.fillMaxWidth(),
                 ) {
                     Spacer(modifier = Modifier.padding(vertical = 10.dp))
-
                     Text(
-                        text = "Number of Subsection",
-                        modifier = Modifier
-                            .clickable { expanded = true } // Opens dropdown
-                            .padding(8.dp),
+                        text = "Subject",
+
                         style = TextStyle(
                             fontSize = 14.sp,
                             fontFamily = montserratFont,
@@ -458,58 +452,115 @@ fun CreateNewClassPage(
 
                     Spacer(modifier = Modifier.height(10.dp))
 
-
-                    Box(
+                    TextField(
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
-                            .width(500.dp)
-                            .height(50.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .background(Color(0xFFF0F1F5))
-                            .clickable { expanded = true }
-                            .padding(horizontal = 16.dp, vertical = 14.dp),
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        Text(
-                            text = selectedNumber,
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontFamily = montserratFont,
-                                fontWeight = FontWeight(500),
-                                color = if (selectedNumber == "Select the total number") Color(0xFF757575) else Color.Black,
+                            .width(500.dp),
+                        value = subject,
+                        onValueChange = {
+                            subject = it
+                        },
+                        placeholder = {
+                            Text(
+                                text = "Subject of this course",
+                                // Body Text/Body Small Medium
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    lineHeight = 19.6.sp,
+                                    fontFamily = montserratFont,
+                                    fontWeight = FontWeight(500),
+                                    color = Color(0xFF757575),
+                                )
                             )
+                        },
+                        shape = RoundedCornerShape(10.dp),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color(0xFFF0F1F5),
+                            focusedContainerColor = Color(0xFFF0F1F5),
+                            focusedPlaceholderColor = Color.LightGray,
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black
                         )
-
-                        // Dropdown Icon (Positioned to the Right)
-                        Icon(
-                            painter = painterResource(R.drawable.dropdown_button_icon),
-                            contentDescription = "Dropdown Arrow",
-                            modifier = Modifier
-                                .align(Alignment.CenterEnd)
-                                .padding(end = 8.dp),
-                            tint = Color.Black
-                        )
-                    }
-
-                    // Dropdown Menu
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false },
-                        modifier = Modifier
-                            .width(200.dp)
-                            .align(Alignment.CenterHorizontally)
-                    ) {
-                        listOf("1", "2", "3", "4", "5","6", "7", "8", "9", "10", "11", "12").forEach { number ->
-                            DropdownMenuItem(
-                                text = { Text(number) },
-                                onClick = {
-                                    selectedNumber = number
-                                    expanded = false
-                                }
-                            )
-                        }
-                    }
+                    )
                 }
+
+                var expanded by remember { mutableStateOf(false) }
+                var selectedNumber by remember { mutableStateOf("Select the total number") } // Default placeholder
+
+//                Column(
+//                    Modifier.fillMaxWidth(),
+//                ) {
+//                    Spacer(modifier = Modifier.padding(vertical = 10.dp))
+//
+//                    Text(
+//                        text = "Number of Subsection",
+//                        modifier = Modifier
+//                            .clickable { expanded = true } // Opens dropdown
+//                            .padding(8.dp),
+//                        style = TextStyle(
+//                            fontSize = 14.sp,
+//                            fontFamily = montserratFont,
+//                            fontWeight = FontWeight(600),
+//                            color = Color(0xFF000000),
+//                        )
+//                    )
+//
+//                    Spacer(modifier = Modifier.height(10.dp))
+//
+//
+//                    Box(
+//                        modifier = Modifier
+//                            .align(Alignment.CenterHorizontally)
+//                            .width(500.dp)
+//                            .height(50.dp)
+//                            .clip(RoundedCornerShape(10.dp))
+//                            .background(Color(0xFFF0F1F5))
+//                            .clickable { expanded = true }
+//                            .padding(horizontal = 16.dp, vertical = 14.dp),
+//                        contentAlignment = Alignment.CenterStart
+//                    ) {
+//                        Text(
+//                            text = selectedNumber,
+//                            style = TextStyle(
+//                                fontSize = 14.sp,
+//                                fontFamily = montserratFont,
+//                                fontWeight = FontWeight(500),
+//                                color = if (selectedNumber == "Select the total number") Color(0xFF757575) else Color.Black,
+//                            )
+//                        )
+//
+//                        // Dropdown Icon (Positioned to the Right)
+//                        Icon(
+//                            painter = painterResource(R.drawable.dropdown_button_icon),
+//                            contentDescription = "Dropdown Arrow",
+//                            modifier = Modifier
+//                                .align(Alignment.CenterEnd)
+//                                .padding(end = 8.dp),
+//                            tint = Color.Black
+//                        )
+//                    }
+//
+//                    // Dropdown Menu
+//                    DropdownMenu(
+//                        expanded = expanded,
+//                        onDismissRequest = { expanded = false },
+//                        modifier = Modifier
+//                            .width(200.dp)
+//                            .align(Alignment.CenterHorizontally)
+//                    ) {
+//                        listOf("1", "2", "3", "4", "5","6", "7", "8", "9", "10", "11", "12").forEach { number ->
+//                            DropdownMenuItem(
+//                                text = { Text(number) },
+//                                onClick = {
+//                                    selectedNumber = number
+//                                    expanded = false
+//                                }
+//                            )
+//                        }
+//                    }
+//                }
 
 //                Column(
 //                    modifier.fillMaxWidth(),
