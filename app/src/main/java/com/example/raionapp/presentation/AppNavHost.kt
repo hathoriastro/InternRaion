@@ -20,6 +20,7 @@ import com.example.raionapp.presentation.homePage.SavedAnswers
 import com.example.raionapp.presentation.homePage.comments.ThreadComment
 import com.example.raionapp.presentation.homePage.comments.ThreadCommentAdd
 import com.example.raionapp.presentation.homePage.bankPage.BankPageHome
+import com.example.raionapp.presentation.homePage.bankPage.BankPageList
 import com.example.raionapp.presentation.homePage.learningPage.LearningPageHome
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ChatPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.FilePage
@@ -27,6 +28,7 @@ import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lesso
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ModulListPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoListPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPage
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPracticeListPage
 import com.example.raionapp.presentation.homePage.semesterSelect.SemesterSelectPage
 import com.example.raionapp.presentation.homePage.subjectSelect.SubjectSelectPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.AboutPage
@@ -137,6 +139,12 @@ fun AppNavHost(
         }
         composable("modullistpage") {
             ModulListPage(modifier, navController, authViewModel)
+        }
+        composable("videopracticelistpage") {
+            VideoPracticeListPage(modifier, navController, authViewModel)
+        }
+        composable("banklistpage") {
+            BankPageList(modifier, navController)
         }
 
     }

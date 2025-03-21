@@ -1,5 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Main App Theme -->
+    <style name="Theme.Raionapp" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Customize your main app theme -->
+    </style>
 
-    <style name="Theme.Raionapp" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Splash Screen Theme -->
+    <style name="Theme.Raionapp.Splash" parent="Theme.SplashScreen">
+        <!-- Set the background to your drawable -->
+        <item name="windowSplashScreenBackground">@color/black</item>
+
+        <!-- Hide the default app icon -->
+        <item name="windowSplashScreenAnimatedIcon">@null</item>
+
+        <!-- Ensure the splash screen transitions to your main theme -->
+        <item name="postSplashScreenTheme">@style/Theme.Raionapp</item>
+    </style>
 </resources>

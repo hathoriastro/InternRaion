@@ -1,5 +1,7 @@
-package com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked
+package com.example.raionapp.presentation.homePage.bankPage
 
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ChatBubbleMentor
+import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.ChatBubbleUser
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -48,10 +50,9 @@ import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.authentication.AuthViewModel
 
 @Composable
-fun ChatPage(
+fun BankPageList(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    authViewModel: AuthViewModel?,
 ) {
     val keyboardHeight = WindowInsets.ime.asPaddingValues().calculateBottomPadding() // Detect keyboard height
     var comment by remember { mutableStateOf("") }
@@ -99,19 +100,12 @@ fun ChatPage(
                 )
             }
 
-            // Create and remember a ScrollState for the chat content
-            val scrollState = rememberScrollState()
-
-            // Launch an effect that scrolls to the bottom when the content size changes
-            LaunchedEffect(key1 = scrollState.maxValue) {
-                scrollState.animateScrollTo(scrollState.maxValue)
-            }
             Box(
                 modifier = Modifier
                     .padding(
-                    bottom = 45.dp
+                        bottom = 45.dp
                     )
-                    .verticalScroll(scrollState)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Column(
                     modifier = Modifier
@@ -121,12 +115,11 @@ fun ChatPage(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                 ) { //COLUMN KONTEN CHAT
                     Spacer(modifier = Modifier.height(10.dp))
-                    ChatBubbleUser("Pakabar bang")
-                    ChatBubbleMentor("Anjay gw baik bang")
-                    ChatBubbleUser("There are many programming languages \u200B\u200Bin the market that are used in designing and building websites, various applications and other tasks. All these languages \u200B\u200Bare popular in their place and in the way they are used, and many programmers learn and use them.")
-                    ChatBubbleMentor("There are many programming languages \u200B\u200Bin the market that are used in designing and building websites, various applications and other tasks. All these languages \u200B\u200Bare popular in their place and in the way they are used, and many programmers learn and use them.")
-                    ChatBubbleMentor("There are many programming languages \u200B\u200Bin the market that are used in designing and building websites, various applications and other tasks. All these languages \u200B\u200Bare popular in their place and in the way they are used, and many programmers learn and use them.")
-                    Spacer(modifier = Modifier.height(10.dp))
+                    BankListContent("Pemrograman Lanjut")
+                    BankListContent("Pemrograman Python")
+                    BankListContent("Pemrograman Kotlin")
+                    BankListContent("Pemrograman Java")
+                    BankListContent("Pemrograman html")
                 }
             }
         }
@@ -136,14 +129,13 @@ fun ChatPage(
 
 @Preview
 @Composable
-private fun ChatPagePreview(
+private fun BankPageListPreview(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
     authViewModel: AuthViewModel? = null
 ) {
-    ChatPage(
+    BankPageList(
         modifier = modifier,
-        navController = navController,
-        authViewModel = authViewModel,
+        navController = navController
     )
 }
