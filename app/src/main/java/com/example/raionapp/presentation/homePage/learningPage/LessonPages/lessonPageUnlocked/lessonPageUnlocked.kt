@@ -74,8 +74,8 @@ fun LessonPageUnlocked(
     ) { paddingValues ->
         Box(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(paddingValues)
+                .fillMaxSize()
         ) {
             Image(
                 painter = painterResource(R.drawable.arrow_back_button),
