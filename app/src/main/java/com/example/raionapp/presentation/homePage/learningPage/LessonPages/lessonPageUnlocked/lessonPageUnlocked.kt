@@ -281,7 +281,7 @@ fun LessonPageUnlocked(
                                 shape = RoundedCornerShape(size = 16.dp)
                             )
                             .clickable {
-                                navController.navigate("filepage")
+                                navController.navigate("modullistpage")
                             }
                     ) {
                         Text(
