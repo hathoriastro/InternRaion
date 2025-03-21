@@ -54,7 +54,6 @@ class LessonCollection {
             "videoSummary" to subLesson.videoSummary,
             "videoPracticeUrl" to subLesson.videoPracticeUrl,
             "videoPracticeSummary" to subLesson.videoPracticeSummary,
-
             "timeCreated" to FieldValue.serverTimestamp()
         )
 

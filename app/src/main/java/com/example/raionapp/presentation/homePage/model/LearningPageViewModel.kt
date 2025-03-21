@@ -77,7 +77,6 @@ class LearningPageViewModel: ViewModel() {
         subject: String,
         duration: String,
         language: String,
-        numberOfSublesson: Int,
     ){
         viewModelScope.launch {
             val lesson = LessonDataClass(
@@ -91,7 +90,6 @@ class LearningPageViewModel: ViewModel() {
                 likeCount = 0,
                 duration = duration,
                 language = language,
-                numberOfSublesson = numberOfSublesson
             )
             LessonCollection().addLessonToFirestore(lesson)
         }

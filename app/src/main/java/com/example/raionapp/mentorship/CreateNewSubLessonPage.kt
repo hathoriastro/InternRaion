@@ -48,18 +48,18 @@ import com.example.raionapp.presentation.register.AuthViewModel
 
 @Preview(showBackground = true)
 @Composable
-fun CreateNewClassPagePreview() {
+fun CreateNewSubLessonPagePreview() {
     val navController = rememberNavController()
     val authViewModel: AuthViewModel = viewModel()
 
-    CreateNewClassPage(
+    CreateNewSubLessonPage(
         navController = navController,
         authViewModel = authViewModel
     )
 }
 
 @Composable
-fun CreateNewClassPage(
+fun CreateNewSubLessonPage(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     authViewModel: AuthViewModel
@@ -862,7 +862,6 @@ fun CreateNewClassPage(
                                 duration = courseDuration,
                                 language = language,
                             )
-                            navController.popBackStack()
                         },
                 ){
                     Text(
