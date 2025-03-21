@@ -13,9 +13,6 @@ import com.example.raionapp.presentation.register.nantiAja.ForgotPasswordScreen
 import com.example.raionapp.presentation.register.LoginScreen
 import com.example.raionapp.presentation.register.SignUpScreen
 import com.example.raionapp.presentation.register.nantiAja.VerifyScreen
-
-// Import Backend AuthViewModel
-import com.example.raionapp.presentation.register.AuthViewModel
 import com.example.raionapp.presentation.homePage.threads.AddThreadPage
 import com.example.raionapp.presentation.homePage.HomePageScreen
 import com.example.raionapp.presentation.profile.SavedAnswers
@@ -35,7 +32,6 @@ import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lesso
 import com.example.raionapp.presentation.homePage.semesterSelect.SemesterSelectPage
 import com.example.raionapp.presentation.homePage.subjectSelect.SubjectSelectPage
 import com.example.raionapp.presentation.homePage.learningPage.LessonPages.AboutPage
-import com.example.raionapp.presentation.homePage.learningPage.LessonPages.lessonPageUnlocked.VideoPracticeListPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.LessonPage
 import com.example.raionapp.presentation.learningPage.learningPageHome.ReviewPage
 import com.example.raionapp.presentation.profile.AboutProfilePage
@@ -43,6 +39,7 @@ import com.example.raionapp.presentation.profile.BecomeAMentorPage
 import com.example.raionapp.presentation.profile.MentorRegistrationPage
 import com.example.raionapp.presentation.profile.PostedQuestionsPage
 import com.example.raionapp.presentation.profile.ProfilePage
+import com.example.raionapp.presentation.register.AuthViewModel
 import java.net.URLDecoder
 
 @Composable
@@ -83,12 +80,10 @@ fun AppNavHost(
             AddThreadPage(modifier, navController, authViewModel)
         }
         composable("addcomment/{threadId}") { backStackEntry ->
-            // Ambil threadId dari argument rute
             val threadId = backStackEntry.arguments?.getString("threadId") ?: ""
             ThreadCommentAdd(modifier, navController, authViewModel, threadId)
         }
         composable("comment/{threadId}") { backStackEntry ->
-            // Ambil threadId dari argument rute
             val threadId = backStackEntry.arguments?.getString("threadId") ?: ""
             ThreadComment(modifier, navController, authViewModel, threadId)
         }
@@ -101,6 +96,7 @@ fun AppNavHost(
         composable("lessonpage/{lessonId}") { backStackEntry ->
             val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
             LessonPage(modifier, navController, authViewModel, lessonId)
+        }
         composable("postedquestions") {
             PostedQuestionsPage(modifier,navController)
         }
@@ -176,8 +172,9 @@ fun AppNavHost(
             val subLessonFile = backStackEntry.arguments?.getString("subLessonFile") ?: ""
             PdfScreen(modifier, pdfUrl = URLDecoder.decode(subLessonFile, "UTF-8"))
         }
-        composable("videopracticelistpage") {
-            VideoPracticeListPage(modifier, navController, authViewModel)
+        composable("videopracticelistpage/{lessonId}") { backStackEntry ->
+            val lessonId = backStackEntry.arguments?.getString("lessonId") ?: ""
+            VideoPracticeListPage(modifier, navController, authViewModel, lessonId)
         }
         composable("banklistpage") {
             BankPageList(modifier, navController)
@@ -185,6 +182,5 @@ fun AppNavHost(
         composable("paymentoverview") {
             PaymentOverviewPage(modifier, navController, authViewModel)
         }
-
     }
 }

@@ -55,6 +55,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.raionapp.R
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.homePage.model.LearningPageViewModel
+import com.example.raionapp.presentation.homePage.model.profileData
 import com.example.raionapp.presentation.register.AuthViewModel
 
 @Composable

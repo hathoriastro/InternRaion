@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,9 +37,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.raionapp.common.montserratFont
 import com.example.raionapp.presentation.homePage.model.profileData
 import com.example.raionapp.presentation.register.AuthViewModel
-import com.example.raionapp.presentation.authentication.AuthViewModel
 import com.example.raionapp.presentation.profile.AnswerBox
-import com.example.raionapp.presentation.profile.profileData
 
 @Composable
 fun SavedAnswers(
@@ -101,11 +100,9 @@ fun SavedAnswers(
                 AnswerBox("All Questions")
                 AnswerBox("Kedokteran")
             }
-
         }
     }
 }
-
 
 @Preview
 @Composable
